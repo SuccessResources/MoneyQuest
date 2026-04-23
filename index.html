@@ -473,109 +473,180 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .pdf-cover-intro{
     font-size:14px;line-height:1.55;color:#3E5E52;max-width:460px;margin:0;
   }
-  /* ---- Page 1 hero: layered editorial landscape built entirely in CSS ---- */
+  /* ---- Page 1 hero: premium editorial magazine-style landscape ---- */
   .pdf-cover-hero{
-    margin:22px 44px 0;height:240px;border-radius:12px;
+    margin:22px 44px 0;height:260px;border-radius:14px;
     position:relative;overflow:hidden;
-    border:1px solid rgba(24,76,58,0.10);
+    border:1px solid rgba(200,162,77,.35);
     background:
       linear-gradient(180deg,
-        #F9E7C1 0%,
-        #F4D7A3 18%,
-        #F0C889 32%,
-        #EABE8A 46%,
-        #E2C49A 58%,
-        #D8C8A8 72%,
-        #BFC6AC 86%,
-        #94B19A 100%);
-    box-shadow:inset 0 0 0 1px rgba(200,162,77,.18);
+        #FFE2A8 0%,
+        #FFCE86 14%,
+        #F6B270 28%,
+        #E89B5E 42%,
+        #C88A62 56%,
+        #7C8E7A 72%,
+        #3B5C4B 88%,
+        #1B3C2E 100%);
+    box-shadow:
+      0 14px 28px -18px rgba(24,76,58,.45),
+      inset 0 0 0 1px rgba(255,255,255,.12),
+      inset 0 -40px 60px -30px rgba(10,28,22,.55);
   }
-  /* Sun / warm glow */
+  /* Sky wash — soft warm haze across the upper half */
   .pdf-hero-sun{
-    position:absolute;top:-30px;right:60px;width:260px;height:260px;border-radius:50%;
+    position:absolute;top:-60px;right:70px;width:360px;height:360px;border-radius:50%;
     background:
-      radial-gradient(circle at 50% 50%, rgba(255,244,210,.95) 0%, rgba(255,224,160,.7) 30%, rgba(226,192,107,.25) 55%, transparent 72%);
-    filter:blur(1px);
+      radial-gradient(circle at 50% 50%,
+        rgba(255,248,220,.95) 0%,
+        rgba(255,228,160,.75) 22%,
+        rgba(255,200,120,.42) 42%,
+        rgba(226,160,80,.18) 62%,
+        transparent 78%);
+    filter:blur(2px);
   }
+  /* Sun core — a bright crisp disk */
   .pdf-hero-sun-core{
-    position:absolute;top:22px;right:148px;width:78px;height:78px;border-radius:50%;
-    background:radial-gradient(circle,#FFF2D1 0%,#FFE3A1 45%,rgba(226,192,107,.4) 75%,transparent 100%);
+    position:absolute;top:56px;right:178px;width:62px;height:62px;border-radius:50%;
+    background:
+      radial-gradient(circle,
+        #FFFCE8 0%,
+        #FFF2C4 35%,
+        #FFE198 60%,
+        rgba(255,208,120,.5) 85%,
+        transparent 100%);
+    box-shadow:
+      0 0 40px 10px rgba(255,236,180,.6),
+      0 0 80px 20px rgba(255,204,140,.35);
+  }
+  /* Soft cloud band near the top */
+  .pdf-hero-clouds{
+    position:absolute;top:24px;left:-20px;right:-20px;height:46px;
+    background:
+      radial-gradient(ellipse 100px 18px at 18% 60%, rgba(255,246,220,.55), transparent 70%),
+      radial-gradient(ellipse 140px 22px at 42% 40%, rgba(255,246,220,.48), transparent 72%),
+      radial-gradient(ellipse 80px 16px at 78% 55%, rgba(255,246,220,.5), transparent 72%);
+    filter:blur(1px);opacity:.85;
   }
   /* Back-most mountain ridge — soft, hazy */
   .pdf-hero-ridge-back{
-    position:absolute;left:0;right:0;bottom:96px;height:90px;
+    position:absolute;left:0;right:0;bottom:112px;height:96px;
     background:
-      radial-gradient(ellipse 52% 100% at 18% 100%, #7AA08B 0%, #7AA08B 50%, transparent 60%),
-      radial-gradient(ellipse 55% 100% at 52% 100%, #6C9580 0%, #6C9580 50%, transparent 60%),
-      radial-gradient(ellipse 50% 100% at 84% 100%, #8EA895 0%, #8EA895 50%, transparent 60%);
-    opacity:.75;
-    filter:blur(.4px);
+      radial-gradient(ellipse 48% 110% at 14% 100%, #8BA693 0%, #8BA693 52%, transparent 62%),
+      radial-gradient(ellipse 56% 110% at 50% 100%, #7E9D89 0%, #7E9D89 52%, transparent 62%),
+      radial-gradient(ellipse 50% 110% at 86% 100%, #93AC9A 0%, #93AC9A 52%, transparent 62%);
+    opacity:.6;
+    filter:blur(.8px);
   }
   /* Mid ridge */
   .pdf-hero-ridge-mid{
-    position:absolute;left:0;right:0;bottom:64px;height:110px;
+    position:absolute;left:0;right:0;bottom:78px;height:116px;
     background:
-      radial-gradient(ellipse 40% 110% at 8% 100%, #355E4B 0%, #355E4B 55%, transparent 65%),
-      radial-gradient(ellipse 52% 110% at 35% 100%, #2E5441 0%, #2E5441 55%, transparent 65%),
-      radial-gradient(ellipse 45% 110% at 68% 100%, #3A6651 0%, #3A6651 55%, transparent 65%),
-      radial-gradient(ellipse 40% 110% at 95% 100%, #2F5544 0%, #2F5544 55%, transparent 65%);
-    opacity:.92;
+      radial-gradient(ellipse 40% 115% at 6% 100%, #3F6C56 0%, #3F6C56 58%, transparent 66%),
+      radial-gradient(ellipse 54% 115% at 32% 100%, #335E4A 0%, #335E4A 58%, transparent 66%),
+      radial-gradient(ellipse 46% 115% at 66% 100%, #3E6B55 0%, #3E6B55 58%, transparent 66%),
+      radial-gradient(ellipse 42% 115% at 96% 100%, #355C49 0%, #355C49 58%, transparent 66%);
+    opacity:.94;
+    filter:blur(.3px);
   }
   /* Front ridge — darker, crisper */
   .pdf-hero-ridge-front{
-    position:absolute;left:0;right:0;bottom:38px;height:90px;
+    position:absolute;left:0;right:0;bottom:46px;height:100px;
     background:
-      radial-gradient(ellipse 46% 120% at 18% 100%, #184C3A 0%, #184C3A 58%, transparent 68%),
-      radial-gradient(ellipse 50% 120% at 52% 100%, #103429 0%, #103429 58%, transparent 68%),
-      radial-gradient(ellipse 48% 120% at 85% 100%, #184C3A 0%, #184C3A 58%, transparent 68%);
+      radial-gradient(ellipse 50% 125% at 16% 100%, #153E30 0%, #153E30 60%, transparent 70%),
+      radial-gradient(ellipse 56% 125% at 54% 100%, #0C2B21 0%, #0C2B21 60%, transparent 70%),
+      radial-gradient(ellipse 50% 125% at 86% 100%, #153E30 0%, #153E30 60%, transparent 70%);
   }
   /* Reflective lake / ground band */
   .pdf-hero-water{
-    position:absolute;left:0;right:0;bottom:28px;height:44px;
+    position:absolute;left:0;right:0;bottom:32px;height:54px;
     background:
-      linear-gradient(180deg, rgba(16,52,41,.55) 0%, rgba(16,52,41,.2) 45%, rgba(16,52,41,.6) 100%),
-      linear-gradient(180deg, #7A8E82 0%, #9DAE9D 50%, #6E8578 100%);
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
+      linear-gradient(180deg, rgba(12,44,34,.65) 0%, rgba(12,44,34,.2) 40%, rgba(12,44,34,.7) 100%),
+      linear-gradient(180deg, #6E8378 0%, #A3B5A7 48%, #5E7468 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.2);
   }
   .pdf-hero-water::before{
-    content:"";position:absolute;left:0;right:0;top:0;height:14px;
+    content:"";position:absolute;left:0;right:0;top:0;height:18px;
     background:
-      linear-gradient(180deg, rgba(255,240,200,.35) 0%, transparent 100%);
+      linear-gradient(180deg, rgba(255,238,190,.45) 0%, transparent 100%);
   }
-  /* Tiny sun rays flecks */
-  .pdf-hero-flecks{
+  .pdf-hero-water::after{
+    content:"";position:absolute;left:10%;right:10%;top:20px;height:2px;
+    background:
+      linear-gradient(90deg, transparent, rgba(255,246,220,.55), transparent);
+    border-radius:2px;filter:blur(.6px);
+  }
+  /* Ground — foreground silhouette outcrop */
+  .pdf-hero-ground{
+    position:absolute;left:0;right:0;bottom:0;height:46px;
+    background:linear-gradient(180deg,#0D2A21 0%,#040F0C 100%);
+  }
+  .pdf-hero-ground::before{
+    content:"";position:absolute;top:-2px;left:0;right:0;height:3px;
+    background:linear-gradient(90deg, transparent, rgba(226,192,107,.5), transparent);
+  }
+  /* Golden lens flare streaks */
+  .pdf-hero-flare{
     position:absolute;inset:0;pointer-events:none;
     background:
-      radial-gradient(3px 3px at 28% 40%, rgba(255,244,210,.6), transparent 70%),
-      radial-gradient(2px 2px at 45% 32%, rgba(255,244,210,.55), transparent 70%),
-      radial-gradient(2px 2px at 62% 48%, rgba(255,244,210,.5), transparent 70%),
-      radial-gradient(3px 3px at 72% 38%, rgba(255,244,210,.6), transparent 70%);
+      radial-gradient(40px 3px at 52% 30%, rgba(255,232,170,.55), transparent 70%),
+      radial-gradient(60px 2px at 45% 42%, rgba(255,220,150,.4), transparent 70%),
+      radial-gradient(3px 3px at 28% 46%, rgba(255,244,210,.7), transparent 70%),
+      radial-gradient(2px 2px at 35% 36%, rgba(255,244,210,.55), transparent 70%),
+      radial-gradient(3px 3px at 62% 50%, rgba(255,244,210,.55), transparent 70%),
+      radial-gradient(2px 2px at 74% 42%, rgba(255,244,210,.5), transparent 70%);
   }
-  /* Lone figure silhouette (back view) sitting on an outcrop */
+  /* Lone figure silhouette (back view, standing on outcrop) */
   .pdf-hero-figure{
-    position:absolute;bottom:68px;right:120px;width:28px;height:46px;
-    background:
-      radial-gradient(ellipse 50% 35% at 50% 12%, #0A2A22 0%, #0A2A22 60%, transparent 62%),
-      linear-gradient(180deg,#0A2A22 0%,#103429 100%);
-    border-radius:10px 10px 3px 3px;
+    position:absolute;bottom:66px;left:50%;transform:translateX(-50%);
+    width:26px;height:58px;z-index:3;
+  }
+  .pdf-hero-figure::before{
+    content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:11px;height:12px;border-radius:50%;
+    background:linear-gradient(180deg,#04100C 0%,#0A2218 100%);
   }
   .pdf-hero-figure::after{
-    content:"";position:absolute;bottom:-4px;left:-6px;width:40px;height:10px;border-radius:50%;
-    background:radial-gradient(ellipse 50% 80% at 50% 50%, rgba(10,42,34,.7) 0%, transparent 70%);
+    content:"";position:absolute;top:11px;left:50%;transform:translateX(-50%);
+    width:20px;height:46px;border-radius:7px 7px 2px 2px;
+    background:linear-gradient(180deg,#08201A 0%,#04100C 100%);
+    box-shadow:0 0 12px rgba(0,0,0,.5);
   }
-  /* Bottom overlay strip with caption */
+  /* Warm spotlight behind figure */
+  .pdf-hero-spot{
+    position:absolute;bottom:54px;left:50%;transform:translateX(-50%);
+    width:120px;height:90px;border-radius:50%;z-index:2;
+    background:radial-gradient(ellipse, rgba(255,232,170,.4) 0%, rgba(255,200,130,.2) 45%, transparent 72%);
+    filter:blur(1.5px);
+  }
+  /* Vignette for editorial depth */
+  .pdf-hero-vignette{
+    position:absolute;inset:0;pointer-events:none;z-index:4;
+    background:
+      radial-gradient(130% 85% at 50% 55%, transparent 55%, rgba(8,22,18,.45) 100%);
+  }
+  /* Editorial gold frame accents — top-left and bottom-right corners */
   .pdf-cover-hero-overlay{
-    position:absolute;left:0;right:0;bottom:0;padding:14px 22px 12px;
-    background:linear-gradient(to top, rgba(10,32,26,.95) 0%, rgba(10,32,26,.65) 60%, rgba(10,32,26,0) 100%);
+    position:absolute;left:0;right:0;bottom:0;padding:16px 24px 14px;z-index:5;
+    background:linear-gradient(to top, rgba(8,22,18,.95) 0%, rgba(8,22,18,.7) 55%, rgba(8,22,18,0) 100%);
     color:#F3ECDD;font-family:'Sora','Inter',sans-serif;font-weight:700;
     letter-spacing:3.5px;font-size:10px;
     display:flex;align-items:center;justify-content:space-between;
   }
   .pdf-cover-hero-overlay::before{
-    content:"";display:inline-block;width:24px;height:1px;background:#E2C06B;margin-right:12px;
+    content:"";display:inline-block;width:28px;height:1px;background:#E2C06B;margin-right:12px;
   }
   .pdf-cover-hero-overlay::after{
     content:"MILLIONAIRE MIND ONLINE";color:#E2C06B;font-weight:800;letter-spacing:3px;font-size:9px;
+  }
+  /* Tiny gold ribbon label in top-left corner */
+  .pdf-hero-ribbon{
+    position:absolute;top:14px;left:14px;z-index:5;
+    padding:5px 10px;background:rgba(16,52,41,.78);
+    font-family:'Sora','Inter',sans-serif;font-weight:700;letter-spacing:2.5px;
+    color:#E2C06B;font-size:9px;border-radius:3px;
+    border:1px solid rgba(226,192,107,.5);
+    text-transform:uppercase;
   }
 
   /* ---- Page 1 feature strip ---- */
@@ -678,38 +749,50 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
 
   /* Action page specifics */
+  #pdfPage3 .pdf-inner-body{
+    padding:26px 44px 80px;
+    height:calc(100% - 72px);
+    display:flex;flex-direction:column;
+    overflow:hidden;
+  }
   .pdf-move-row{
-    display:grid;grid-template-columns:56px 32px 1fr;gap:14px;align-items:start;
-    padding:14px 0;border-bottom:1px solid rgba(200,162,77,.22);
+    display:grid;grid-template-columns:52px 28px 1fr;gap:12px;align-items:start;
+    padding:10px 0;border-bottom:1px solid rgba(200,162,77,.22);
   }
   .pdf-move-row:last-child{border-bottom:0}
   .pdf-move-ico{
-    width:48px;height:48px;border-radius:8px;background:#F8F6EF;
-    display:flex;align-items:center;justify-content:center;font-size:20px;color:#184C3A;
+    width:44px;height:44px;border-radius:8px;background:#F8F6EF;
+    display:flex;align-items:center;justify-content:center;font-size:18px;color:#184C3A;
     border:1px solid rgba(200,162,77,.35);
   }
   .pdf-move-num{
-    width:26px;height:26px;border-radius:50%;background:#184C3A;color:#FFFFFF;
-    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;
+    width:24px;height:24px;border-radius:50%;background:#184C3A;color:#FFFFFF;
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
     margin-top:8px;
   }
   .pdf-move-title{
-    font-family:'Sora','Inter',sans-serif;font-weight:700;font-size:14.5px;
-    color:#103429;margin:6px 0 4px;
+    font-family:'Sora','Inter',sans-serif;font-weight:700;font-size:13.5px;
+    color:#103429;margin:4px 0 3px;line-height:1.25;
   }
-  .pdf-move-body{font-size:12.5px;line-height:1.5;color:#3E5E52;margin:0}
+  .pdf-move-body{font-size:11.5px;line-height:1.45;color:#3E5E52;margin:0}
   .pdf-futurecast{
-    margin-top:18px;display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start;
+    margin-top:12px;display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;
   }
+  .pdf-futurecast .pdf-issue-ico{width:40px;height:40px;font-size:16px}
+  .pdf-futurecast .pdf-issue-title{font-size:11px;margin-bottom:3px}
+  .pdf-futurecast .pdf-issue-body{font-size:12px;line-height:1.45}
   .pdf-reallife-card{
-    margin-top:20px;background:#F8F6EF;border-radius:12px;overflow:hidden;
-    display:grid;grid-template-columns:168px 1fr;gap:0;
+    margin-top:14px;background:#F8F6EF;border-radius:12px;overflow:hidden;
+    display:grid;grid-template-columns:160px 1fr;gap:0;
     border:1px solid rgba(200,162,77,.28);
     box-shadow:0 8px 20px -14px rgba(24,76,58,.25);
+    max-height:210px;
+    page-break-inside:avoid;
+    flex-shrink:0;
   }
   /* Stylized editorial portrait/landscape block, built in CSS */
   .pdf-reallife-img{
-    position:relative;overflow:hidden;min-height:180px;
+    position:relative;overflow:hidden;height:210px;min-height:0;
     background:
       linear-gradient(180deg,
         #F4D7A3 0%,
@@ -792,17 +875,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     color:#E2C06B;font-size:8px;border-radius:3px;
     border:1px solid rgba(226,192,107,.4);
   }
-  .pdf-reallife-body{padding:18px 20px}
+  .pdf-reallife-body{padding:16px 18px;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
   .pdf-reallife-label{
     font-family:'Sora','Inter',sans-serif;font-weight:700;letter-spacing:2.5px;
-    color:#C8A24D;font-size:10.5px;margin-bottom:6px;text-transform:uppercase;
+    color:#C8A24D;font-size:10px;margin-bottom:5px;text-transform:uppercase;
   }
   .pdf-reallife-name{
     font-family:'Sora','Inter',sans-serif;font-weight:700;color:#103429;font-size:15px;
     margin-bottom:3px;line-height:1.2;
   }
-  .pdf-reallife-desc{font-size:11.5px;color:#7B8F86;font-style:italic;margin-bottom:8px}
-  .pdf-reallife-text{font-size:12.5px;line-height:1.5;color:#3E5E52;margin:0}
+  .pdf-reallife-desc{font-size:11px;color:#7B8F86;font-style:italic;margin-bottom:6px;line-height:1.3}
+  .pdf-reallife-text{font-size:11.5px;line-height:1.45;color:#3E5E52;margin:0;
+    display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;}
 
   /* Next step page specifics */
   .pdf-mmi-card{
@@ -1832,22 +1916,27 @@ function populatePdfTemplate(){
       const firstSentence = clean.split(/\.\s+/)[0];
       const derivedTitle = firstSentence.length > 56 ? moveTitles[i] : firstSentence.replace(/\.$/,'');
       const body = clean.length > 180 ? clean : clean;
+      // Hard cap body copy so page 3 can never overflow past the footer
+      const capped = clean.length > 220 ? clean.slice(0, 218).replace(/\s+\S*$/,'') + '…' : clean;
       row.innerHTML = `
         <div class="pdf-move-ico">${moveIcons[i]||'●'}</div>
         <div class="pdf-move-num">${i+1}</div>
         <div>
           <div class="pdf-move-title">${derivedTitle}</div>
-          <p class="pdf-move-body">${clean}</p>
+          <p class="pdf-move-body">${capped}</p>
         </div>
       `;
       movesWrap.appendChild(row);
     });
   }
-  set('pdfFiveYear', _stripTags(p.fiveYear||''));
+  // Cap fiveYear so the futurecast row never pushes the reallife card into the footer
+  const _fy = _stripTags(p.fiveYear||'');
+  set('pdfFiveYear', _fy.length > 260 ? _fy.slice(0,258).replace(/\s+\S*$/,'') + '…' : _fy);
   if(p.realLife){
     set('pdfRealLifeFigure', _stripTags(p.realLife.figure||''));
     set('pdfRealLifeDesc', _stripTags(p.realLife.descriptor||''));
-    set('pdfRealLifeText', _stripTags(p.realLife.why||''));
+    const _rlw = _stripTags(p.realLife.why||'');
+    set('pdfRealLifeText', _rlw.length > 260 ? _rlw.slice(0,258).replace(/\s+\S*$/,'') + '…' : _rlw);
   }
 
   // Page 4 — Next step
@@ -2165,12 +2254,17 @@ function shareAssessment(e){
     <div class="pdf-cover-hero">
       <div class="pdf-hero-sun"></div>
       <div class="pdf-hero-sun-core"></div>
-      <div class="pdf-hero-flecks"></div>
+      <div class="pdf-hero-clouds"></div>
       <div class="pdf-hero-ridge-back"></div>
       <div class="pdf-hero-ridge-mid"></div>
       <div class="pdf-hero-ridge-front"></div>
       <div class="pdf-hero-water"></div>
+      <div class="pdf-hero-ground"></div>
+      <div class="pdf-hero-spot"></div>
       <div class="pdf-hero-figure"></div>
+      <div class="pdf-hero-flare"></div>
+      <div class="pdf-hero-vignette"></div>
+      <div class="pdf-hero-ribbon">Chapter 01</div>
       <div class="pdf-cover-hero-overlay" id="pdfCoverHeroOverlay">A MILLIONAIRE ASSESSMENT</div>
     </div>
     <div class="pdf-cover-features">
