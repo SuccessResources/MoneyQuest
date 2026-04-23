@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Money Quest — The $100,000 Decision Simulation</title>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-W58DKGD');</script>
+<!-- End Google Tag Manager -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -466,48 +473,140 @@
   .pdf-cover-intro{
     font-size:14px;line-height:1.55;color:#3E5E52;max-width:460px;margin:0;
   }
+  /* ---- Page 1 hero: layered editorial landscape built entirely in CSS ---- */
   .pdf-cover-hero{
-    margin:22px 44px 0;height:220px;border-radius:10px;
-    background:
-      radial-gradient(420px 260px at 75% 28%, rgba(226,192,107,.32), transparent 65%),
-      radial-gradient(380px 320px at 18% 78%, rgba(140,198,63,.16), transparent 65%),
-      linear-gradient(135deg,#F3ECDD 0%,#F8F6EF 60%,#FFFFFF 100%);
+    margin:22px 44px 0;height:240px;border-radius:12px;
     position:relative;overflow:hidden;
     border:1px solid rgba(24,76,58,0.10);
-  }
-  .pdf-cover-hero::after{
-    content:"";position:absolute;inset:0;
     background:
-      radial-gradient(60px 60px at 76% 22%, rgba(200,162,77,.55), transparent 70%),
-      radial-gradient(8px 8px at 20% 30%, rgba(24,76,58,.2), transparent 70%),
-      radial-gradient(6px 6px at 32% 55%, rgba(24,76,58,.18), transparent 70%),
-      radial-gradient(5px 5px at 48% 40%, rgba(24,76,58,.15), transparent 70%);
+      linear-gradient(180deg,
+        #F9E7C1 0%,
+        #F4D7A3 18%,
+        #F0C889 32%,
+        #EABE8A 46%,
+        #E2C49A 58%,
+        #D8C8A8 72%,
+        #BFC6AC 86%,
+        #94B19A 100%);
+    box-shadow:inset 0 0 0 1px rgba(200,162,77,.18);
   }
+  /* Sun / warm glow */
+  .pdf-hero-sun{
+    position:absolute;top:-30px;right:60px;width:260px;height:260px;border-radius:50%;
+    background:
+      radial-gradient(circle at 50% 50%, rgba(255,244,210,.95) 0%, rgba(255,224,160,.7) 30%, rgba(226,192,107,.25) 55%, transparent 72%);
+    filter:blur(1px);
+  }
+  .pdf-hero-sun-core{
+    position:absolute;top:22px;right:148px;width:78px;height:78px;border-radius:50%;
+    background:radial-gradient(circle,#FFF2D1 0%,#FFE3A1 45%,rgba(226,192,107,.4) 75%,transparent 100%);
+  }
+  /* Back-most mountain ridge — soft, hazy */
+  .pdf-hero-ridge-back{
+    position:absolute;left:0;right:0;bottom:96px;height:90px;
+    background:
+      radial-gradient(ellipse 52% 100% at 18% 100%, #7AA08B 0%, #7AA08B 50%, transparent 60%),
+      radial-gradient(ellipse 55% 100% at 52% 100%, #6C9580 0%, #6C9580 50%, transparent 60%),
+      radial-gradient(ellipse 50% 100% at 84% 100%, #8EA895 0%, #8EA895 50%, transparent 60%);
+    opacity:.75;
+    filter:blur(.4px);
+  }
+  /* Mid ridge */
+  .pdf-hero-ridge-mid{
+    position:absolute;left:0;right:0;bottom:64px;height:110px;
+    background:
+      radial-gradient(ellipse 40% 110% at 8% 100%, #355E4B 0%, #355E4B 55%, transparent 65%),
+      radial-gradient(ellipse 52% 110% at 35% 100%, #2E5441 0%, #2E5441 55%, transparent 65%),
+      radial-gradient(ellipse 45% 110% at 68% 100%, #3A6651 0%, #3A6651 55%, transparent 65%),
+      radial-gradient(ellipse 40% 110% at 95% 100%, #2F5544 0%, #2F5544 55%, transparent 65%);
+    opacity:.92;
+  }
+  /* Front ridge — darker, crisper */
+  .pdf-hero-ridge-front{
+    position:absolute;left:0;right:0;bottom:38px;height:90px;
+    background:
+      radial-gradient(ellipse 46% 120% at 18% 100%, #184C3A 0%, #184C3A 58%, transparent 68%),
+      radial-gradient(ellipse 50% 120% at 52% 100%, #103429 0%, #103429 58%, transparent 68%),
+      radial-gradient(ellipse 48% 120% at 85% 100%, #184C3A 0%, #184C3A 58%, transparent 68%);
+  }
+  /* Reflective lake / ground band */
+  .pdf-hero-water{
+    position:absolute;left:0;right:0;bottom:28px;height:44px;
+    background:
+      linear-gradient(180deg, rgba(16,52,41,.55) 0%, rgba(16,52,41,.2) 45%, rgba(16,52,41,.6) 100%),
+      linear-gradient(180deg, #7A8E82 0%, #9DAE9D 50%, #6E8578 100%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.15);
+  }
+  .pdf-hero-water::before{
+    content:"";position:absolute;left:0;right:0;top:0;height:14px;
+    background:
+      linear-gradient(180deg, rgba(255,240,200,.35) 0%, transparent 100%);
+  }
+  /* Tiny sun rays flecks */
+  .pdf-hero-flecks{
+    position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(3px 3px at 28% 40%, rgba(255,244,210,.6), transparent 70%),
+      radial-gradient(2px 2px at 45% 32%, rgba(255,244,210,.55), transparent 70%),
+      radial-gradient(2px 2px at 62% 48%, rgba(255,244,210,.5), transparent 70%),
+      radial-gradient(3px 3px at 72% 38%, rgba(255,244,210,.6), transparent 70%);
+  }
+  /* Lone figure silhouette (back view) sitting on an outcrop */
+  .pdf-hero-figure{
+    position:absolute;bottom:68px;right:120px;width:28px;height:46px;
+    background:
+      radial-gradient(ellipse 50% 35% at 50% 12%, #0A2A22 0%, #0A2A22 60%, transparent 62%),
+      linear-gradient(180deg,#0A2A22 0%,#103429 100%);
+    border-radius:10px 10px 3px 3px;
+  }
+  .pdf-hero-figure::after{
+    content:"";position:absolute;bottom:-4px;left:-6px;width:40px;height:10px;border-radius:50%;
+    background:radial-gradient(ellipse 50% 80% at 50% 50%, rgba(10,42,34,.7) 0%, transparent 70%);
+  }
+  /* Bottom overlay strip with caption */
   .pdf-cover-hero-overlay{
-    position:absolute;left:0;right:0;bottom:0;padding:16px 22px 14px;
-    background:linear-gradient(to top, rgba(16,52,41,.85), rgba(16,52,41,0));
-    color:#F3ECDD;font-family:'Sora','Inter',sans-serif;font-weight:600;
-    letter-spacing:3px;font-size:10px;
+    position:absolute;left:0;right:0;bottom:0;padding:14px 22px 12px;
+    background:linear-gradient(to top, rgba(10,32,26,.95) 0%, rgba(10,32,26,.65) 60%, rgba(10,32,26,0) 100%);
+    color:#F3ECDD;font-family:'Sora','Inter',sans-serif;font-weight:700;
+    letter-spacing:3.5px;font-size:10px;
+    display:flex;align-items:center;justify-content:space-between;
   }
+  .pdf-cover-hero-overlay::before{
+    content:"";display:inline-block;width:24px;height:1px;background:#E2C06B;margin-right:12px;
+  }
+  .pdf-cover-hero-overlay::after{
+    content:"MILLIONAIRE MIND ONLINE";color:#E2C06B;font-weight:800;letter-spacing:3px;font-size:9px;
+  }
+
+  /* ---- Page 1 feature strip ---- */
   .pdf-cover-features{
-    margin:20px 44px 0;padding:22px 26px;
-    background:#184C3A;color:#FFFFFF;border-radius:10px;
+    margin:22px 44px 0;padding:24px 10px;
+    background:linear-gradient(135deg,#184C3A 0%,#103429 100%);
+    color:#FFFFFF;border-radius:12px;
     display:grid;grid-template-columns:repeat(3,1fr);gap:0;
+    position:relative;overflow:hidden;
+    box-shadow:0 10px 26px -14px rgba(16,52,41,.45);
+  }
+  .pdf-cover-features::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg, transparent 0%, #C8A24D 20%, #E2C06B 50%, #C8A24D 80%, transparent 100%);
   }
   .pdf-cover-features .pdf-feat{
-    padding:0 18px;border-right:1px solid rgba(226,192,107,.35);
+    padding:0 22px;border-right:1px solid rgba(226,192,107,.28);
+    display:flex;flex-direction:column;align-items:flex-start;
   }
   .pdf-cover-features .pdf-feat:last-child{border-right:0}
   .pdf-feat-icon{
-    width:36px;height:36px;border-radius:50%;background:rgba(226,192,107,.18);
+    width:40px;height:40px;border-radius:10px;
+    background:rgba(226,192,107,.12);border:1px solid rgba(226,192,107,.35);
     color:#E2C06B;display:flex;align-items:center;justify-content:center;
-    font-size:16px;margin-bottom:10px;
+    font-size:18px;margin-bottom:12px;
   }
   .pdf-feat-label{
-    font-family:'Sora','Inter',sans-serif;font-weight:700;letter-spacing:2px;
-    font-size:11px;color:#E2C06B;margin-bottom:6px;
+    font-family:'Sora','Inter',sans-serif;font-weight:800;letter-spacing:2.5px;
+    font-size:11px;color:#E2C06B;margin-bottom:8px;
   }
-  .pdf-feat-body{font-size:12.5px;line-height:1.45;color:#F3ECDD}
+  .pdf-feat-body{font-size:12px;line-height:1.5;color:#F3ECDD;font-weight:400}
   .pdf-cover-quote{
     margin:24px 44px 0;padding:0 20px;text-align:center;
   }
@@ -603,19 +702,95 @@
     margin-top:18px;display:grid;grid-template-columns:48px 1fr;gap:14px;align-items:start;
   }
   .pdf-reallife-card{
-    margin-top:20px;background:#F8F6EF;border-radius:10px;overflow:hidden;
-    display:grid;grid-template-columns:140px 1fr;gap:0;
-    border:1px solid rgba(200,162,77,.25);
+    margin-top:20px;background:#F8F6EF;border-radius:12px;overflow:hidden;
+    display:grid;grid-template-columns:168px 1fr;gap:0;
+    border:1px solid rgba(200,162,77,.28);
+    box-shadow:0 8px 20px -14px rgba(24,76,58,.25);
   }
+  /* Stylized editorial portrait/landscape block, built in CSS */
   .pdf-reallife-img{
+    position:relative;overflow:hidden;min-height:180px;
     background:
-      radial-gradient(circle at 50% 55%, rgba(226,192,107,.35), transparent 65%),
-      linear-gradient(140deg,#184C3A 0%,#103429 100%);
-    position:relative;
+      linear-gradient(180deg,
+        #F4D7A3 0%,
+        #E8BD89 28%,
+        #C9A984 52%,
+        #6B8C7B 80%,
+        #2E4E42 100%);
   }
-  .pdf-reallife-img::after{
-    content:"";position:absolute;inset:22% 30% 12% 30%;
-    background:radial-gradient(40px 55px at 50% 45%, #0A2A22 0%, transparent 70%);
+  /* warm sun glow at top */
+  .pdf-reallife-sun{
+    position:absolute;top:8px;left:50%;transform:translateX(-50%);
+    width:150px;height:150px;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,244,210,.9) 0%, rgba(255,220,150,.5) 35%, rgba(226,192,107,.15) 60%, transparent 75%);
+    filter:blur(.5px);
+  }
+  .pdf-reallife-sun-core{
+    position:absolute;top:30px;left:50%;transform:translateX(-50%);
+    width:48px;height:48px;border-radius:50%;
+    background:radial-gradient(circle,#FFF2D1 0%,#FFDA9A 50%,rgba(226,192,107,.35) 80%,transparent 100%);
+  }
+  /* distant mountain silhouette */
+  .pdf-reallife-ridge-back{
+    position:absolute;left:0;right:0;bottom:70px;height:46px;
+    background:
+      radial-gradient(ellipse 50% 120% at 22% 100%, #8FA897 0%, #8FA897 55%, transparent 65%),
+      radial-gradient(ellipse 55% 120% at 58% 100%, #7D9A88 0%, #7D9A88 55%, transparent 65%),
+      radial-gradient(ellipse 48% 120% at 88% 100%, #94AE9D 0%, #94AE9D 55%, transparent 65%);
+    opacity:.75;filter:blur(.3px);
+  }
+  /* closer ridge */
+  .pdf-reallife-ridge-front{
+    position:absolute;left:0;right:0;bottom:38px;height:60px;
+    background:
+      radial-gradient(ellipse 52% 120% at 15% 100%, #1E5D48 0%, #1E5D48 58%, transparent 68%),
+      radial-gradient(ellipse 60% 120% at 55% 100%, #103429 0%, #103429 58%, transparent 68%),
+      radial-gradient(ellipse 52% 120% at 92% 100%, #184C3A 0%, #184C3A 58%, transparent 68%);
+  }
+  /* Foreground outcrop / ground */
+  .pdf-reallife-ground{
+    position:absolute;left:0;right:0;bottom:0;height:44px;
+    background:
+      linear-gradient(180deg, #0E3126 0%, #081C17 100%);
+  }
+  .pdf-reallife-ground::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:rgba(226,192,107,.25);
+  }
+  /* Central standing figure silhouette on outcrop */
+  .pdf-reallife-figure{
+    position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+    width:22px;height:48px;z-index:2;
+  }
+  .pdf-reallife-figure::before{
+    content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:10px;height:11px;border-radius:50%;background:#061712;
+  }
+  .pdf-reallife-figure::after{
+    content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);
+    width:16px;height:36px;border-radius:6px 6px 2px 2px;
+    background:linear-gradient(180deg,#0B241C 0%,#061712 100%);
+  }
+  /* Faint spotlight behind figure */
+  .pdf-reallife-spot{
+    position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+    width:80px;height:80px;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,230,170,.35) 0%, rgba(255,230,170,.15) 40%, transparent 70%);
+    z-index:1;
+  }
+  /* Vignette edges */
+  .pdf-reallife-vignette{
+    position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(120% 80% at 50% 55%, transparent 60%, rgba(10,32,26,.35) 100%);
+  }
+  /* Subtle label strip */
+  .pdf-reallife-ribbon{
+    position:absolute;top:10px;left:10px;z-index:3;
+    padding:4px 8px;background:rgba(16,52,41,.75);
+    font-family:'Sora','Inter',sans-serif;font-weight:700;letter-spacing:2px;
+    color:#E2C06B;font-size:8px;border-radius:3px;
+    border:1px solid rgba(226,192,107,.4);
   }
   .pdf-reallife-body{padding:18px 20px}
   .pdf-reallife-label{
@@ -710,6 +885,10 @@
 </style>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-W58DKGD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 <div class="app">
   <header class="brand">
     <span class="brand-dot"></span>
@@ -859,7 +1038,7 @@
         <div class="result-bridge-title">Where you go from here</div>
         <p class="result-body" id="resBridge"></p>
         <div class="result-bridge-actions">
-          <a class="btn btn-accent btn-large" href="https://www.millionairemind.online/" target="_blank" rel="noopener">Reserve my MMI seat →</a>
+          <a class="btn btn-accent btn-large" href="https://www.millionairemind.online/" target="_blank" rel="noopener" onclick="dl('mmi_clicked',{profile_name:(S.persona&&S.persona.name)||'',profile_key:(S.persona&&S.persona.key)||''})">Reserve my MMI seat →</a>
           <button class="btn btn-outline-gold" id="pdfDownloadBtn" onclick="downloadPDF()">↓ Download My Wealth Profile PDF</button>
         </div>
         <div class="result-bridge-footer">A 3-day live experience — built for wealth-builders who refuse to waste the next decade guessing. Your PDF profile is yours to keep.</div>
@@ -1427,15 +1606,41 @@ const S = {
 
 function $(id){return document.getElementById(id)}
 
+/* ======================================================================
+   GTM DATALAYER HELPER
+   ----------------------------------------------------------------------
+   All ad-tracking / analytics events are pushed through GTM's dataLayer.
+   Tags (Meta Pixel, GA4, Google Ads, etc.) are configured inside GTM
+   to fire on these named events — no code changes needed for new tags.
+   ====================================================================== */
+window.dataLayer = window.dataLayer || [];
+function dl(event, extra){
+  try { window.dataLayer.push(Object.assign({event:event}, extra||{})); }
+  catch(err){ /* never let tracking break UX */ }
+}
+
 function go(name){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   const el = $('screen-'+name);
   if(el){ el.classList.add('active'); S.screen = name; window.scrollTo({top:0,behavior:'smooth'}); }
+  // Fire a dataLayer event whenever a new screen is entered
+  dl('quest_screen_view', {screen_name: name});
+  if(name === 'gate') dl('quest_gate_reached');
 }
 
-function startQuestions(){ S.qIndex = 0; go('question'); renderQuestion(); }
+function startQuestions(){
+  S.qIndex = 0;
+  dl('quest_started', {step_name: 'Money Quest Started'});
+  go('question');
+  renderQuestion();
+}
 
-function continueToVision(){ S.qIndex = 5; go('question'); renderQuestion(); }
+function continueToVision(){
+  S.qIndex = 5;
+  dl('quest_intermission_continued');
+  go('question');
+  renderQuestion();
+}
 
 function renderQuestion(){
   const q = QUESTIONS[S.qIndex];
@@ -1485,6 +1690,16 @@ function confirmAnswer(){
   // Apply scoring
   if(opt.path) for(const k in opt.path) S.pathScore[k] = (S.pathScore[k]||0) + opt.path[k];
   if(opt.vision) for(const k in opt.vision) S.visionScore[k] = (S.visionScore[k]||0) + opt.vision[k];
+  // GTM: track question completion (and first-answer commitment signal)
+  if(S.qIndex === 0 && !S._quizFirstAnswer){
+    S._quizFirstAnswer = true;
+    dl('quest_first_answer');
+  }
+  dl('quest_question_answered', {
+    question_number: q.n,
+    question_phase: q.phase,
+    answer_letter: opt.letter
+  });
   // Advance
   if(S.qIndex === 4){
     // After Q5 → intermission
@@ -1713,6 +1928,12 @@ async function generatePdfDoc(){
 }
 
 async function downloadPDF(){
+  // GTM — PDF download intent
+  dl('pdf_downloaded', {
+    profile_name: (S.persona && S.persona.name) || '',
+    profile_key: (S.persona && (S.persona.key || (S.topPath+'_'+S.topVision))) || ''
+  });
+
   // Show a small inline hint on the button while rendering
   const btn = document.getElementById('pdfDownloadBtn');
   const originalLabel = btn ? btn.textContent : null;
@@ -1839,6 +2060,40 @@ function revealResult(){
   };
   submitLead(payload);
 
+  // =============================================================
+  // GTM — THE MONEY EVENT: lead submitted (ad optimization event)
+  // =============================================================
+  dl('quest_lead_submitted', {
+    profile_key: key,
+    profile_name: p.name,
+    lead_value: 47,
+    currency: 'USD'
+  });
+
+  // Virtual thank-you pageview — changes URL + fires a pageview event
+  // that GTM can treat as a true thank-you page hit for Meta/GA/Ads.
+  try {
+    if (window.history && window.history.pushState) {
+      window.history.pushState(
+        { page:'thank-you', persona:key },
+        'Money Quest — Your Wealth Profile',
+        '/money-quest/thank-you?profile=' + encodeURIComponent(key)
+      );
+    }
+  } catch(err){ /* safe fallback — tracking still fires below */ }
+
+  dl('virtualPageview', {
+    page_path: '/money-quest/thank-you',
+    page_title: 'Money Quest — Your Wealth Profile',
+    page_location: window.location.origin + '/money-quest/thank-you?profile=' + encodeURIComponent(key),
+    profile_key: key,
+    profile_name: p.name
+  });
+  dl('quest_complete_registration', {
+    profile_key: key,
+    profile_name: p.name
+  });
+
   // Render result
   $('resName').textContent = p.name;
   $('resTagline').textContent = p.tagline;
@@ -1908,6 +2163,14 @@ function shareAssessment(e){
       <p class="pdf-cover-intro" id="pdfCoverIntro"></p>
     </div>
     <div class="pdf-cover-hero">
+      <div class="pdf-hero-sun"></div>
+      <div class="pdf-hero-sun-core"></div>
+      <div class="pdf-hero-flecks"></div>
+      <div class="pdf-hero-ridge-back"></div>
+      <div class="pdf-hero-ridge-mid"></div>
+      <div class="pdf-hero-ridge-front"></div>
+      <div class="pdf-hero-water"></div>
+      <div class="pdf-hero-figure"></div>
       <div class="pdf-cover-hero-overlay" id="pdfCoverHeroOverlay">A MILLIONAIRE ASSESSMENT</div>
     </div>
     <div class="pdf-cover-features">
@@ -2016,7 +2279,17 @@ function shareAssessment(e){
       </div>
 
       <div class="pdf-reallife-card">
-        <div class="pdf-reallife-img"></div>
+        <div class="pdf-reallife-img">
+          <div class="pdf-reallife-sun"></div>
+          <div class="pdf-reallife-sun-core"></div>
+          <div class="pdf-reallife-ridge-back"></div>
+          <div class="pdf-reallife-ridge-front"></div>
+          <div class="pdf-reallife-ground"></div>
+          <div class="pdf-reallife-spot"></div>
+          <div class="pdf-reallife-figure"></div>
+          <div class="pdf-reallife-vignette"></div>
+          <div class="pdf-reallife-ribbon">MIRROR</div>
+        </div>
         <div class="pdf-reallife-body">
           <div class="pdf-reallife-label">Real-Life Comparison</div>
           <div class="pdf-reallife-figure" id="pdfRealLifeFigure"></div>
