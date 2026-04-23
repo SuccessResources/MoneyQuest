@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Quest — The $100,000 Decision Simulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* MMO bright brand palette — white base, dark-green type, green CTA */
+    --bg:#FFFFFF;              /* main page background — clean white */
+    --bg-soft:#F8F6EF;         /* soft warm block */
+    --bg-warm:#F3ECDD;         /* secondary warm section */
+    --panel:#FFFFFF;           /* white card */
+    --panel-hi:#FFFFFF;
+    --line:rgba(24,76,58,0.10);
+    --line-hi:rgba(24,76,58,0.18);
+    --ink:#184C3A;             /* dark brand green — main text */
+    --ink-deeper:#103429;      /* deeper green for strong emphasis */
+    --muted:#3E5E52;           /* supporting muted green-gray */
+    --faint:#7B8F86;           /* soft faint green */
+    --hint:#5A7468;            /* hint green */
+    --gold:#C8A24D;            /* premium gold */
+    --gold-hi:#E2C06B;          /* soft gold highlight */
+    --gold-deep:#8A6F2E;       /* rich gold for text on light bg */
+    --green:#8CC63F;           /* main CTA green */
+    --green-hi:#A6D84F;        /* bright hover green */
+    --accent:#C8A24D;
+    --red:#C0553A;             /* warm alert */
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  /* Bright, clean, premium — white base with soft warm glow accents only.
+     Never dark, never heavy. Think branded event funnel. */
+  body{
+    position:relative;
+    background:
+      radial-gradient(1100px 720px at 86% -10%, rgba(226,192,107,.14), transparent 62%),
+      radial-gradient(900px 640px at 4% 2%, rgba(200,162,77,.06), transparent 62%),
+      radial-gradient(900px 700px at 100% 52%, rgba(166,216,79,.07), transparent 62%),
+      radial-gradient(900px 600px at 4% 105%, rgba(140,198,63,.05), transparent 62%),
+      radial-gradient(700px 500px at 98% 100%, rgba(226,192,107,.08), transparent 62%),
+      var(--bg);
+    background-attachment:fixed;
+    min-height:100vh;
+  }
+  .app{max-width:960px;margin:0 auto;padding:28px 24px 80px;position:relative;z-index:1}
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:48px;opacity:.95}
+  .brand-dot{width:8px;height:8px;border-radius:999px;background:var(--gold);box-shadow:0 0 14px rgba(200,162,77,.5)}
+  .brand-name{font-family:'Sora',sans-serif;font-weight:600;letter-spacing:.04em;font-size:14px;color:var(--ink)}
+  .brand-meta{font-size:12px;color:var(--faint);letter-spacing:.12em;text-transform:uppercase;margin-left:auto}
+
+  .screen{display:none;animation:fadeUp .55s cubic-bezier(.22,1,.36,1)}
+  .screen.active{display:block}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  .screen-inner{max-width:720px;margin:0 auto}
+
+  .kicker{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:20px;font-weight:700}
+  .screen-title{font-family:'Sora',sans-serif;font-size:clamp(30px,4.4vw,46px);font-weight:400;line-height:1.08;letter-spacing:-.03em;margin:0 0 20px;color:var(--ink)}
+  .screen-copy{color:var(--muted);font-size:17px;line-height:1.65;margin:0 0 18px;max-width:620px}
+  .screen-copy strong{color:var(--ink);font-weight:600}
+
+  /* HERO */
+  .hero-layout{padding-top:40px}
+  .hero-title{font-family:'Sora',sans-serif;font-size:clamp(38px,6.5vw,66px);font-weight:400;line-height:1.02;letter-spacing:-.035em;margin:0 0 22px;color:var(--ink)}
+  .hero-title .accent{color:var(--gold);font-weight:500}
+  .hero-sub{font-size:19px;color:var(--muted);line-height:1.55;max-width:560px;margin:0 0 34px}
+  .hero-meta{margin-top:24px;font-size:13px;color:var(--faint);letter-spacing:.02em}
+
+  /* SETUP */
+  .setup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:32px 0 36px}
+  .setup-card{
+    padding:24px 22px;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:
+      radial-gradient(360px 220px at 100% 0%, rgba(226,192,107,.12), transparent 62%),
+      linear-gradient(180deg, #FFFFFF, #FCFAF3);
+    box-shadow:0 16px 40px -24px rgba(200,162,77,.25), 0 2px 6px -2px rgba(30,30,30,.05);
+    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .setup-card:hover{
+    border-color:rgba(200,162,77,.38);
+    box-shadow:0 22px 46px -22px rgba(200,162,77,.35), 0 4px 10px -2px rgba(30,30,30,.06);
+    transform:translateY(-2px);
+  }
+  .setup-num{font-family:'Sora',sans-serif;font-size:12px;letter-spacing:.25em;color:var(--gold);margin-bottom:14px;font-weight:700}
+  .setup-head{font-family:'Sora',sans-serif;font-size:17px;font-weight:600;margin-bottom:10px;line-height:1.25;color:var(--ink)}
+  .setup-body{font-size:14px;color:var(--muted);line-height:1.55}
+
+  /* BUTTONS */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border-radius:999px;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;border:1px solid transparent;cursor:pointer;transition:all .25s ease;letter-spacing:.01em;background:none;color:inherit;text-decoration:none}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  /* Primary = bright brand green — the flow CTA */
+  .btn-primary{
+    background:linear-gradient(135deg, var(--green), var(--green-hi));
+    color:var(--ink-deeper);font-weight:700;
+    box-shadow:0 12px 28px -10px rgba(140,198,63,.55), 0 2px 6px -2px rgba(140,198,63,.3);
+  }
+  .btn-primary:hover:not(:disabled){
+    transform:translateY(-1px);
+    box-shadow:0 16px 34px -10px rgba(140,198,63,.7), 0 3px 8px -2px rgba(140,198,63,.35);
+    filter:brightness(1.04);
+  }
+  /* Accent = premium gold — reserved for the MMI capstone CTA */
+  .btn-accent{
+    background:linear-gradient(135deg, var(--gold), var(--gold-hi));
+    color:var(--ink-deeper);font-weight:700;
+    box-shadow:0 12px 28px -10px rgba(200,162,77,.55), 0 2px 6px -2px rgba(200,162,77,.3);
+  }
+  .btn-accent:hover:not(:disabled){
+    transform:translateY(-1px);
+    box-shadow:0 16px 34px -10px rgba(226,192,107,.75), 0 3px 8px -2px rgba(200,162,77,.4);
+    filter:brightness(1.04);
+  }
+  /* Outlined gold — secondary premium action (PDF download) */
+  .btn-outline-gold{
+    border:1.5px solid var(--gold);
+    color:var(--gold-deep);
+    background:#FFFFFF;
+    box-shadow:0 6px 18px -12px rgba(200,162,77,.45);
+  }
+  .btn-outline-gold:hover:not(:disabled){
+    background:linear-gradient(180deg, #FFFBF0, #F8F0D8);
+    color:var(--ink-deeper);
+    border-color:var(--gold-hi);
+    box-shadow:0 10px 24px -12px rgba(200,162,77,.55);
+    transform:translateY(-1px);
+  }
+  .btn-ghost{border:1px solid var(--line-hi);color:var(--muted);background:#FFFFFF}
+  .btn-ghost:hover{color:var(--ink);border-color:rgba(30,30,30,.28)}
+  .btn-large{padding:18px 34px;font-size:16px}
+  .actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+  /* QUESTION */
+  .q-progress{margin-bottom:38px}
+  .q-progress-text{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;font-weight:700}
+  .q-progress-track{height:4px;background:rgba(30,30,30,.08);border-radius:999px;overflow:hidden}
+  .q-progress-fill{height:100%;background:linear-gradient(90deg, var(--gold), var(--green-hi));border-radius:999px;box-shadow:0 0 14px rgba(200,162,77,.4);transition:width .65s cubic-bezier(.22,1,.36,1);width:0}
+  .q-scenario{
+    font-size:17px;line-height:1.6;color:var(--ink);font-style:italic;font-weight:400;
+    max-width:640px;margin:0 0 22px;padding:16px 20px;
+    border-left:3px solid var(--gold);
+    background:linear-gradient(90deg, #FFFBF0, #FFFFFF 70%);
+    border-radius:0 10px 10px 0;
+    box-shadow:0 4px 14px -10px rgba(200,162,77,.2);
+  }
+  .q-title{font-family:'Sora',sans-serif;font-size:clamp(26px,3.6vw,38px);font-weight:500;line-height:1.15;letter-spacing:-.025em;margin:0 0 28px;color:var(--ink)}
+  .q-options{display:grid;gap:12px;margin-bottom:24px}
+  .q-option{
+    position:relative;padding:18px 22px;
+    border:1px solid var(--line);border-radius:16px;
+    background:#FFFFFF;
+    box-shadow:0 6px 18px -14px rgba(30,30,30,.12);
+    cursor:pointer;transition:all .22s ease;
+    display:flex;align-items:flex-start;gap:14px;
+    text-align:left;font-family:inherit;font-size:15.5px;color:var(--ink);line-height:1.5;
+  }
+  .q-option:hover{
+    border-color:rgba(200,162,77,.5);
+    background:#FFFBF0;
+    transform:translateX(2px);
+    box-shadow:0 10px 24px -12px rgba(200,162,77,.3);
+  }
+  .q-option.selected{
+    border-color:var(--gold);
+    background:linear-gradient(180deg, #FFF7E4, #FFFBF0);
+    box-shadow:0 0 0 2px rgba(200,162,77,.32), 0 14px 30px -16px rgba(200,162,77,.45);
+  }
+  .q-option-letter{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;border:1px solid var(--line-hi);font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:var(--muted);flex-shrink:0;transition:all .22s ease;background:#FFFFFF}
+  .q-option.selected .q-option-letter{background:var(--gold);color:#FFFFFF;border-color:var(--gold)}
+  .q-option-text{flex:1;padding-top:2px}
+  .q-feedback{font-size:14px;color:var(--gold-deep);font-style:italic;line-height:1.55;min-height:22px;margin-bottom:18px;opacity:0;transition:opacity .35s ease;padding-left:2px;font-weight:500}
+  .q-feedback.visible{opacity:1}
+  .q-actions{display:flex;justify-content:flex-end;align-items:center;gap:12px}
+
+  /* GATE / OPT-IN */
+  .gate-form{display:grid;gap:12px;max-width:440px;margin:28px 0 18px}
+  .gate-input{
+    padding:16px 20px;border:1px solid var(--line-hi);border-radius:14px;
+    background:#FFFFFF;
+    color:var(--ink);font-family:inherit;font-size:15px;
+    box-shadow:0 2px 6px -4px rgba(30,30,30,.08);
+    transition:border-color .2s ease,background .2s ease, box-shadow .2s ease;
+  }
+  .gate-input:focus{
+    outline:none;border-color:var(--gold);
+    background:#FFFFFF;
+    box-shadow:0 0 0 3px rgba(200,162,77,.15), 0 2px 6px -4px rgba(200,162,77,.2);
+  }
+  .gate-input::placeholder{color:var(--faint)}
+  .gate-privacy{font-size:12px;color:var(--faint);max-width:440px;line-height:1.5}
+  .analysis-dots{display:flex;gap:14px;margin:20px 0 28px;flex-wrap:wrap}
+  .analysis-step{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);font-weight:500}
+  .analysis-step-dot{width:8px;height:8px;border-radius:999px;background:var(--green);box-shadow:0 0 10px rgba(140,198,63,.55)}
+
+  /* RESULT */
+  .result-layout{max-width:780px}
+  .result-badge{display:inline-block;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-deep);padding:8px 16px;border:1px solid rgba(200,162,77,.38);border-radius:999px;background:#FFFBF0;margin-bottom:22px;font-weight:700}
+  .result-name{
+    position:relative;
+    font-family:'Sora',sans-serif;font-size:clamp(42px,7vw,68px);
+    font-weight:500;line-height:1;letter-spacing:-.035em;margin:0 0 14px;
+    background:linear-gradient(135deg, var(--ink) 35%, var(--gold) 95%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .result-tagline{font-size:20px;color:var(--muted);line-height:1.5;margin:0 0 40px;max-width:620px;font-weight:400}
+  .result-section{margin-bottom:34px;padding-bottom:32px;border-bottom:1px solid var(--line)}
+  .result-section:last-of-type{border-bottom:none}
+  .result-section-title{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:700}
+  .result-body{font-size:16.5px;line-height:1.7;color:var(--ink);margin:0 0 14px}
+  .result-body:last-child{margin-bottom:0}
+  .result-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+  .result-list li{font-size:15.5px;color:var(--ink);line-height:1.55;padding-left:22px;position:relative}
+  .result-list li::before{content:'';position:absolute;left:0;top:10px;width:10px;height:2px;background:var(--gold);border-radius:2px}
+  .result-moves{counter-reset:mv;list-style:none;padding:0;margin:0;display:grid;gap:18px}
+  .result-moves li{
+    counter-increment:mv;
+    padding:18px 20px 18px 58px;
+    background:#FFFFFF;
+    border:1px solid var(--line);border-radius:14px;
+    position:relative;font-size:15.5px;line-height:1.6;color:var(--ink);
+    box-shadow:0 10px 24px -18px rgba(30,30,30,.15);
+  }
+  .result-moves li::before{content:counter(mv);position:absolute;left:18px;top:18px;width:28px;height:28px;border-radius:999px;background:linear-gradient(135deg, var(--gold), var(--gold-hi));color:#FFFFFF;font-family:'Sora',sans-serif;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 4px 10px -4px rgba(200,162,77,.5)}
+  .result-bridge{
+    position:relative;
+    margin-top:44px;padding:36px 32px;border-radius:22px;
+    background:
+      radial-gradient(520px 240px at 100% 0%, rgba(226,192,107,.28), transparent 62%),
+      radial-gradient(440px 240px at 0% 100%, rgba(166,216,79,.18), transparent 62%),
+      linear-gradient(145deg, #FFFDF5, #FFFFFF);
+    border:1px solid rgba(200,162,77,.35);
+    box-shadow:0 24px 56px -28px rgba(200,162,77,.35), 0 4px 12px -4px rgba(30,30,30,.05);
+    text-align:left;
+  }
+  .result-bridge::before{
+    content:'';position:absolute;top:0;left:32px;right:32px;height:1px;
+    background:linear-gradient(90deg, transparent, rgba(200,162,77,.5), transparent);
+  }
+  .result-bridge-title{font-family:'Sora',sans-serif;font-size:22px;font-weight:600;margin-bottom:14px;color:var(--ink)}
+  .result-bridge .btn{margin-top:20px}
+  .result-bridge-footer{margin-top:14px;font-size:13px;color:var(--hint)}
+
+  /* Real-Life Example card — premium directional comparison */
+  .result-reallife{
+    position:relative;
+    margin:0 0 40px;
+    padding:26px 28px 22px;
+    border-radius:18px;
+    background:
+      radial-gradient(420px 200px at 100% 0%, rgba(226,192,107,.18), transparent 62%),
+      linear-gradient(180deg, #FFFDF5, #FFFFFF);
+    border:1px solid rgba(200,162,77,.3);
+    box-shadow:0 18px 42px -24px rgba(200,162,77,.3), 0 2px 8px -2px rgba(30,30,30,.05);
+  }
+  .result-reallife::before{
+    content:'';position:absolute;top:0;left:24px;right:24px;height:1px;
+    background:linear-gradient(90deg, transparent, rgba(200,162,77,.5), transparent);
+  }
+  .rl-label{
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--gold);font-weight:700;margin-bottom:12px;
+  }
+  .rl-figure{
+    font-family:'Sora',sans-serif;font-size:22px;font-weight:600;
+    color:var(--ink);line-height:1.2;margin-bottom:4px;letter-spacing:-.01em;
+  }
+  .rl-descriptor{
+    font-size:14px;color:var(--hint);margin-bottom:14px;font-style:italic;
+  }
+  .rl-why{
+    font-size:15px;line-height:1.65;color:var(--muted);margin-bottom:14px;
+  }
+  .rl-disclaimer{
+    font-size:11.5px;color:var(--faint);letter-spacing:.02em;
+    padding-top:12px;border-top:1px solid var(--line);
+  }
+
+  /* Bridge actions — side-by-side on desktop, stacked on mobile */
+  .result-bridge-actions{
+    display:flex;gap:12px;flex-wrap:wrap;align-items:center;
+    margin-top:22px;
+  }
+  .result-bridge-actions .btn-large{flex:0 0 auto}
+  #pdfDownloadBtn{font-size:14px;padding:13px 20px}
+
+  /* Diagnosis punch — sits directly under tagline, high tension */
+  .result-diagnosis{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(19px,2.1vw,23px);
+    font-weight:500;
+    line-height:1.45;
+    letter-spacing:-.01em;
+    color:var(--ink);
+    margin:0 0 40px;
+    padding:24px 28px;
+    border-left:3px solid var(--gold);
+    background:linear-gradient(90deg, #FFFBF0, #FFFFFF 80%);
+    border-radius:0 12px 12px 0;
+    box-shadow:0 6px 16px -10px rgba(200,162,77,.25);
+  }
+  .result-diagnosis strong{color:var(--gold-deep);font-weight:700}
+
+  /* 5-year consequence — sobering, warm */
+  .result-fiveyear .result-body{color:var(--muted)}
+  .result-fiveyear .result-section-title{color:var(--red)}
+
+  /* Share hook — subtle, after the CTA */
+  .result-share{
+    margin-top:28px;
+    padding-top:24px;
+    border-top:1px solid var(--line);
+    font-size:14px;
+    color:var(--hint);
+    line-height:1.55;
+    text-align:center;
+  }
+  .result-share a{color:var(--gold-deep);text-decoration:none;font-weight:600;transition:color .2s ease;border-bottom:1px solid rgba(200,162,77,.3);padding-bottom:1px}
+  .result-share a:hover{color:var(--gold)}
+  .result-share.copied a{color:var(--ink);border-bottom-color:rgba(140,198,63,.55)}
+
+  /* Gate promise list — sharper value unlock */
+  .gate-promises{
+    list-style:none;padding:0;margin:0 0 24px;display:grid;gap:10px;max-width:540px;
+  }
+  .gate-promises li{
+    font-size:15px;line-height:1.5;color:var(--muted);
+    padding-left:22px;position:relative;
+  }
+  .gate-promises li strong{color:var(--ink);font-weight:700}
+  .gate-promises li::before{
+    content:'';position:absolute;left:0;top:10px;width:10px;height:2px;background:var(--gold);border-radius:2px;
+  }
+
+  /* MOBILE */
+  @media(max-width:720px){
+    .app{padding:20px 18px 60px}
+    .brand{margin-bottom:32px}
+    .setup-grid{grid-template-columns:1fr;gap:12px}
+    .hero-title{font-size:40px}
+    .screen-title{font-size:28px}
+    .q-title{font-size:24px}
+    .q-scenario{font-size:15.5px;padding:14px 16px}
+    .btn{width:100%}
+    .q-actions{justify-content:stretch}
+    .result-name{font-size:44px}
+    .result-tagline{font-size:17px}
+    .result-bridge{padding:26px 22px}
+    .result-diagnosis{font-size:17px;padding:20px 22px}
+    .result-reallife{padding:22px 20px 18px}
+    .rl-figure{font-size:19px}
+    .result-bridge-actions{flex-direction:column;align-items:stretch}
+    .result-bridge-actions .btn{width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="brand">
+    <span class="brand-dot"></span>
+    <span class="brand-name">MONEY QUEST</span>
+    <span class="brand-meta">A Success Resources assessment</span>
+  </header>
+
+  <!-- HERO + SETUP (combined into one landing screen for maximum momentum) -->
+  <section class="screen active" id="screen-hero">
+    <div class="screen-inner hero-layout">
+      <div class="kicker">The $100,000 Decision Simulation</div>
+      <h1 class="hero-title">$100,000 just landed in your account. <span class="accent">What do you actually do?</span></h1>
+      <p class="hero-sub">A 9-decision simulation that reveals the one wealth-building path you're actually built for — and the blind spot quietly costing you years of progress.</p>
+
+      <div class="setup-grid">
+        <div class="setup-card">
+          <div class="setup-num">01</div>
+          <div class="setup-head">$100,000 landed in your account</div>
+          <div class="setup-body">Imagine it's real. Over 9 decisions, we simulate the move you'd actually make — not the move that sounds smart on a podcast.</div>
+        </div>
+        <div class="setup-card">
+          <div class="setup-num">02</div>
+          <div class="setup-head">9 decisions. Real trade-offs.</div>
+          <div class="setup-body">Time vs. money. Control vs. compounding. Growth vs. security. Each choice reveals something specific about how you're wired with money.</div>
+        </div>
+        <div class="setup-card">
+          <div class="setup-num">03</div>
+          <div class="setup-head">No right answers. Only patterns.</div>
+          <div class="setup-body">We match how you build wealth with why wealth matters to you. That combination is your Wealth Profile — 1 of 20.</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary btn-large" onclick="startQuestions()">Begin the simulation →</button>
+      </div>
+      <div class="hero-meta">5 minutes · Built for professionals aged 35–45 earning $40K–$200K+ · No generic advice</div>
+    </div>
+  </section>
+
+  <!-- QUESTION -->
+  <section class="screen" id="screen-question">
+    <div class="screen-inner">
+      <div class="q-progress">
+        <div class="q-progress-text" id="qProgText">Round 1 of 9</div>
+        <div class="q-progress-track"><div class="q-progress-fill" id="qProgFill"></div></div>
+      </div>
+      <div class="q-scenario" id="qScenario"></div>
+      <h2 class="q-title" id="qTitle"></h2>
+      <div class="q-options" id="qOptions"></div>
+      <div class="q-feedback" id="qFeedback"></div>
+      <div class="q-actions">
+        <button class="btn btn-primary" id="qConfirm" onclick="confirmAnswer()" disabled>Lock this decision →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERMISSION -->
+  <section class="screen" id="screen-intermission">
+    <div class="screen-inner">
+      <div class="kicker">Halfway through · 5 of 9 decisions locked</div>
+      <h2 class="screen-title">Your wealth-building path is starting to reveal itself.</h2>
+      <p class="screen-copy">Your first 5 decisions showed how you tend to build wealth — whether through <strong>consistency, hustle, strategic deployment, or finding your footing first</strong>.</p>
+      <p class="screen-copy">Now we're going to identify <strong>why</strong> you want wealth in the first place — because your best strategy depends on both where you are and what you're really aiming for.</p>
+      <div class="actions">
+        <button class="btn btn-primary" onclick="continueToVision()">Continue →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- GATE -->
+  <section class="screen" id="screen-gate">
+    <div class="screen-inner">
+      <div class="kicker">Analysis complete · Your Wealth Profile is ready</div>
+      <h2 class="screen-title">9 decisions locked. Your Wealth Profile is matched.</h2>
+      <div class="analysis-dots">
+        <div class="analysis-step"><div class="analysis-step-dot"></div>Decision pattern mapped</div>
+        <div class="analysis-step"><div class="analysis-step-dot"></div>Capital instincts analyzed</div>
+        <div class="analysis-step"><div class="analysis-step-dot"></div>Path &amp; vision matched</div>
+      </div>
+      <p class="screen-copy">Enter your details to unlock the full report — including:</p>
+      <ul class="gate-promises">
+        <li><strong>Your Wealth Profile</strong> — 1 of 20 distinct wealth personalities, diagnosed from your decisions.</li>
+        <li><strong>Your hidden growth gap</strong> — the specific structural reason you're not further ahead.</li>
+        <li><strong>Your blind spot</strong> — the belief quietly costing you years of progress.</li>
+        <li><strong>Your next 90-day moves</strong> — three concrete actions built for your profile, not generic advice.</li>
+      </ul>
+      <div class="gate-form">
+        <input type="text" class="gate-input" id="firstName" placeholder="First name" autocomplete="given-name">
+        <input type="email" class="gate-input" id="emailAddr" placeholder="Email address" autocomplete="email">
+        <button class="btn btn-primary" id="revealBtn" onclick="revealResult()" disabled>Unlock my Wealth Profile →</button>
+      </div>
+      <div class="gate-privacy">We'll send the full report to your email. No spam. Unsubscribe anytime.</div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen" id="screen-result">
+    <div class="screen-inner result-layout">
+      <div class="result-badge">Your Wealth Profile</div>
+      <h1 class="result-name" id="resName"></h1>
+      <p class="result-tagline" id="resTagline"></p>
+
+      <!-- Diagnosis punch — persona-specific, high-tension -->
+      <div class="result-diagnosis" id="resDiagnosis"></div>
+
+      <!-- Real-Life Example — premium directional comparison card -->
+      <div class="result-reallife" id="resRealLife">
+        <div class="rl-label">A useful real-world comparison</div>
+        <div class="rl-figure" id="rlFigure"></div>
+        <div class="rl-descriptor" id="rlDescriptor"></div>
+        <div class="rl-why" id="rlWhy"></div>
+        <div class="rl-disclaimer">A directional comparison — not a literal classification.</div>
+      </div>
+
+      <div class="result-section">
+        <div class="result-section-title">Why this fits you</div>
+        <ul class="result-list" id="resWhy"></ul>
+      </div>
+
+      <div class="result-section">
+        <div class="result-section-title">Your challenge</div>
+        <p class="result-body" id="resChallenge"></p>
+      </div>
+
+      <div class="result-section">
+        <div class="result-section-title">The real problem underneath it</div>
+        <p class="result-body" id="resReal"></p>
+      </div>
+
+      <div class="result-section">
+        <div class="result-section-title">3 moves to make in the next 90 days</div>
+        <ol class="result-moves" id="resMoves"></ol>
+      </div>
+
+      <div class="result-section">
+        <div class="result-section-title">Your blind spot</div>
+        <p class="result-body" id="resBlind"></p>
+      </div>
+
+      <!-- Where this leads if nothing changes — persona-specific 5-year trajectory -->
+      <div class="result-section result-fiveyear">
+        <div class="result-section-title">If nothing changes · Your likely 5-year outcome</div>
+        <p class="result-body" id="resFiveYear"></p>
+      </div>
+
+      <div class="result-bridge">
+        <div class="result-bridge-title">Where you go from here</div>
+        <p class="result-body" id="resBridge"></p>
+        <div class="result-bridge-actions">
+          <a class="btn btn-accent btn-large" href="https://www.millionairemind.online/" target="_blank" rel="noopener">Reserve my MMI seat →</a>
+          <button class="btn btn-outline-gold" id="pdfDownloadBtn" onclick="downloadPDF()">↓ Download My Wealth Profile PDF</button>
+        </div>
+        <div class="result-bridge-footer">A 3-day live experience — built for wealth-builders who refuse to waste the next decade guessing. Your PDF profile is yours to keep.</div>
+      </div>
+
+      <!-- Subtle share hook -->
+      <div class="result-share">
+        Know someone who works hard but still feels behind financially? <a href="#" onclick="shareAssessment(event)" id="shareLink">Send them this assessment →</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ======================================================================
+   QUESTIONS — exact wording, exact scoring
+   ====================================================================== */
+const QUESTIONS = [
+  { // Q1
+    n:1, phase:'path',
+    scenario:"You're 38. You earn about $95,000 a year. You've built a decent career, but you know you should be further ahead financially. Then one morning, $100,000 lands in your account.",
+    question:"What feels like the most natural first move for you?",
+    options:[
+      {letter:'A',text:"Put most of it into long-term investments and let it compound.",path:{compound:3},vision:{security:1}},
+      {letter:'B',text:"Use it to start or scale a side business or income stream.",path:{hustler:3},vision:{empire:1}},
+      {letter:'C',text:"Deploy it into higher-return opportunities like property, partnerships, or deals.",path:{accelerated:3},vision:{empire:1}},
+      {letter:'D',text:"Hold most of it while I figure out the smartest path.",path:{ready:3},vision:{security:1}},
+    ]
+  },
+  { // Q2
+    n:2, phase:'path',
+    scenario:"You still have your normal work, responsibilities, and life. Building wealth isn't just about money — it's also about how much time you can realistically give it.",
+    question:"Over the next 12 months, how much time can you realistically commit to building wealth outside your main work?",
+    options:[
+      {letter:'A',text:"Under 5 hours a week.",path:{compound:3},vision:{security:1}},
+      {letter:'B',text:"5–10 hours a week.",path:{hustler:3},vision:{freedom:1}},
+      {letter:'C',text:"10–20 hours a week.",path:{accelerated:3},vision:{empire:1}},
+      {letter:'D',text:"I'd go all in if I saw the right opportunity.",path:{accelerated:3},vision:{freedom:1}},
+    ]
+  },
+  { // Q3 — feedback moment
+    n:3, phase:'path',
+    scenario:"You deploy part of your money into an investment plan. Six months later, markets drop and your position is down 20%.",
+    question:"What do you actually do next?",
+    options:[
+      {letter:'A',text:"Stay consistent and keep investing.",path:{compound:3},vision:{security:1},feedback:"You prioritize patience over panic."},
+      {letter:'B',text:"Pull some of it and redirect into something I can influence more directly.",path:{hustler:3},vision:{freedom:1},feedback:"You trust control more than volatility."},
+      {letter:'C',text:"Increase my position while prices are down.",path:{accelerated:3},vision:{empire:1},feedback:"You see downturns as opportunity, not warning."},
+      {letter:'D',text:"Move to safer ground and rethink the plan.",path:{ready:3},vision:{security:1},feedback:"You protect downside first, even if it slows momentum."},
+    ]
+  },
+  { // Q4
+    n:4, phase:'path',
+    scenario:"Fast forward five years. You've made progress. The question is: what outcome would make you feel like your wealth strategy is genuinely working?",
+    question:"Which of these would make you feel most successful?",
+    options:[
+      {letter:'A',text:"A strong, steadily growing portfolio and a clearer path to financial independence.",path:{compound:3},vision:{freedom:1}},
+      {letter:'B',text:"A side business or income engine that no longer depends completely on my job.",path:{hustler:3},vision:{freedom:1}},
+      {letter:'C',text:"Significant capital deployed across multiple opportunities with bigger upside.",path:{accelerated:3},vision:{empire:1}},
+      {letter:'D',text:"A clear roadmap and confidence that I'm finally on the right track.",path:{ready:3},vision:{security:1}},
+    ]
+  },
+  { // Q5 — subtle feedback moment
+    n:5, phase:'path',
+    scenario:"Forget what sounds smart. Think about the money frustration that actually bothers you most right now.",
+    question:"Which of these feels closest to your real situation?",
+    options:[
+      {letter:'A',text:"I'm doing the responsible things, but progress feels too slow.",path:{compound:3},vision:{security:1},feedback:"The frustration beneath this is often a pace problem, not a plan problem."},
+      {letter:'B',text:"I'm working hard, but my income still feels too tied to my time.",path:{hustler:3},vision:{freedom:1},feedback:"The frustration beneath this is leverage — you need assets, not more hours."},
+      {letter:'C',text:"I have money, but I'm not using it strategically enough.",path:{accelerated:3},vision:{empire:1},feedback:"The frustration beneath this is deployment — capital without strategy is idle."},
+      {letter:'D',text:"I still don't feel clear on what the right path is for me.",path:{ready:3},vision:{security:1},feedback:"The frustration beneath this is clarity — your path exists, you just haven't named it."},
+    ]
+  },
+  { // Q6
+    n:6, phase:'vision',
+    scenario:"The money itself is not the point. What matters is what it allows.",
+    question:"What matters most to you about having more wealth?",
+    options:[
+      {letter:'A',text:"Freedom to control my time and choices.",vision:{freedom:3}},
+      {letter:'B',text:"Creating a meaningful impact beyond myself.",vision:{impact:3}},
+      {letter:'C',text:"Enjoying life and having richer experiences.",vision:{experience:3}},
+      {letter:'D',text:"Building something significant and lasting.",vision:{empire:3}},
+      {letter:'E',text:"Creating long-term security for myself and my family.",vision:{security:3}},
+    ]
+  },
+  { // Q7
+    n:7, phase:'vision',
+    scenario:"Imagine it's five years from now and money is no longer your daily pressure. Something about your life feels completely different.",
+    question:"What feels most different?",
+    options:[
+      {letter:'A',text:"I control my schedule and how I spend my days.",vision:{freedom:3}},
+      {letter:'B',text:"I'm contributing to something bigger than myself.",vision:{impact:3}},
+      {letter:'C',text:"I'm enjoying life more deeply and fully.",vision:{experience:3}},
+      {letter:'D',text:"I've built something substantial that keeps growing.",vision:{empire:3}},
+      {letter:'E',text:"I feel calm, protected, and secure about the future.",vision:{security:3}},
+    ]
+  },
+  { // Q8 — feedback moment
+    n:8, phase:'vision',
+    scenario:"This year goes better than expected. Between work, business, or investments, you make an extra $60,000 above normal.",
+    question:"What do you do with it?",
+    options:[
+      {letter:'A',text:"Buy back time, flexibility, and more control over my life.",vision:{freedom:3},feedback:"You see money as a tool for autonomy."},
+      {letter:'B',text:"Use some of it to support people or causes that matter.",vision:{impact:3},feedback:"You see money as a vehicle for meaning."},
+      {letter:'C',text:"Spend more on experiences, travel, and life now.",vision:{experience:3},feedback:"You see money as a way to experience life more fully."},
+      {letter:'D',text:"Reinvest aggressively into growth and expansion.",vision:{empire:3},feedback:"You see money as fuel for building something bigger."},
+      {letter:'E',text:"Strengthen savings, protection, and long-term security.",vision:{security:3},feedback:"You see money as protection first."},
+    ]
+  },
+  { // Q9
+    n:9, phase:'vision',
+    scenario:"Imagine money was no longer the thing limiting your choices.",
+    question:"What would change first?",
+    options:[
+      {letter:'A',text:"How I spend my time.",vision:{freedom:3}},
+      {letter:'B',text:"How much I contribute and give.",vision:{impact:3}},
+      {letter:'C',text:"How much I experience life.",vision:{experience:3}},
+      {letter:'D',text:"The scale of what I build.",vision:{empire:3}},
+      {letter:'E',text:"The level of security I create for the people I love.",vision:{security:3}},
+    ]
+  },
+];
+
+/* ======================================================================
+   20 PERSONAS — Path × Vision
+   ====================================================================== */
+const PERSONAS = {
+  compound_freedom:{
+    name:"The Escapist",
+    tagline:"You want out. Not now, but inevitably — on terms that belong to you.",
+    why:[
+      "You trust long-range consistency over short-term hustle.",
+      "You see freedom as the whole point of the climb, not a reward at the end.",
+      "You're patient with capital but impatient with lost autonomy."
+    ],
+    challenge:"You've been doing everything right — index funds, steady contributions, long time horizon — but freedom isn't arriving any faster. The math works. The feeling doesn't. And by the time the numbers catch up, you may have traded too many of your best years for a finish line that keeps sliding.",
+    realProblem:"Compound builders chasing freedom often optimize for the wrong finish line. Financial independence on paper isn't the same as time-freedom in your life. Without a specific number, a dated exit, and a plan to bridge the gap, you'll keep saving your way toward a vague someday — while the years you actually wanted to be free keep passing.",
+    moves:[
+      "Calculate your freedom number this weekend — invested capital ÷ annual expenses × 25. Put a date next to it. Vague timelines stay vague.",
+      "Build a 'bridge account' equal to 2 years of expenses in short-duration treasuries. This is what lets you walk years before your nest egg matures.",
+      "Audit your job for its true freedom cost in hours per year. If the answer horrifies you, that's your motivation to accelerate — not a reason to accept it."
+    ],
+    blind:"You think you're buying freedom. You're actually buying the option to buy freedom — and options expire.",
+    diagnosis:"You are not stuck. You are running a strategy that will get you to freedom — <strong>but on a timeline that will outlive your best years.</strong>",
+    fiveYear:"Still saving. Still investing. Still waiting for the math to arrive. In five years you'll be wealthier on paper, but time-poor in life. The portfolio grows. The runway to enjoy it keeps shrinking. Freedom stays theoretical — always three more years away.",
+    realLife:{figure:"Pete Adeney (\"Mr. Money Mustache\")",descriptor:"Software engineer turned early-retirement pioneer",why:"Engineered a specific freedom number, compounded patiently toward it, and walked from a salary in his early 30s — a compound-builder who refused to let the math outlive the life he wanted to live."},
+    mmiBridge:"Compound builders who want freedom don't fail from bad investing — they fail from never defining the exit. MMI is where Escapists learn to compress the timeline: how to set the freedom number, stack the bridge capital, and design the actual exit so the math you're building starts delivering the life you're waiting for."
+  },
+  compound_impact:{
+    name:"The Philanthropist",
+    tagline:"You build quietly so you can give loudly.",
+    why:[
+      "You see wealth as fuel for contribution, not status.",
+      "You prefer steady compounding over big swings.",
+      "You measure success by what the money does, not what it buys."
+    ],
+    challenge:"You're saving, investing, building — but the mission you actually care about is underfunded and indefinite. Every year you wait to 'have enough' is a year the causes, people, and work you believe in go without the backing you could provide. Patience isn't always virtue. Sometimes it's a delay tactic.",
+    realProblem:"Impact-driven compound builders often treat giving as a finish-line activity — something that happens after they've built enough. But the people and causes you care about are compounding their own outcomes right now. Delayed generosity isn't more generous. It's just generosity with less runway to make a difference.",
+    moves:[
+      "Open a donor-advised fund this month. Even $1,000 in it turns giving into a system, not a someday.",
+      "Set an automated 3–5% giving rate tied to income — not 'when I have more.' Impact-builders without a rate never start.",
+      "Pick ONE cause or person to fund substantially in the next 12 months. Generic giving fragments. Concentrated giving compounds meaning."
+    ],
+    blind:"You think more wealth makes you more generous. It doesn't — it makes the generosity you already have more powerful. The giving rate doesn't change.",
+    diagnosis:"You are not unready to give. You are <strong>waiting for permission that no one's going to issue</strong> — while the people you want to help keep compounding outcomes of their own.",
+    fiveYear:"Portfolio steady. Intentions clear. But another five years pass with the mission underfunded. The causes you care about scale without you. Your generosity lives in future-tense. The impact that could have started now instead starts smaller, later, and with less runway to matter.",
+    realLife:{figure:"Warren Buffett",descriptor:"Patient compounder, Giving Pledge co-founder",why:"Built wealth quietly for decades so the giving could scale loudly. A patient compounder whose real scoreboard became the size of the pledge, not the portfolio."},
+    mmiBridge:"Philanthropists who wait until they're 'ready' to give never arrive. MMI is where impact-driven builders learn to design wealth AROUND the mission — tax-efficient giving, foundation structures, capital deployment — so the engine you're building and the impact you want become one system, funded now and scaling forever."
+  },
+  compound_experience:{
+    name:"The Adventurer",
+    tagline:"You build steadily now so you can live vividly later.",
+    why:[
+      "You value long-term consistency without sacrificing the life inside it.",
+      "You see wealth as the ticket to richer, deeper experiences.",
+      "You won't trade ALL your good years for a secure one."
+    ],
+    challenge:"You're disciplined with the portfolio — but the experiences you actually crave keep getting pushed to 'next year.' The compounding is real. The postponement of life is also real. And the 50-year-old version of you doesn't get the 38-year-old version's energy back when the numbers finally allow it.",
+    realProblem:"Compound builders who want experience often treat the portfolio and the life as competing priorities — one has to lose so the other can win. That's a false trade-off built on fear. The builders who do it right design BOTH: an aggressive-enough investment plan AND a funded experience schedule, right now, in parallel.",
+    moves:[
+      "Open a dedicated 'experience fund' this week with automated monthly deposits. Treat it like a retirement contribution — non-negotiable.",
+      "Book one meaningful experience in the next 6 months, funded from that account. Adventurers who only talk about the trips never take the trips.",
+      "Audit your calendar for the last 12 months. Count how many 'memories worth having' you created. If the number is low, that's not a money problem — that's a priority problem."
+    ],
+    blind:"You think you're saving experiences for later. You're actually saving regret — and compound interest doesn't work on that.",
+    diagnosis:"You are not saving for the experiences you want. You are <strong>postponing them</strong> — and compound interest doesn't work on the years you didn't live.",
+    fiveYear:"The portfolio hits new highs. The calendar stays empty. In five years you'll have more money and fewer stories — 43-year-old you watching 38-year-old you disappear into 'one more year.' The numbers work. The life doesn't.",
+    realLife:{figure:"Tim Ferriss",descriptor:"Author and investor who designs a rich life in parallel with the portfolio",why:"Built steady income and long-term assets while taking the trips, writing the books, and running the experiments — a builder who refused to trade the good years for the retirement years."},
+    mmiBridge:"Adventurers who postpone the good years to fund the later years often run out of the first and never arrive at the second. MMI is where you design wealth that funds the life NOW and the long run at the same time — so you stop choosing between living and building, and start doing both."
+  },
+  compound_empire:{
+    name:"The Investor",
+    tagline:"You build patiently because you're here to own — not just earn.",
+    why:[
+      "You think in decades, not quarters.",
+      "You see assets as the endgame, not income.",
+      "You trust compounding more than speculation."
+    ],
+    challenge:"You're a great saver and a good investor — but passive compounding alone won't build the empire you actually picture. Index funds make millionaires, not dynasties. And the gap between 'comfortably wealthy' and 'builder-of-something-lasting' isn't closed by more contributions. It's closed by a different structure entirely.",
+    realProblem:"Compound builders who want empire often over-index on the passive side and under-invest in the active side. The real dynasties aren't built on S&P returns — they're built on ownership of businesses, real estate, and cash-flowing assets with structural leverage. You've mastered the bottom layer. You haven't stacked the top.",
+    moves:[
+      "Open a brokerage account dedicated to 'asset acquisition' — separate from retirement accounts. This is where you buy businesses, small real estate, or equity stakes.",
+      "Commit to acquiring your first cash-flowing asset in the next 12 months, even if small. Investors who only buy stocks never learn the ownership stack.",
+      "Study one capital structure per quarter — LLCs, holding companies, syndications, operating leverage. Empire isn't identity. It's structure."
+    ],
+    blind:"You think you're building wealth. You're actually building a portfolio. There's a difference — and the people who build dynasties know it.",
+    diagnosis:"You are not building an empire. You are <strong>building a portfolio</strong> — and the two are not the same asset class.",
+    fiveYear:"Net worth climbs. Dynasty doesn't. In five years your index funds will still be compounding — and you'll still be the only person in your family who 'has money.' Without an ownership stack above the passive layer, wealth stays personal. It never becomes structural.",
+    realLife:{figure:"Charlie Munger",descriptor:"Vice Chairman of Berkshire Hathaway, patient ownership architect",why:"Compounded decades of ownership in businesses that ran without him — a builder who understood dynasty lives in structure and patience, not enthusiasm or timing."},
+    mmiBridge:"Investors with empire-scale vision don't fail from bad picks — they fail from staying passive too long. MMI is where compound builders learn the ownership playbook: entity structures, active-asset acquisition, capital stacks, leverage — the frameworks that turn a good portfolio into a real empire."
+  },
+  compound_security:{
+    name:"The Conservative",
+    tagline:"You build slowly because the family you protect deserves a wall that won't fall.",
+    why:[
+      "You prioritize downside protection above upside chasing.",
+      "You value a good night's sleep more than beating the market.",
+      "You've earned what you have — you won't gamble it."
+    ],
+    challenge:"Your caution has kept you safe. It's also quietly capped your growth. Inflation, opportunity cost, and conservative allocations are eating more of your future than you realize. The wall you're building is solid — but it's also shorter every year thanks to the quiet compounding of things you didn't do.",
+    realProblem:"Compound builders who prioritize security often confuse 'slow' with 'safe.' Under-risking is its own risk. A portfolio that can't outpace inflation isn't protection — it's erosion. The conservatives who win long-term aren't the most cautious. They're the most INFORMED about which risks are worth taking.",
+    moves:[
+      "Run an inflation-adjusted projection on your current plan for the next 20 years. If real returns are under 2%, your 'safety' is actually shrinking you.",
+      "Rebalance to a target allocation that matches your actual time horizon — not your anxiety. Most conservatives are 20 years under-equitied.",
+      "Buy term life insurance and umbrella coverage equal to real household exposure. Real security is architecture, not hoarding."
+    ],
+    blind:"You think you're protecting wealth. You're quietly shrinking it — and shrinkage is a slower way to lose, but it's still losing.",
+    diagnosis:"You are not protecting wealth. You are <strong>quietly shrinking it</strong> — and the slow version of losing is still losing.",
+    fiveYear:"The balance looks safe. Inflation is quieter, and meaner. In five years you'll still feel protected — while the purchasing power of the wall you built is 15–20% shorter. Your caution performed. Your standard of living got erased by the one thing you refused to outpace.",
+    realLife:{figure:"John C. Bogle",descriptor:"Founder of Vanguard, creator of the index fund",why:"Built a career arguing that the quietest, most disciplined portfolio usually wins — a builder who trusted structure and humility over speculation, and was proven right over decades."},
+    mmiBridge:"Conservatives who trust only caution end up losing to time and inflation. MMI is where security-driven builders learn the structural difference between risk and recklessness — how to protect what matters AND let the rest compound at a rate that actually keeps you ahead."
+  },
+
+  hustler_freedom:{
+    name:"The Solopreneur",
+    tagline:"You hustle for income because income is the bridge to autonomy.",
+    why:[
+      "You want ownership of your time more than a bigger paycheck.",
+      "You trust your own effort more than corporate trajectories.",
+      "You're building toward a version of you that doesn't report to anyone."
+    ],
+    challenge:"You're building — but you've also built a second job. The side hustle that was supposed to buy you freedom is now demanding nights and weekends with no exit plan. Revenue is growing. Your calendar isn't. And the model you're running can't actually get you to the life you're working for.",
+    realProblem:"Hustler builders chasing freedom often mistake income for freedom. They aren't the same. A $200K/year business that requires 60 hours of YOUR time is a job with better branding. Real freedom requires either assets that pay without you, or a business that runs without you. Most solopreneurs never build either.",
+    moves:[
+      "Map every revenue-generating task you do this month. Circle the ones that require YOU specifically. That circle is the cage — shrink it.",
+      "Invest 10% of profit this quarter into systems, contractors, or products that don't need your hands. Solopreneurs who skip this step stay trapped.",
+      "Define a specific 'freedom hour count' — max hours per week you'll work in 2 years. Design the business backward from that, not forward from ambition."
+    ],
+    blind:"You think you're building a business. You're actually renting yourself to customers at a higher rate. Freedom requires a different structure.",
+    diagnosis:"You are not building a business. You are <strong>renting yourself to customers</strong> — at a higher rate, but still by the hour.",
+    fiveYear:"Revenue up. Calendar full. In five years the business will look more successful — and feel more like a cage. More clients, more systems YOU run, more income YOU personally generate. You'll have built a second job with a better logo. The freedom you started this for will still be two years away.",
+    realLife:{figure:"Pat Flynn",descriptor:"Online entrepreneur who architected a business around time freedom",why:"Built a real income stream by documenting the work, then deliberately re-engineered the business so it stopped requiring him — a hustler who turned personal effort into autonomy, not just revenue."},
+    mmiBridge:"Solopreneurs who conflate income with freedom end up with a great-looking trap. MMI is where hustler-builders learn to architect the business so it actually produces freedom — assets, systems, and ownership structures that make the income work while you live the life."
+  },
+  hustler_impact:{
+    name:"The Activist",
+    tagline:"You hustle hard because the mission you carry needs funding now.",
+    why:[
+      "You see your income as a multiplier for the causes you care about.",
+      "You're willing to grind when the grind means something.",
+      "You fund the mission from the front, not from the comfort of arrival."
+    ],
+    challenge:"You're working flat-out and funding the mission — but you're also burning the exact fuel the mission needs to scale. The hustle creates short-term impact and long-term risk: when you break, the funding stops. Your personal capacity is the mission's single biggest constraint, and it's currently maxed.",
+    realProblem:"Hustler-impact builders often conflate personal effort with mission progress. But the missions that scale aren't powered by one exhausted founder's grind — they're powered by systems, capital, and multiple hands. Your effort is the bootstrap. It isn't the business model. And it will break before the mission is funded at the scale you want.",
+    moves:[
+      "Separate the mission entity from the earning entity in the next 60 days. Founders who blur this blow up both.",
+      "Build a 3-month personal runway BEFORE donating another dollar. You are the mission's operating capital — under-fund that, everything stalls.",
+      "Identify one system, hire, or automation that reduces your weekly hours by 10%. Your recovered hours compound into the mission more than your burnt hours ever will."
+    ],
+    blind:"You think you're carrying the mission. You're actually bottlenecking it — and the most impactful thing you can do is make the mission not depend on you.",
+    diagnosis:"You are not carrying the mission. You are <strong>bottlenecking it</strong> — and the hardest thing to fund is a founder still burning themselves as capital.",
+    fiveYear:"The mission keeps moving. So does the cost — to your health, your relationships, your reserves. In five years you'll have given everything you had and still be the single point of failure the mission can't afford. Either burnout or a new model arrives first. Right now, burnout is leading.",
+    realLife:{figure:"Scott Harrison",descriptor:"Founder of charity: water",why:"Channeled years of personal hustle and network-building into a nonprofit engine designed to outlive his own effort — a builder who made the mission the business model, not the afterthought."},
+    mmiBridge:"Activists who pour themselves into the mission run out of fuel before the mission is funded. MMI is where hustler-impact builders learn to design the wealth side so the mission scales past their own bandwidth — you stop being the engine burning through reserves, and start being the engineer who built something that carries itself."
+  },
+  hustler_experience:{
+    name:"The Collector",
+    tagline:"You hustle now so you can live loudly — and often.",
+    why:[
+      "You see money as experience capital, not status capital.",
+      "You'd rather have a rich story than a boring balance sheet.",
+      "You're allergic to postponing life for a theoretical future."
+    ],
+    challenge:"You're living loud — but you're also living paycheck to paycheck at a higher altitude. Every great month is followed by a tight one. The income is there. The accumulation isn't. One bad quarter and the lifestyle stops cold, and the experiences you're collecting don't have a base underneath them.",
+    realProblem:"Lifestyle funded by hustle is fragile. Lifestyle funded by assets is durable. You don't need to stop living — you need a structure underneath the life so the experiences don't depend on the next deal closing. Collectors who skip this step end up with incredible memories and no financial future.",
+    moves:[
+      "Run a 90-day spending audit this weekend: categorize every dollar into 'experience' vs. 'asset.' Most Collectors discover they're buying memories at 4–5x the rate they're buying freedom.",
+      "Build a 6-month expense buffer in cash this quarter. 'One bad month and the lifestyle stops' is not a life — it's a bet. Buffer first. Experiences second.",
+      "Automate a 10% 'asset tax' on every good month: 10 cents of every dollar routed into investments BEFORE anything else. Willpower fails. Automation doesn't."
+    ],
+    blind:"You think you're buying experiences. You're actually renting them — and the rent bill arrives the first month income dips.",
+    diagnosis:"You are not collecting experiences. You are <strong>renting them</strong> — and the rent bill comes due the first month income dips.",
+    fiveYear:"The reels look rich. The reality stays fragile. In five years you'll have incredible memories, thinner reserves, and the dawning realization that the life has no floor. One bad quarter doesn't slow the lifestyle — it ends it. The stories get more expensive to keep building.",
+    realLife:{figure:"Jesse Itzler",descriptor:"Entrepreneur, author, and public liver-of-life",why:"Built multiple businesses on the outside of every deal while very visibly living the life around them — a hustler-collector type who treats experiences as non-negotiable, not a reward for later."},
+    mmiBridge:"Lifestyle funded by hustle breaks the first month income dips. MMI is where Collectors learn to build the asset base that underwrites the life — so the great years keep coming after the grind slows. You don't need to stop living loud. You need the structure that makes it indefinite."
+  },
+  hustler_empire:{
+    name:"The Entrepreneur",
+    tagline:"You hustle to build something that outlives you.",
+    why:[
+      "You're building an operation, not a side hustle.",
+      "You see your effort as capital deployed into a long arc.",
+      "You want to leave behind a structure, not just a track record."
+    ],
+    challenge:"You're building hard — but you're still the bottleneck. Every deal goes through you. Every decision. Every fire. The 'empire' exists because YOU exist, and that's not an empire. That's an expensive job with a great title and long hours.",
+    realProblem:"Builders fall in love with the building and forget the architecture. Real empires don't run on the founder's energy — they run on systems, capital structures, and leverage. You've been building the operation. You haven't been building the structure that holds it up, and the longer you stay the bottleneck, the more the empire ages into a trap.",
+    moves:[
+      "Identify the three functions that currently can't run without you. Pick the cheapest one to replace and hire for it in the next 60 days. Every week you stay the bottleneck, the empire ages into an expensive job.",
+      "Set a formal Owner Salary separate from distributions. Most Entrepreneurs blur the two and never know whether the business is profitable or just busy.",
+      "Engage a CFO-level advisor — fractional if needed — to model a three-statement projection and a sale-ready valuation. Operators who don't know their exit number build the wrong business for five years."
+    ],
+    blind:"You think you're building an empire. You're building a high-performance job that would collapse if you left the room.",
+    diagnosis:"You are not building an empire. You are <strong>building a high-performance job</strong> that would collapse the week you stepped away.",
+    fiveYear:"Revenue grows. Headcount grows. Your calendar stays underwater. In five years you'll have the trappings of scale — and the bottleneck will still be you. Fires still route to your phone. Decisions still wait for your desk. What looks like an empire on LinkedIn will still feel like a job in your body.",
+    realLife:{figure:"Daymond John",descriptor:"Founder of FUBU, investor on Shark Tank",why:"Grew FUBU from his mother's basement into a global brand by staying close to every deal — a hustler-empire builder who learned the hard way that the founder is the first asset and also the first bottleneck."},
+    mmiBridge:"You built the operation. You haven't built the structure. MMI is where Entrepreneurs learn the frameworks empire-builders use to separate themselves from the grind — ownership structures, capital stacks, exit architecture — so what you're building can run and scale without your hands on every deal. That's the shift from founder to owner."
+  },
+  hustler_security:{
+    name:"The Pragmatist",
+    tagline:"You hustle because safety isn't given — it's built.",
+    why:[
+      "You don't trust income that depends on one source.",
+      "You'd rather over-build the floor than over-reach the ceiling.",
+      "You grind because the people you love deserve certainty."
+    ],
+    challenge:"You're hustling your way to safety — but hustle has a cap. Your time, your energy, your health. Every year the grind protects the family, it also costs you something. You can't trade hours forever, and the finish line keeps moving further out as responsibilities grow.",
+    realProblem:"Effort-based security isn't real security. If the thing protecting your family is YOU working, then your family is one injury or burnout away from the fear you've been trying to outrun. True security comes from assets that work when you can't. Pragmatists often build income stacks but neglect asset stacks — and the protection gap never closes.",
+    moves:[
+      "Calculate your 'family fortress number' — the invested capital required to cover 12 months of expenses at a 4% withdrawal rate. Write it down. That's the finish line. Stop moving it.",
+      "Open a dedicated brokerage account labeled 'Fortress' and route 20% of every paycheck in automatically this month. Pragmatists need a visible wall going up, not a scattered pile.",
+      "Buy term life insurance equal to 10x your income if you haven't already. It's the cheapest real safety net you'll ever own — and Pragmatists often skip it because they're too busy earning."
+    ],
+    blind:"You think you're protecting the family. You're actually positioning yourself as the single point of failure — which is the opposite of protection.",
+    diagnosis:"You are not protecting your family. You are <strong>positioning yourself as the one thing that can't break</strong> — which is the opposite of protection.",
+    fiveYear:"Income holds. Savings climb. But the system still runs on your energy, your hours, your health. In five years the mortgage will shrink and the exhaustion won't. The family will be safer. You'll be thinner — and one injury, one layoff, one year of burnout away from everything you were protecting against.",
+    realLife:{figure:"Dave Ramsey",descriptor:"Financial educator and founder of Ramsey Solutions",why:"Hustled his way out of bankruptcy into a financial media empire explicitly designed around family security — a builder who treats safety as architecture you construct with your own hands, not a thing you're handed."},
+    mmiBridge:"Effort-based safety breaks the moment you do. MMI is where Pragmatists learn how to convert grind-income into asset-based protection — so the fortress your family lives inside stops depending on your own energy. The hustle becomes an option, not a life sentence."
+  },
+
+  accelerated_freedom:{
+    name:"The Bold",
+    tagline:"You move fast because freedom is the whole point — not retirement.",
+    why:[
+      "You move at the speed of opportunity, not the speed of advice.",
+      "You'd rather swing and miss than sit on the sidelines earning 7%.",
+      "You see freedom as now or never, not decades from now."
+    ],
+    challenge:"You move fast, but you're moving in 12 directions. Deals, side bets, ideas, opportunities — you chase most of them. Some win. Some don't. And without structure, the wins don't compound into real freedom — they just fund the next bet.",
+    realProblem:"Speed without strategy isn't acceleration — it's thrashing. The fast-movers who actually escape the rat race use frameworks to pick WHICH risks are worth taking. They say 'no' more often than you do. Discipline is the missing half of boldness.",
+    moves:[
+      "Run a 'graveyard audit' this week: list every deal, bet, and side project you've entered in the last 24 months. Circle the ones that are still producing cash flow. The ratio will hurt. That pain is your filter.",
+      "Write a one-page investment thesis: the three criteria a deal must meet before you write a check. Pin it where you decide. The Bold don't need more opportunities — they need fewer yeses.",
+      "Move 50% of current liquid capital into one boring, compounding position (index fund, income property, cash-flowing business) and don't touch it for 36 months. Boldness needs a base."
+    ],
+    blind:"You think speed is your edge. Speed plus discipline is your edge — and you've been running on one of those.",
+    diagnosis:"You are not accelerating. You are <strong>thrashing</strong> — and without structure, the wins fund the next bet instead of buying the freedom you started this for.",
+    fiveYear:"Some wins. Some losses. A lot of motion. In five years you'll have ten stories of the one that almost popped and nothing compounding underneath. Speed paid for more speed. Freedom stayed an open tab. The rat race got faster — you just ran it harder.",
+    realLife:{figure:"Naval Ravikant",descriptor:"Co-founder of AngelList, investor, philosopher of leverage",why:"Moves fast on the specific thesis that freedom is a function of ownership and leverage, not hours — an accelerated builder who uses capital and conviction to compress the timeline to autonomy."},
+    mmiBridge:"Speed without structure is thrashing, not acceleration. MMI is where the Bold learn the decision frameworks accelerated wealth-builders use to filter opportunity from noise — so the same aggression that currently scatters you starts compounding into the freedom you're actually moving toward."
+  },
+  accelerated_impact:{
+    name:"The Leader",
+    tagline:"You build fast because the people depending on you can't wait.",
+    why:[
+      "You carry other people's outcomes, not just your own.",
+      "You move aggressively because the mission has a timeline.",
+      "You see capital as leverage for lives, not lifestyle."
+    ],
+    challenge:"You're moving fast and carrying everyone. But the load is getting heavy — and fast-and-heavy is how leaders break. You can't slow down without disappointing people. You can't speed up without risking everything. The impact is real. The cost is getting personal.",
+    realProblem:"Leaders who try to carry everyone personally run out of runway. The ones who actually change systems build ARCHITECTURE that carries the team — capital structures, systems, leverage — so the impact compounds without depending on their own endurance.",
+    moves:[
+      "Map the three people or systems currently depending on your personal energy to deliver. Pick the highest-stakes one and document the workflow this month — so it can keep running on a week when you can't.",
+      "Build a 'mission reserve' account equal to three months of personal expenses before funding anything else. Leaders who run out of personal runway stop leading. Full stop.",
+      "Schedule one mandatory no-work day per week and defend it like revenue. The people relying on you need you sustained, not heroic. A burned-out Leader is the single biggest risk to the mission."
+    ],
+    blind:"You think endurance is the leadership skill. Architecture is. Endurance breaks. Architecture compounds.",
+    diagnosis:"You are not leading. You are <strong>carrying</strong> — and endurance isn't a leadership skill. Architecture is.",
+    fiveYear:"The mission scales. Your bandwidth doesn't. In five years the organization grows past your ability to personally hold it — and either the architecture catches up or you break under the weight. Right now, you're running on tank reserves. The team depends on a version of you that can't be sustained for five more years.",
+    realLife:{figure:"Melinda French Gates",descriptor:"Philanthropist, founder of Pivotal Ventures",why:"Deploys capital at scale and pace into the causes she commits to — a leader who treats philanthropic infrastructure with the same operational rigor most people reserve for businesses."},
+    mmiBridge:"Leaders who carry everyone personally run out of runway. MMI is where impact-driven builders learn to architect capital, systems, and leverage so the mission compounds past their own bandwidth. You stop being the engine burning through fuel — you become the engineer designing what runs after you."
+  },
+  accelerated_experience:{
+    name:"The Curator",
+    tagline:"You build aggressively because you refuse to miss the best years.",
+    why:[
+      "You want a rich life NOW — not deferred to retirement.",
+      "You're willing to move fast to protect the quality of your time.",
+      "You design the life before you optimize the balance sheet."
+    ],
+    challenge:"You're going hard AND living high, and the margin between winning and losing is thin. If the accelerated plays pay off, you're set. If they don't, the life you've been designing unwinds fast. You're betting the experience against the infrastructure.",
+    realProblem:"Accelerated wealth-builders who try to live the end state before it's funded burn the fuel they needed for liftoff. You don't need to stop living well — you need a base that funds the lifestyle so the aggressive plays become upside, not survival.",
+    moves:[
+      "Split your capital into two named accounts this week: 'Lifestyle Capital' and 'Growth Capital.' Never mix them. Lifestyle funds the life. Growth funds the upside. Most Curators blend them and lose both.",
+      "Lock 12 months of lifestyle expenses into short-duration treasuries or a high-yield account. That's your 'life floor' — it gets rebuilt before any aggressive play, every time.",
+      "Cap single-deal exposure at 15% of Growth Capital. Curators get seduced by concentrated bets because they're already living the outcome. Caps protect you from your own momentum."
+    ],
+    blind:"You think you're living the dream. You're also betting the dream — and the bet has no floor.",
+    diagnosis:"You are not living the dream. You are <strong>betting it</strong> — and the bet has no floor underneath it.",
+    fiveYear:"The lifestyle looks incredible. The math underneath it is a lit fuse. In five years one bad deal, one missed cycle, or one economic turn unwinds the life in months. No lifestyle cushion. No capital zone. Just a higher altitude to fall from.",
+    realLife:{figure:"Richard Branson",descriptor:"Founder of the Virgin Group",why:"Built fast and lived big — took the islands, the balloon records, the space company — a builder who refused to treat the life and the empire as separate projects, and funded the experiences as deliberately as the deals."},
+    mmiBridge:"Living the end state before it's funded burns the fuel you need for liftoff. MMI is where Curators learn how high performers separate lifestyle capital from growth capital — so the life you're designing stops depending on the next deal, and the next deal stops threatening the life. Design, not dependency."
+  },
+  accelerated_empire:{
+    name:"The Visionary",
+    tagline:"You build at scale because anything smaller would bore you.",
+    why:[
+      "You think in 10x, not 10%.",
+      "You deploy capital with conviction, not consensus.",
+      "You're willing to make bets that would terrify a risk-adjusted advisor."
+    ],
+    challenge:"Your vision is clear. Your execution is fast. But wealth-building at scale isn't about boldness — it's about structure. Most visionaries who fail don't fail from bad ideas. They fail from bad ownership terms, bad capital structure, bad tax exposure, and bad protection of the wealth they DID build.",
+    realProblem:"You've been running offense brilliantly. You haven't been running defense. The visionaries who actually build generational wealth don't just BUILD big — they STRUCTURE big. Entity design, capital stacks, protection layers, exit architecture. The boring stuff is what turns vision into dynasty.",
+    moves:[
+      "Engage a tax strategist (not a filer — a strategist) this quarter. Visionaries leave 20–40% of their lifetime build on the table through default entity structures. Fix the container before you keep filling it.",
+      "Build a 'defense ledger' next to your offense plan: entity structure, asset protection layers, insurance coverage, estate documents. Rate each one 1–5. Anything below 4 gets fixed in 90 days.",
+      "Set a firm 'capital-at-risk' ceiling — a max percentage of total net worth that can be exposed to any single thesis, no matter how certain. Then enforce it. The Visionaries who survive 20-year arcs have ceilings. The ones who don't, don't."
+    ],
+    blind:"You think vision is the hard part. Structure is. Vision without structure is just an expensive story.",
+    diagnosis:"You are not building dynasty. You are <strong>running offense brilliantly with no defense</strong> — and the visionaries who fall always fall on the defense side.",
+    fiveYear:"The deals get bigger. The structure doesn't. In five years you'll have built something real — and leaked 20–40% of it through default entities, missed tax strategy, and unprotected exposure. What you're building will outrun what you've structured to hold it. Vision without defense is an expensive story.",
+    realLife:{figure:"Jeff Bezos",descriptor:"Founder of Amazon and Blue Origin",why:"Deployed capital with conviction over decades into ideas other people called impossible — a visionary who proved aggression and structure can compound into dynasty when both are disciplined in parallel."},
+    mmiBridge:"You've been running offense brilliantly. You haven't been running defense. MMI is where empire-builders learn the structural playbook — entity design, capital stacks, protection layers, exit architecture — that turns bold moves into durable wealth. Vision becomes dynasty when the boring structure catches up to the bold idea."
+  },
+  accelerated_security:{
+    name:"The Protector",
+    tagline:"You move fast to build a wall no storm can take down.",
+    why:[
+      "You take big swings — but for defense, not glory.",
+      "You're willing to risk capital to protect the people you love.",
+      "You'd rather accelerate to safety than crawl there."
+    ],
+    challenge:"You're accelerating to get to safety — but the speed itself introduces new risks. Concentrated bets. Leverage. Exposure. If any single play goes wrong, the thing you were trying to protect gets hit harder than if you'd gone slowly.",
+    realProblem:"You're trying to do two opposite things — accelerate AND protect — with one portfolio. That's how protectors blow up. The builders who succeed separate wealth into zones: high-growth capital for acceleration, protected capital for the base. Mixed portfolios try to do both and fail at one.",
+    moves:[
+      "Draw a literal line on paper between 'Family Floor' and 'Growth Stack.' Move an amount equal to 24 months of family expenses under the line — in boring, low-volatility assets — before any new aggressive position opens.",
+      "Hold any concentrated position (single stock, single deal, single business) to under 25% of total net worth. Protectors fail not from being wrong but from being wrong AND concentrated.",
+      "Set one non-negotiable annual withdrawal from the Growth Stack into the Family Floor — a percentage of gains, automated. Protectors forget to lock in wins. Automation remembers."
+    ],
+    blind:"You think speed and safety are aligned. They can be — but only when they're zoned. Mixed, they fight each other.",
+    diagnosis:"You are not protecting your family. You are <strong>putting the foundation inside the same dice roll as the upside</strong> — and one bad call hits both.",
+    fiveYear:"The bets work until one doesn't. In five years you're either in a completely different financial position — or the people you were protecting are paying for your acceleration. Without a zoned separation between foundation and growth, every aggressive play risks the thing you started this for.",
+    realLife:{figure:"Mark Cuban",descriptor:"Entrepreneur, investor, Shark Tank panelist",why:"Made aggressive early bets, then deliberately zoned his wealth to keep the base untouchable — a builder who treats the family floor and the growth stack as structurally separate portfolios."},
+    mmiBridge:"Mixed portfolios try to accelerate and protect with the same dollars — and fail at one. MMI is where accelerated builders learn to zone wealth so aggressive plays can fail without touching the family's foundation. Real protection isn't caution. It's architecture. That's what MMI transfers."
+  },
+
+  ready_freedom:{
+    name:"The Hopeful",
+    tagline:"You're not starting from zero. You're starting from ready.",
+    why:[
+      "You've done the research. You know what you want.",
+      "You're waiting for a plan that actually matches your situation.",
+      "You value clarity more than ambition — for now."
+    ],
+    challenge:"You've been 'getting ready to start' for longer than you'd like to admit. The information is infinite. The clarity isn't. Every time you're about to commit to a path, a new one appears and resets the decision. Meanwhile, the clock keeps moving.",
+    realProblem:"Information isn't your bottleneck — integration is. You don't need another course or another podcast. You need a framework that tells you which path matches YOUR situation, YOUR risk tolerance, and YOUR vision — so you can commit with conviction.",
+    moves:[
+      "Pick ONE wealth-building vehicle this week — index investing, real estate, a business — and commit to it for 24 months. Hopefuls collect options. Wealth-builders commit to one long enough for it to compound.",
+      "Unsubscribe from half your finance content intake this weekend. Each new guru resets the decision. Quiet input is a prerequisite for loud execution.",
+      "Book a 90-minute 'commitment session' on your calendar in the next 14 days — write down the path, the monthly dollar amount, and the milestone 12 months out. Then don't revisit it for 90 days."
+    ],
+    blind:"You think you're being careful. You're being frozen — and frozen has a cost you haven't priced.",
+    diagnosis:"You are not being careful. You are <strong>frozen</strong> — and frozen has a cost your spreadsheet never modeled.",
+    fiveYear:"Still researching. Still comparing. Still almost-starting. In five years the information will have doubled and the compounding you could have captured will have halved. The path that would have been right for you in 2026 will still be right — just 60 months later, with 60 months less runway.",
+    realLife:{figure:"Ramit Sethi",descriptor:"Author of \"I Will Teach You To Be Rich\"",why:"Built his career walking late-starting professionals from 'I should do something' to a specific automated system — the exact translation problem The Hopeful keeps stalling on."},
+    mmiBridge:"Information isn't your bottleneck — commitment is. MMI compresses years of decision paralysis into three days of structured clarity, so you walk out with a single path that fits YOUR situation, YOUR numbers, and YOUR vision. Research ends. Execution starts."
+  },
+  ready_impact:{
+    name:"The Believer",
+    tagline:"You want to give, you want to serve — you just need the engine first.",
+    why:[
+      "You see wealth as the vehicle, not the destination.",
+      "You care more about what money funds than what it buys.",
+      "You're waiting for a model that matches your values."
+    ],
+    challenge:"You're waiting to build wealth until it feels 'right.' But rightness is a moving target — and while you wait, the missions you care about go underfunded. Your hesitation is moral. The cost is practical.",
+    realProblem:"There's a quiet assumption in your mindset: that wealth-building and mission-living are separate tracks. They're not. The most effective givers, funders, and servants didn't sacrifice one for the other — they built engines that served both. You've been treating a complement as a trade-off.",
+    moves:[
+      "Write a one-line 'mission clause' this week: the cause, people, or impact your wealth is ultimately for. Pin it to your workspace. Believers who lose the why give up on the engine.",
+      "Open a dedicated brokerage account labeled with your mission — 'The Foundation,' 'The Builders' Fund,' whatever names it — and automate a monthly deposit, even if it's $100. You need to FEEL the engine working before you'll trust it.",
+      "Identify one practitioner who successfully funds the mission YOU care about. Study their financial structure, not just their story. Most Believers only study the impact; the funders behind the impact are the real teachers."
+    ],
+    blind:"You think 'good' money requires a pure start. It doesn't. It requires an honest one.",
+    diagnosis:"You are not waiting for clarity. You are <strong>waiting for permission</strong> — and the causes you believe in don't get more funded by your hesitation.",
+    fiveYear:"Intentions strong. Engine quiet. In five years you'll still care about the same mission — and still not have a system funding it. The belief stays pure. The impact stays theoretical. Meanwhile the people doing the work you admire have already moved on without the support you wanted to give.",
+    realLife:{figure:"Simon Sinek",descriptor:"Author of \"Start With Why,\" speaker",why:"Moves deliberately and only behind work that matches his 'why' — a builder who treats clarity as a prerequisite for commitment, showing how a strong belief system eventually powers real, funded action."},
+    mmiBridge:"You've been treating wealth and mission as competing tracks. MMI is where mission-driven builders learn to design their money life AROUND the causes they care about — so the engine you build and the impact you want stop fighting and start reinforcing each other. One integrated system. Not two competing ones."
+  },
+  ready_experience:{
+    name:"The Dreamer",
+    tagline:"You want the big life — now you need the path.",
+    why:[
+      "You have a vivid picture of the life you want.",
+      "You feel the gap between what you dream and what you've built.",
+      "You're ready for a plan that matches the vision."
+    ],
+    challenge:"You've been living ON the dream without building the bridge TO it. Every month goes to the current life — rarely to the future one. The vision is vivid. The runway to get there is almost nothing.",
+    realProblem:"Dreamers don't fail from lack of vision. They fail from lack of translation — turning the vivid future into a concrete, unsexy monthly system. You don't need more inspiration. You need the architecture that turns the dream into dated line items.",
+    moves:[
+      "Pick the single most important experience on your list — the trip, the sabbatical, the year off — and assign it a DATE and a DOLLAR AMOUNT this week. 'Someday' is the enemy. 'March 2028, $48,000' is the fix.",
+      "Open a sinking-fund savings account named for that experience. Automate a monthly deposit that hits the number on the date. Dreamers don't need more vision — they need the account.",
+      "Audit your current monthly spend. Find two recurring expenses that have no connection to the life you say you want. Redirect them into the sinking fund this week."
+    ],
+    blind:"You think the dream needs more detail. It needs a date.",
+    diagnosis:"You are not dreaming too big. You are <strong>translating too little</strong> — and a vivid future without dated line items stays a mood board.",
+    fiveYear:"Same vision. Same photos saved. Same someday. In five years the dream will look identical — and the gap between it and your bank account will look identical too. Nothing wrong with the vision. Everything wrong with the bridge, because you haven't built one.",
+    realLife:{figure:"Elizabeth Gilbert",descriptor:"Author of \"Eat, Pray, Love\" and \"Big Magic\"",why:"Organized a whole life around translating an internal vision into a lived reality — a Dreamer archetype who figured out the financial bridge only once the vision was specific enough to actually fund."},
+    mmiBridge:"Dreamers fail from lack of translation, not lack of vision. MMI is where you convert the vivid future into a real, dated, funded blueprint — with the exact dollar amounts, timelines, and decisions that turn the life you keep imagining into a life that actually arrives. No more someday."
+  },
+  ready_empire:{
+    name:"The Aspiring Builder",
+    tagline:"You want to build something big — the question is how.",
+    why:[
+      "You know you're not built for a safe W-2 forever.",
+      "You've got ambition — but not yet the sequence.",
+      "You're ready to commit if the path fits."
+    ],
+    challenge:"You've got the appetite of a builder and the structure of a starter. Ideas without execution. Plans without timelines. Wanting without doing. Everything feels possible AND nothing's moving. That's the most expensive place to stand.",
+    realProblem:"Empire-building isn't an identity — it's a sequence. First you stabilize income. Then you stack skill and capital. Then you build. Most aspiring builders try to skip straight to 'build' and burn out before they compound enough fuel. The sequence is the strategy.",
+    moves:[
+      "Stabilize a single reliable income stream for the next 6 months before launching ANYTHING new. Builders with no floor don't build — they panic-pivot. Stable income is the launchpad, not the obstacle.",
+      "Write a 3-stage sequence for the next 36 months: Stage 1 — stabilize. Stage 2 — stack skill and capital. Stage 3 — build. Tape it to your wall. Aspiring Builders who skip stages burn out by month 14.",
+      "Pick ONE skill that the thing you want to build absolutely requires — sales, operations, capital raising, product — and invest 5 hours a week in it for 90 days. Appetite without capability is expensive ambition."
+    ],
+    blind:"You think ambition is the missing ingredient. Sequence is.",
+    diagnosis:"You are not missing ambition. You are <strong>missing the sequence</strong> — and empires don't get built by skipping the stages the boring builders respect.",
+    fiveYear:"Ideas cycled. Pivots attempted. Nothing stacked. In five years you'll have tried three things, finished one, and still be describing yourself as 'about to launch.' Appetite without capability is expensive ambition. The building happens after the stabilizing — not instead of it.",
+    realLife:{figure:"Codie Sanchez",descriptor:"Investor and founder of Contrarian Thinking",why:"Teaches the exact sequence — stabilize, skill-stack, acquire — that Aspiring Builders skip. A useful map of what happens when raw appetite gets structured into a repeatable strategy."},
+    mmiBridge:"Empire isn't an identity — it's a sequence, and you're trying to skip steps. MMI is where aspiring builders learn the actual order of operations — the capital stack, the skill stack, the stage gates — that turn appetite into asset. Ambition becomes architecture. Architecture becomes dynasty."
+  },
+  ready_security:{
+    name:"The Seeker",
+    tagline:"You want certainty — and you're looking for a path you can trust.",
+    why:[
+      "You don't chase flash. You want structural peace.",
+      "You're skeptical of hype and allergic to gambling.",
+      "You're ready to act — once you actually trust the path."
+    ],
+    challenge:"Your caution has kept you safe. It's also kept you small. The path you've been waiting to trust isn't going to appear on its own, and the cost of waiting — inflation, missed compounding, lost years — is quietly eating the safety you're trying to protect.",
+    realProblem:"Security without action is a slow leak. The seekers who actually achieve peace of mind aren't the most conservative — they're the most INFORMED. They understand risk, structure, and leverage well enough that moving forward stops feeling like gambling and starts feeling like engineering.",
+    moves:[
+      "Calculate the real cost of doing nothing for the next 10 years — inflation eroding your cash, compounding you missed, goals delayed. Write it down as a dollar amount. Seekers usually only price the risk of action. Price the risk of inaction too.",
+      "Open a single automated investment account this week with a low-cost diversified index fund and route a small, comfortable monthly amount into it. Seekers need to FEEL wealth-building working on a small scale before they'll trust it on a larger one.",
+      "Identify the ONE piece of wealth knowledge you most wish you understood — tax, real estate, investing, entity structure — and commit 10 focused hours to it this quarter. Security comes from understanding, not avoidance."
+    ],
+    blind:"You think waiting is safe. Waiting is the most expensive thing a seeker can do.",
+    diagnosis:"You are not being safe. You are <strong>waiting</strong> — and waiting is the most expensive thing a seeker can do.",
+    fiveYear:"Cash stable. Knowledge accumulating. Capital not moving. In five years your savings will have quietly lost ground to inflation — while the goals you were protecting keep getting pushed further out. Security without action is a slow leak. You'll still feel careful. You'll just be smaller.",
+    realLife:{figure:"Tiffany Aliche (\"The Budgetnista\")",descriptor:"Financial educator and author",why:"Built a global following by turning money knowledge into structural peace of mind — a clear example of how understanding replaces anxiety when security is the primary vision."},
+    mmiBridge:"Security without action is a slow leak, and waiting is already costing you more than acting would. MMI is where Seekers get the structural clarity that makes wealth-building feel SAFE — not because it's risk-free, but because it's finally understood. Confidence is built from competence. Competence is what MMI transfers in three days."
+  },
+};
+
+/* ======================================================================
+   STATE + FLOW
+   ====================================================================== */
+const S = {
+  screen:'hero',
+  qIndex:0,
+  selected:null,
+  pathScore:{compound:0,hustler:0,accelerated:0,ready:0},
+  visionScore:{freedom:0,impact:0,experience:0,empire:0,security:0},
+  persona:null,
+};
+
+function $(id){return document.getElementById(id)}
+
+function go(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el = $('screen-'+name);
+  if(el){ el.classList.add('active'); S.screen = name; window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+function startQuestions(){ S.qIndex = 0; go('question'); renderQuestion(); }
+
+function continueToVision(){ S.qIndex = 5; go('question'); renderQuestion(); }
+
+function renderQuestion(){
+  const q = QUESTIONS[S.qIndex];
+  $('qProgText').textContent = `Round ${q.n} of 9${q.phase==='path'?' · Your wealth-building path':' · Your vision profile'}`;
+  $('qProgFill').style.width = ((q.n-1)/9*100)+'%';
+  $('qScenario').textContent = q.scenario;
+  $('qTitle').textContent = q.question;
+  const opts = $('qOptions');
+  opts.innerHTML = '';
+  S.selected = null;
+  $('qConfirm').disabled = true;
+  $('qFeedback').textContent = '';
+  $('qFeedback').classList.remove('visible');
+  q.options.forEach((o,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'q-option';
+    btn.type = 'button';
+    btn.innerHTML = `<span class="q-option-letter">${o.letter}</span><span class="q-option-text">${o.text}</span>`;
+    btn.onclick = ()=>selectOption(i, btn);
+    opts.appendChild(btn);
+  });
+  // advance the progress bar to current position after paint
+  requestAnimationFrame(()=>{ $('qProgFill').style.width = (q.n/9*100)+'%'; });
+}
+
+function selectOption(i, btn){
+  const q = QUESTIONS[S.qIndex];
+  const opt = q.options[i];
+  S.selected = i;
+  document.querySelectorAll('.q-option').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  $('qConfirm').disabled = false;
+  const fb = $('qFeedback');
+  if(opt.feedback){
+    fb.textContent = opt.feedback;
+    fb.classList.add('visible');
+  } else {
+    fb.textContent = '';
+    fb.classList.remove('visible');
+  }
+}
+
+function confirmAnswer(){
+  const q = QUESTIONS[S.qIndex];
+  if(S.selected === null) return;
+  const opt = q.options[S.selected];
+  // Apply scoring
+  if(opt.path) for(const k in opt.path) S.pathScore[k] = (S.pathScore[k]||0) + opt.path[k];
+  if(opt.vision) for(const k in opt.vision) S.visionScore[k] = (S.visionScore[k]||0) + opt.vision[k];
+  // Advance
+  if(S.qIndex === 4){
+    // After Q5 → intermission
+    S.qIndex = 5;
+    go('intermission');
+  } else if(S.qIndex === 8){
+    // After Q9 → gate
+    go('gate');
+  } else {
+    S.qIndex++;
+    renderQuestion();
+  }
+}
+
+/* ======================================================================
+   GATE VALIDATION
+   ====================================================================== */
+['firstName','emailAddr'].forEach(id=>{
+  document.addEventListener('input',e=>{
+    if(e.target && e.target.id === id) validateGate();
+  });
+});
+function validateGate(){
+  const name = ($('firstName').value||'').trim();
+  const email = ($('emailAddr').value||'').trim();
+  const valid = name.length >= 2 && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+  $('revealBtn').disabled = !valid;
+}
+
+/* ======================================================================
+   PERSONA RESOLUTION
+   ====================================================================== */
+function resolvePersona(){
+  const topPath = Object.entries(S.pathScore).sort((a,b)=>b[1]-a[1])[0][0];
+  const topVision = Object.entries(S.visionScore).sort((a,b)=>b[1]-a[1])[0][0];
+  return topPath + '_' + topVision;
+}
+
+/* ======================================================================
+   PDF DOWNLOADS — per-persona file paths
+   ----------------------------------------------------------------------
+   Drop the branded PDFs into /pdfs/ using these exact filenames, or
+   edit this map to point at wherever the files live. If a file is
+   missing, the download simply 404s — the page still works.
+   ====================================================================== */
+const PDF_DOWNLOADS = {
+  compound_freedom:    "pdfs/the-escapist.pdf",
+  compound_impact:     "pdfs/the-philanthropist.pdf",
+  compound_experience: "pdfs/the-adventurer.pdf",
+  compound_empire:     "pdfs/the-investor.pdf",
+  compound_security:   "pdfs/the-conservative.pdf",
+  hustler_freedom:     "pdfs/the-solopreneur.pdf",
+  hustler_impact:      "pdfs/the-activist.pdf",
+  hustler_experience:  "pdfs/the-collector.pdf",
+  hustler_empire:      "pdfs/the-entrepreneur.pdf",
+  hustler_security:    "pdfs/the-pragmatist.pdf",
+  accelerated_freedom:    "pdfs/the-bold.pdf",
+  accelerated_impact:     "pdfs/the-leader.pdf",
+  accelerated_experience: "pdfs/the-curator.pdf",
+  accelerated_empire:     "pdfs/the-visionary.pdf",
+  accelerated_security:   "pdfs/the-protector.pdf",
+  ready_freedom:    "pdfs/the-hopeful.pdf",
+  ready_impact:     "pdfs/the-believer.pdf",
+  ready_experience: "pdfs/the-dreamer.pdf",
+  ready_empire:     "pdfs/the-aspiring-builder.pdf",
+  ready_security:   "pdfs/the-seeker.pdf"
+};
+
+function downloadPDF(){
+  const key = S.persona ? resolvePersona() : null;
+  const path = key ? PDF_DOWNLOADS[key] : null;
+  if(!path){ console.warn('No PDF configured for profile', key); return; }
+  const a = document.createElement('a');
+  a.href = path;
+  a.download = path.split('/').pop();
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+/* ======================================================================
+   LEAD CAPTURE — BACKEND INTEGRATION POINT
+   ----------------------------------------------------------------------
+   This is the single place to wire into your email/CRM backend.
+   Replace the body of submitLead() with your actual endpoint call.
+   The payload includes everything needed to trigger persona-specific
+   follow-up sequences.
+   ====================================================================== */
+const LEAD_ENDPOINT = ''; // <-- PUT YOUR BACKEND URL HERE (e.g. '/api/leads' or 'https://hooks.zapier.com/...')
+
+function submitLead(payload){
+  // payload = { firstName, email, profileKey, profileName, pathScore, visionScore, capturedAt }
+  if(!LEAD_ENDPOINT){
+    console.log('[LEAD CAPTURE — not yet wired up]', payload);
+    return Promise.resolve({ok:true, stubbed:true});
+  }
+  return fetch(LEAD_ENDPOINT, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  }).then(r=>r.json()).catch(err=>{
+    console.warn('[LEAD CAPTURE] submission failed — result still shown to user', err);
+    return {ok:false, error:err};
+  });
+}
+
+/* ======================================================================
+   RESULT RENDER
+   ====================================================================== */
+function revealResult(){
+  const key = resolvePersona();
+  const p = PERSONAS[key];
+  if(!p){ console.warn('No persona for',key); return; }
+  S.persona = p;
+
+  // Capture lead payload BEFORE rendering so backend call fires on reveal
+  const payload = {
+    firstName: ($('firstName').value||'').trim(),
+    email: ($('emailAddr').value||'').trim(),
+    profileKey: key,
+    profileName: p.name,
+    pathScore: {...S.pathScore},
+    visionScore: {...S.visionScore},
+    capturedAt: new Date().toISOString()
+  };
+  submitLead(payload);
+
+  // Render result
+  $('resName').textContent = p.name;
+  $('resTagline').textContent = p.tagline;
+  $('resDiagnosis').innerHTML = p.diagnosis;
+  if(p.realLife){
+    $('rlFigure').textContent = p.realLife.figure;
+    $('rlDescriptor').textContent = p.realLife.descriptor;
+    $('rlWhy').textContent = p.realLife.why;
+  }
+  $('resWhy').innerHTML = p.why.map(w=>`<li>${w}</li>`).join('');
+  $('resChallenge').textContent = p.challenge;
+  $('resReal').textContent = p.realProblem;
+  $('resMoves').innerHTML = p.moves.map(m=>`<li>${m}</li>`).join('');
+  $('resBlind').textContent = p.blind;
+  $('resFiveYear').textContent = p.fiveYear;
+  $('resBridge').textContent = p.mmiBridge;
+  go('result');
+}
+
+/* ======================================================================
+   SHARE HOOK
+   ====================================================================== */
+function shareAssessment(e){
+  if(e && e.preventDefault) e.preventDefault();
+  const url = window.location.href.split('#')[0];
+  const text = "I just took this — reveals the 1 wealth-building path you're actually built for. Worth 5 minutes.";
+  if(navigator.share){
+    navigator.share({title:'Money Quest',text,url}).catch(()=>{});
+  } else if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(()=>{
+      const link = $('shareLink');
+      const share = document.querySelector('.result-share');
+      if(link && share){
+        const original = link.textContent;
+        link.textContent = 'Link copied ✓';
+        share.classList.add('copied');
+        setTimeout(()=>{ link.textContent = original; share.classList.remove('copied'); }, 2200);
+      }
+    }).catch(()=>{ window.prompt('Copy this link:', url); });
+  } else {
+    window.prompt('Copy this link:', url);
+  }
+}
+</script>
+</body>
+</html>
