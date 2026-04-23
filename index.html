@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
   :root{
     /* MMO bright brand palette — white base, dark-green type, green CTA */
@@ -1172,46 +1173,379 @@ function resolvePersona(){
 }
 
 /* ======================================================================
-   PDF DOWNLOADS — per-persona file paths
+   CLIENT-SIDE PDF GENERATION — jsPDF, branded, built from PERSONAS data
    ----------------------------------------------------------------------
-   Drop the branded PDFs into /pdfs/ using these exact filenames, or
-   edit this map to point at wherever the files live. If a file is
-   missing, the download simply 404s — the page still works.
+   No static files. Each profile PDF is generated on the fly from the
+   persona content the user just completed. Matches the bright MMO
+   brand — white page, dark-green type, gold accents, green CTA block.
+   Also prepares a payload (blob + base64) so the same PDF can be
+   dispatched to ActiveCampaign later via sendPdfToActiveCampaign().
    ====================================================================== */
-const PDF_DOWNLOADS = {
-  compound_freedom:    "pdfs/the-escapist.pdf",
-  compound_impact:     "pdfs/the-philanthropist.pdf",
-  compound_experience: "pdfs/the-adventurer.pdf",
-  compound_empire:     "pdfs/the-investor.pdf",
-  compound_security:   "pdfs/the-conservative.pdf",
-  hustler_freedom:     "pdfs/the-solopreneur.pdf",
-  hustler_impact:      "pdfs/the-activist.pdf",
-  hustler_experience:  "pdfs/the-collector.pdf",
-  hustler_empire:      "pdfs/the-entrepreneur.pdf",
-  hustler_security:    "pdfs/the-pragmatist.pdf",
-  accelerated_freedom:    "pdfs/the-bold.pdf",
-  accelerated_impact:     "pdfs/the-leader.pdf",
-  accelerated_experience: "pdfs/the-curator.pdf",
-  accelerated_empire:     "pdfs/the-visionary.pdf",
-  accelerated_security:   "pdfs/the-protector.pdf",
-  ready_freedom:    "pdfs/the-hopeful.pdf",
-  ready_impact:     "pdfs/the-believer.pdf",
-  ready_experience: "pdfs/the-dreamer.pdf",
-  ready_empire:     "pdfs/the-aspiring-builder.pdf",
-  ready_security:   "pdfs/the-seeker.pdf"
-};
 
-function downloadPDF(){
+function _stripTags(str){ return (str||'').replace(/<[^>]*>/g,''); }
+
+async function generatePdfDoc(){
+  const p = S.persona;
+  if(!p){ console.warn('No persona to generate PDF for'); return null; }
+  const firstName = ($('firstName').value||'').trim();
+  const jsPDFCtor = (window.jspdf && window.jspdf.jsPDF) || window.jsPDF;
+  if(!jsPDFCtor){ console.warn('jsPDF not loaded'); return null; }
+
+  const doc = new jsPDFCtor({unit:'pt', format:'a4'});
+  const W = doc.internal.pageSize.getWidth();
+  const H = doc.internal.pageSize.getHeight();
+  const M = 56;
+  const CW = W - M*2;
+
+  // Brand palette
+  const INK      = [24,76,58];
+  const INK_DEEP = [16,52,41];
+  const MUTED    = [62,94,82];
+  const FAINT    = [123,143,134];
+  const GOLD     = [200,162,77];
+  const GOLD_HI  = [226,192,107];
+  const CREAM    = [248,246,239];
+  const WARM     = [243,236,221];
+  const GREEN    = [140,198,63];
+
+  // ---------- small helpers ----------
+  let y = 0;
+  function ensureSpace(h){ if(y + h > H - 56){ doc.addPage(); drawHeader(false); y = 120; } }
+  function writeBlock(text, {size=11, font='helvetica', style='normal', color=INK, lineGap=4, bottomGap=12, maxWidth=CW} = {}){
+    if(!text) return;
+    const clean = _stripTags(text);
+    doc.setFont(font, style);
+    doc.setFontSize(size);
+    doc.setTextColor(color[0], color[1], color[2]);
+    const lines = doc.splitTextToSize(clean, maxWidth);
+    lines.forEach(line=>{
+      ensureSpace(size + lineGap);
+      doc.text(line, M, y);
+      y += size + lineGap;
+    });
+    y += bottomGap;
+  }
+  function sectionLabel(label){
+    ensureSpace(28);
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(9);
+    doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+    doc.text(label.toUpperCase(), M, y);
+    y += 6;
+    doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+    doc.setLineWidth(0.8);
+    doc.line(M, y, M + 36, y);
+    y += 18;
+  }
+  function drawHeader(withHero){
+    // top gold bar
+    doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
+    doc.rect(0, 0, W, 4, 'F');
+    // brand strip
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(10);
+    doc.setTextColor(INK[0], INK[1], INK[2]);
+    doc.text('MONEY QUEST', M, 36);
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(9);
+    doc.setTextColor(FAINT[0], FAINT[1], FAINT[2]);
+    doc.text('A Millionaire assessment', M, 52);
+    // divider
+    doc.setDrawColor(200,200,200);
+    doc.setLineWidth(0.4);
+    doc.line(M, 68, W-M, 68);
+    if(!withHero){
+      // continuation header only
+    }
+  }
+
+  // ================ PAGE 1 ================
+  drawHeader(true);
+  y = 110;
+
+  // Kicker
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(9);
+  doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+  doc.text(firstName ? `${firstName.toUpperCase()}, YOUR WEALTH PROFILE` : 'YOUR WEALTH PROFILE', M, y);
+  y += 22;
+
+  // Persona name — big
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(30);
+  doc.setTextColor(INK_DEEP[0], INK_DEEP[1], INK_DEEP[2]);
+  const nameLines = doc.splitTextToSize(p.name || '', CW);
+  nameLines.forEach(l=>{ doc.text(l, M, y); y += 34; });
+  y += 4;
+
+  // Tagline
+  if(p.tagline){
+    doc.setFont('helvetica','italic');
+    doc.setFontSize(12);
+    doc.setTextColor(MUTED[0], MUTED[1], MUTED[2]);
+    const tagLines = doc.splitTextToSize(_stripTags(p.tagline), CW);
+    tagLines.forEach(l=>{ doc.text(l, M, y); y += 16; });
+    y += 14;
+  }
+
+  // Gold rule
+  doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+  doc.setLineWidth(1);
+  doc.line(M, y, M+60, y);
+  y += 22;
+
+  // Diagnosis
+  sectionLabel('The Diagnosis');
+  writeBlock(p.diagnosis, {size:12, style:'normal', color:INK, lineGap:5, bottomGap:18});
+
+  // Why this is you
+  if(Array.isArray(p.why) && p.why.length){
+    sectionLabel('Why this is you');
+    p.why.forEach(line=>{
+      ensureSpace(28);
+      // gold dot
+      doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
+      doc.circle(M + 3, y - 4, 2, 'F');
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(11);
+      doc.setTextColor(MUTED[0], MUTED[1], MUTED[2]);
+      const wrapped = doc.splitTextToSize(_stripTags(line), CW - 16);
+      wrapped.forEach((wl,i)=>{
+        ensureSpace(16);
+        doc.text(wl, M + 14, y);
+        y += 15;
+      });
+      y += 4;
+    });
+    y += 6;
+  }
+
+  // Real-life mirror (cream block)
+  if(p.realLife){
+    ensureSpace(110);
+    const blockTop = y;
+    const blockH = 110;
+    doc.setFillColor(CREAM[0], CREAM[1], CREAM[2]);
+    doc.rect(M, blockTop, CW, blockH, 'F');
+    doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
+    doc.setLineWidth(2);
+    doc.line(M, blockTop, M, blockTop + blockH);
+    const pad = 16;
+    let ry = blockTop + pad + 4;
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(8);
+    doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+    doc.text('REAL-LIFE MIRROR', M + pad, ry);
+    ry += 16;
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(13);
+    doc.setTextColor(INK_DEEP[0], INK_DEEP[1], INK_DEEP[2]);
+    doc.text(_stripTags(p.realLife.figure || ''), M + pad, ry);
+    ry += 15;
+    doc.setFont('helvetica','italic');
+    doc.setFontSize(9);
+    doc.setTextColor(FAINT[0], FAINT[1], FAINT[2]);
+    doc.text(_stripTags(p.realLife.descriptor || ''), M + pad, ry);
+    ry += 14;
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(10);
+    doc.setTextColor(MUTED[0], MUTED[1], MUTED[2]);
+    const wly = doc.splitTextToSize(_stripTags(p.realLife.why || ''), CW - pad*2);
+    wly.forEach(l=>{ if(ry < blockTop + blockH - 10){ doc.text(l, M + pad, ry); ry += 13; } });
+    y = blockTop + blockH + 18;
+  }
+
+  // ================ PAGE 2 ================
+  doc.addPage();
+  drawHeader(false);
+  y = 110;
+
+  // The Challenge
+  sectionLabel('The Challenge');
+  writeBlock(p.challenge, {size:11, color:MUTED, lineGap:5, bottomGap:16});
+
+  // The Real Problem
+  sectionLabel('The Real Problem');
+  writeBlock(p.realProblem, {size:11, color:MUTED, lineGap:5, bottomGap:16});
+
+  // Blind spot (small warm card)
+  if(p.blind){
+    ensureSpace(70);
+    const bTop = y;
+    const cleanBlind = _stripTags(p.blind);
+    const bLines = doc.splitTextToSize(cleanBlind, CW - 32);
+    const bH = Math.max(56, 28 + bLines.length * 14);
+    doc.setFillColor(WARM[0], WARM[1], WARM[2]);
+    doc.rect(M, bTop, CW, bH, 'F');
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(8);
+    doc.setTextColor(GOLD[0], GOLD[1], GOLD[2]);
+    doc.text('BLIND SPOT', M + 16, bTop + 18);
+    doc.setFont('helvetica','italic');
+    doc.setFontSize(11);
+    doc.setTextColor(INK_DEEP[0], INK_DEEP[1], INK_DEEP[2]);
+    let by = bTop + 36;
+    bLines.forEach(l=>{ doc.text(l, M + 16, by); by += 14; });
+    y = bTop + bH + 20;
+  }
+
+  // Three Moves
+  if(Array.isArray(p.moves) && p.moves.length){
+    sectionLabel('Three Moves This Week');
+    p.moves.forEach((move, i)=>{
+      ensureSpace(60);
+      // gold numbered circle
+      doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
+      doc.circle(M + 8, y - 2, 9, 'F');
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(10);
+      doc.setTextColor(255,255,255);
+      doc.text(String(i+1), M + 8, y + 2, {align:'center'});
+      // move text
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(11);
+      doc.setTextColor(INK[0], INK[1], INK[2]);
+      const ml = doc.splitTextToSize(_stripTags(move), CW - 26);
+      ml.forEach((line, idx)=>{
+        ensureSpace(16);
+        doc.text(line, M + 26, y + (idx===0 ? 2 : 2 + idx*14));
+      });
+      y += Math.max(22, ml.length * 14 + 10);
+    });
+    y += 8;
+  }
+
+  // If You Don't Change
+  if(p.fiveYear){
+    sectionLabel("If You Don't Change");
+    writeBlock(p.fiveYear, {size:11, color:MUTED, lineGap:5, bottomGap:18});
+  }
+
+  // MMI Bridge block (green CTA)
+  if(p.mmiBridge){
+    ensureSpace(160);
+    const cTop = y;
+    const cleanBridge = _stripTags(p.mmiBridge);
+    const bridgeLines = doc.splitTextToSize(cleanBridge, CW - 40);
+    const ctaH = 50 + bridgeLines.length * 14 + 70;
+    doc.setFillColor(INK_DEEP[0], INK_DEEP[1], INK_DEEP[2]);
+    doc.rect(M, cTop, CW, ctaH, 'F');
+    // gold accent bar
+    doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
+    doc.rect(M, cTop, CW, 3, 'F');
+
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(9);
+    doc.setTextColor(GOLD_HI[0], GOLD_HI[1], GOLD_HI[2]);
+    doc.text('YOUR NEXT STEP', M + 20, cTop + 28);
+
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(14);
+    doc.setTextColor(255,255,255);
+    doc.text('Millionaire Mind Intensive', M + 20, cTop + 50);
+
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(10.5);
+    doc.setTextColor(240,240,235);
+    let cy = cTop + 72;
+    bridgeLines.forEach(l=>{ doc.text(l, M + 20, cy); cy += 14; });
+
+    // CTA pill
+    const btnY = cTop + ctaH - 36;
+    const btnW = 210, btnH = 26;
+    doc.setFillColor(GREEN[0], GREEN[1], GREEN[2]);
+    doc.rect(M + 20, btnY, btnW, btnH, 'F');
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(10);
+    doc.setTextColor(INK_DEEP[0], INK_DEEP[1], INK_DEEP[2]);
+    doc.textWithLink('RESERVE YOUR MMI SEAT →', M + 20 + btnW/2, btnY + 17, {
+      url: 'https://millionairemind.online',
+      align: 'center'
+    });
+    y = cTop + ctaH + 18;
+  }
+
+  // Footer
+  ensureSpace(40);
+  doc.setDrawColor(220,220,220);
+  doc.setLineWidth(0.4);
+  doc.line(M, H - 48, W - M, H - 48);
+  doc.setFont('helvetica','normal');
+  doc.setFontSize(8);
+  doc.setTextColor(FAINT[0], FAINT[1], FAINT[2]);
+  doc.text('Money Quest · A Millionaire assessment · millionairemind.online', M, H - 32);
+
+  return doc;
+}
+
+async function downloadPDF(){
+  const doc = await generatePdfDoc();
+  if(!doc){ return; }
+  const p = S.persona;
+  const slug = (p && p.name ? p.name : 'wealth-profile')
+    .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+  doc.save(`money-quest-${slug}.pdf`);
+
+  // Prepare payload for future ActiveCampaign email delivery
+  try{
+    const pdfBlob = doc.output('blob');
+    const pdfBase64 = doc.output('datauristring');
+    const payload = buildEmailPayload({pdfBlob, pdfBase64});
+    window.__moneyQuestLastPdf = payload;
+    // sendPdfToActiveCampaign(payload);  // wire once AC_ENDPOINT is set
+  }catch(err){
+    console.warn('PDF payload prep failed', err);
+  }
+}
+
+function buildEmailPayload({pdfBlob, pdfBase64} = {}){
   const key = S.persona ? resolvePersona() : null;
-  const path = key ? PDF_DOWNLOADS[key] : null;
-  if(!path){ console.warn('No PDF configured for profile', key); return; }
-  const a = document.createElement('a');
-  a.href = path;
-  a.download = path.split('/').pop();
-  a.rel = 'noopener';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  return {
+    firstName: ($('firstName').value||'').trim(),
+    email: ($('emailAddr').value||'').trim(),
+    profileKey: key,
+    profileName: (S.persona && S.persona.name) || null,
+    pdfBlob: pdfBlob || null,
+    pdfBase64: pdfBase64 || null,
+    capturedAt: new Date().toISOString()
+  };
+}
+
+/* ======================================================================
+   ACTIVECAMPAIGN EMAIL HANDOFF
+   ----------------------------------------------------------------------
+   Set AC_ENDPOINT to your webhook/backend URL that forwards to
+   ActiveCampaign. The raw base64 (stripped of the data URI prefix) is
+   sent as pdfBase64 so the backend can attach it to the email.
+   Stubs to console when endpoint is empty — page still works.
+   ====================================================================== */
+const AC_ENDPOINT = ''; // <-- PUT YOUR ACTIVECAMPAIGN WEBHOOK/BACKEND URL HERE
+
+async function sendPdfToActiveCampaign(payload){
+  if(!AC_ENDPOINT){
+    console.log('[AC EMAIL — not yet wired]', {
+      ...payload,
+      pdfBase64: payload.pdfBase64 ? `${payload.pdfBase64.length} chars` : null,
+      pdfBlob:   payload.pdfBlob   ? `Blob(${payload.pdfBlob.size})`    : null
+    });
+    return {ok:true, stubbed:true};
+  }
+  const pdfBase64Raw = (payload.pdfBase64||'').split(',')[1] || null;
+  return fetch(AC_ENDPOINT, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      firstName: payload.firstName,
+      email: payload.email,
+      profileKey: payload.profileKey,
+      profileName: payload.profileName,
+      pdfBase64: pdfBase64Raw,
+      capturedAt: payload.capturedAt
+    })
+  }).then(r=>r.json()).catch(err=>{
+    console.warn('[AC EMAIL] send failed', err);
+    return {ok:false, error:err};
+  });
 }
 
 /* ======================================================================
