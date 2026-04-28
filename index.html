@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -185,25 +186,296 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .q-feedback.visible{opacity:1}
   .q-actions{display:flex;justify-content:flex-end;align-items:center;gap:12px}
 
-  /* GATE / OPT-IN */
-  .gate-form{display:grid;gap:12px;max-width:440px;margin:28px 0 18px}
+  /* ══════════════════════════════════════════════════════════════
+     GATE / OPT-IN — Premium 2-column v2
+  ══════════════════════════════════════════════════════════════ */
+  #screen-gate{
+    background:linear-gradient(165deg,#FEFCF4 0%,#F6F5EF 55%,#EFF0E8 100%);
+    position:relative;overflow:hidden;min-height:100vh;
+  }
+  /* Gold radial glow — top right */
+  #screen-gate::before{
+    content:'';position:absolute;
+    top:-220px;right:-220px;width:700px;height:700px;border-radius:999px;
+    background:radial-gradient(circle at 55% 45%,rgba(200,162,77,.13) 0%,rgba(200,162,77,.04) 40%,transparent 68%);
+    pointer-events:none;z-index:0;
+  }
+  /* Green radial glow — bottom left */
+  #screen-gate::after{
+    content:'';position:absolute;
+    bottom:-180px;left:-180px;width:580px;height:580px;border-radius:999px;
+    background:radial-gradient(circle at 40% 60%,rgba(24,76,58,.1) 0%,transparent 62%);
+    pointer-events:none;z-index:0;
+  }
+  .gate-wrap{
+    max-width:1060px;margin:0 auto;
+    display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;
+    padding:60px 36px 40px;position:relative;z-index:1;
+  }
+  /* Bottom trust strip wrapper — sits below both columns */
+  .gate-bottom-strip{
+    max-width:1060px;margin:0 auto;padding:0 36px 64px;
+    position:relative;z-index:1;
+  }
+
+  /* ─ LEFT COLUMN ─ */
+  .gate-left{display:flex;flex-direction:column;gap:30px;padding-top:10px}
+  .gate-pill{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;
+    color:var(--gold-deep);padding:9px 18px;border-radius:999px;
+    background:rgba(200,162,77,.1);border:1px solid rgba(200,162,77,.3);width:fit-content;
+  }
+  .gate-pill::before{
+    content:'';width:7px;height:7px;border-radius:999px;flex-shrink:0;
+    background:var(--gold);box-shadow:0 0 9px rgba(200,162,77,.85);
+  }
+  /* 3-tier editorial headline */
+  .gate-headline{display:flex;flex-direction:column;gap:1px;margin:0}
+  .gate-hl-sm{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(15px,1.8vw,21px);font-weight:500;letter-spacing:-.01em;
+    color:var(--muted);line-height:1.4;
+  }
+  .gate-hl-lg{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(34px,4.6vw,56px);font-weight:800;letter-spacing:-.045em;
+    color:var(--ink);line-height:.97;
+  }
+  .gate-hl-gold{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(28px,3.6vw,46px);font-weight:700;letter-spacing:-.04em;
+    color:var(--ink);line-height:1.1;
+  }
+  .gate-gold{
+    font-style:normal;
+    background:linear-gradient(118deg,var(--gold-deep) 0%,var(--gold) 48%,var(--gold-hi) 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+  .gate-support{
+    font-size:16px;line-height:1.72;color:var(--muted);margin:0;max-width:430px;
+  }
+  .gate-analysis{display:flex;flex-direction:column;gap:11px}
+  .gate-analysis-item{
+    display:flex;align-items:center;gap:11px;
+    font-size:14.5px;color:var(--ink);font-weight:500;
+  }
+  .gate-dot{
+    width:9px;height:9px;border-radius:999px;flex-shrink:0;
+    background:var(--green);box-shadow:0 0 12px rgba(140,198,63,.7);
+  }
+
+  /* ── Social Proof Card ── */
+  .gate-social-card{
+    border-radius:22px;padding:28px 26px;
+    background:linear-gradient(150deg,#071F14 0%,#0D3326 42%,#174436 100%);
+    border:1px solid rgba(200,162,77,.24);
+    box-shadow:
+      0 36px 64px -20px rgba(7,31,20,.6),
+      0 10px 24px -8px rgba(0,0,0,.22),
+      inset 0 1px 0 rgba(200,162,77,.12);
+    position:relative;overflow:hidden;
+  }
+  .gate-social-card::before{
+    content:'';position:absolute;top:-60px;right:-60px;
+    width:240px;height:240px;border-radius:999px;
+    background:radial-gradient(circle,rgba(200,162,77,.15) 0%,transparent 65%);
+    pointer-events:none;
+  }
+  .gate-social-card::after{
+    content:'';position:absolute;bottom:-40px;left:-20px;
+    width:180px;height:180px;border-radius:999px;
+    background:radial-gradient(circle,rgba(140,198,63,.07) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  /* Gold star row */
+  .gate-social-stars{display:flex;gap:3px;margin-bottom:10px}
+  .gate-social-star{
+    font-size:16px;
+    filter:drop-shadow(0 1px 5px rgba(200,162,77,.55));
+    color:var(--gold);
+  }
+  .gate-social-trusted{
+    font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+    color:rgba(200,162,77,.7);font-weight:700;margin-bottom:8px;
+  }
+  /* Large gold headline number */
+  .gate-social-count{
+    font-size:36px;font-weight:800;line-height:1;
+    font-family:'Sora',sans-serif;letter-spacing:-.035em;
+    background:linear-gradient(118deg,var(--gold-deep),var(--gold),var(--gold-hi));
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 2px 12px rgba(200,162,77,.3));
+    margin-bottom:3px;
+  }
+  .gate-social-count-sub{
+    font-size:13.5px;color:rgba(255,255,255,.55);margin-bottom:20px;font-weight:400;
+  }
+  .gate-social-quotes{display:flex;flex-direction:column;gap:10px}
+  /* Testimonial mini-card with gold quote mark */
+  .gate-social-quote{
+    font-size:12.5px;line-height:1.58;color:rgba(255,255,255,.72);
+    padding:12px 14px 12px 40px;position:relative;
+    background:rgba(255,255,255,.055);
+    border-radius:10px;border:1px solid rgba(255,255,255,.07);
+    backdrop-filter:blur(4px);
+  }
+  .gate-social-quote::before{
+    content:'\201C';position:absolute;left:11px;top:6px;
+    font-size:30px;line-height:1;
+    color:rgba(200,162,77,.65);
+    font-family:'Georgia','Times New Roman',serif;
+  }
+  .gate-social-quote strong{color:rgba(255,255,255,.9);font-weight:600}
+
+  /* ── Right Card ── */
+  .gate-card{
+    background:linear-gradient(168deg,#FFFFFF 0%,#FDFCF7 100%);
+    border-radius:24px;
+    border:1px solid rgba(200,162,77,.22);
+    box-shadow:
+      0 44px 88px -24px rgba(10,42,30,.2),
+      0 14px 36px -10px rgba(0,0,0,.09),
+      0 0 0 1px rgba(200,162,77,.07),
+      inset 0 1px 0 rgba(255,255,255,1);
+    padding:40px 36px 36px;position:relative;overflow:hidden;
+  }
+  /* Gold accent top bar */
+  .gate-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:24px 24px 0 0;
+    background:linear-gradient(90deg,var(--gold-deep) 0%,var(--gold) 38%,var(--gold-hi) 65%,var(--gold) 100%);
+  }
+  /* Subtle corner glow */
+  .gate-card::after{
+    content:'';position:absolute;top:-90px;right:-90px;
+    width:280px;height:280px;border-radius:999px;
+    background:radial-gradient(circle,rgba(200,162,77,.08) 0%,transparent 68%);
+    pointer-events:none;
+  }
+  /* Lock icon badge */
+  .gate-lock{
+    display:flex;align-items:center;justify-content:center;
+    width:50px;height:50px;border-radius:14px;margin-bottom:18px;
+    background:linear-gradient(135deg,#0A2A1E,#184C3A);
+    box-shadow:0 8px 22px -8px rgba(10,42,30,.5),0 0 0 1px rgba(200,162,77,.22);
+    font-size:21px;flex-shrink:0;
+  }
+  .gate-card-headline{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(20px,2.4vw,27px);line-height:1.15;letter-spacing:-.03em;
+    font-weight:700;color:var(--ink);margin:0 0 10px;
+  }
+  .gate-card-sub{
+    font-size:14.5px;line-height:1.65;color:var(--muted);margin:0 0 20px;
+    padding-bottom:20px;border-bottom:1px solid rgba(200,162,77,.14);
+  }
+  /* Feature mini-cards */
+  .gate-features{display:flex;flex-direction:column;gap:7px;margin-bottom:22px}
+  .gate-feature{
+    display:flex;align-items:flex-start;gap:13px;
+    padding:11px 13px;border-radius:12px;
+    background:#F7FAF6;
+    border:1px solid rgba(200,162,77,.1);
+    box-shadow:0 2px 8px -4px rgba(0,0,0,.05);
+    transition:border-color .2s ease,box-shadow .2s ease,background .2s ease;
+  }
+  .gate-feature:hover{
+    background:#F0F6EE;
+    border-color:rgba(200,162,77,.22);
+    box-shadow:0 4px 14px -4px rgba(0,0,0,.07);
+  }
+  /* Dark green circular icon badge */
+  .gate-feature-icon{
+    width:32px;height:32px;border-radius:50%;flex-shrink:0;margin-top:1px;
+    background:linear-gradient(135deg,#0A2A1E,#184C3A);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;color:#FFFFFF;font-weight:900;
+    box-shadow:0 4px 10px -4px rgba(10,42,30,.45);
+  }
+  /* Gold circle for Downloadable Report (last feature) */
+  .gate-feature:last-child .gate-feature-icon{
+    background:linear-gradient(135deg,var(--gold-deep),var(--gold));
+    box-shadow:0 4px 10px -4px rgba(200,162,77,.5);
+  }
+  .gate-feature-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:3px;letter-spacing:.005em}
+  .gate-feature-desc{font-size:12px;color:var(--muted);line-height:1.52}
+  .gate-form-hook{
+    font-size:13px;font-weight:600;color:var(--ink-deeper);margin:0 0 14px;
+    padding:11px 15px;
+    background:linear-gradient(135deg,rgba(200,162,77,.09),rgba(200,162,77,.04));
+    border-radius:10px;border-left:3px solid var(--gold);
+    line-height:1.5;
+  }
+  .gate-form{display:grid;gap:10px;width:100%}
+  .gate-left .gate-privacy{text-align:left;margin-top:10px}
   .gate-input{
-    padding:16px 20px;border:1px solid var(--line-hi);border-radius:14px;
-    background:#FFFFFF;
-    color:var(--ink);font-family:inherit;font-size:15px;
-    box-shadow:0 2px 6px -4px rgba(30,30,30,.08);
-    transition:border-color .2s ease,background .2s ease, box-shadow .2s ease;
+    padding:17px 20px;border:1.5px solid rgba(200,162,77,.22);border-radius:14px;
+    background:#FFFFFF;color:var(--ink);font-family:inherit;font-size:15px;
+    box-shadow:0 2px 8px -4px rgba(0,0,0,.06);
+    transition:border-color .25s ease,box-shadow .25s ease,background .2s ease;
   }
   .gate-input:focus{
-    outline:none;border-color:var(--gold);
-    background:#FFFFFF;
-    box-shadow:0 0 0 3px rgba(200,162,77,.15), 0 2px 6px -4px rgba(200,162,77,.2);
+    outline:none;border-color:var(--gold);background:#FFFDF8;
+    box-shadow:0 0 0 4px rgba(200,162,77,.13),0 2px 8px -4px rgba(200,162,77,.18);
   }
-  .gate-input::placeholder{color:var(--faint)}
-  .gate-privacy{font-size:12px;color:var(--faint);max-width:440px;line-height:1.5}
-  .analysis-dots{display:flex;gap:14px;margin:20px 0 28px;flex-wrap:wrap}
-  .analysis-step{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);font-weight:500}
-  .analysis-step-dot{width:8px;height:8px;border-radius:999px;background:var(--green);box-shadow:0 0 10px rgba(140,198,63,.55)}
+  .gate-input::placeholder{color:rgba(62,94,82,.4)}
+  /* ── CTA — premium dark green pill ── */
+  #revealBtn.btn{
+    width:100%;
+    min-height:58px;
+    padding:16px 28px;
+    font-size:16px;font-weight:700;letter-spacing:.015em;
+    background:linear-gradient(135deg,#082318 0%,#0E3C2E 38%,#184C3A 100%);
+    color:#FFFFFF;
+    border-radius:999px !important;
+    border:1px solid rgba(200,162,77,.45) !important;
+    box-shadow:
+      0 6px 20px -4px rgba(200,162,77,.3),
+      0 14px 36px -10px rgba(8,35,24,.55),
+      inset 0 1px 0 rgba(200,162,77,.18);
+    transition:all .3s cubic-bezier(.22,1,.36,1);
+    position:relative;overflow:hidden;
+  }
+  #revealBtn.btn::after{
+    content:'';position:absolute;inset:0;border-radius:999px;
+    background:linear-gradient(135deg,rgba(200,162,77,.12) 0%,transparent 60%);
+    opacity:0;transition:opacity .3s ease;pointer-events:none;
+  }
+  #revealBtn.btn:hover:not(:disabled){
+    transform:translateY(-2px);
+    background:linear-gradient(135deg,#0E3C2E 0%,#184C3A 45%,#1F5D47 100%);
+    box-shadow:
+      0 10px 28px -4px rgba(200,162,77,.45),
+      0 20px 48px -10px rgba(8,35,24,.65),
+      inset 0 1px 0 rgba(200,162,77,.25);
+  }
+  #revealBtn.btn:hover:not(:disabled)::after{opacity:1}
+  #revealBtn.btn:disabled{opacity:.58 !important;cursor:not-allowed;transform:none}
+  .gate-privacy{
+    font-size:11.5px;color:var(--faint);line-height:1.55;margin-top:13px;text-align:center;
+  }
+
+  /* ── Full-width bottom trust strip ── */
+  .gate-trust-strip{
+    display:flex;align-items:stretch;
+    padding-top:24px;
+    border-top:1px solid rgba(200,162,77,.2);
+    margin-top:0;
+  }
+  .gate-trust-item{
+    display:flex;align-items:center;gap:10px;
+    font-size:12.5px;color:var(--muted);font-weight:500;
+    padding:0 28px;flex:1;justify-content:center;
+    border-right:1px solid rgba(200,162,77,.15);
+  }
+  .gate-trust-item:first-child{padding-left:0}
+  .gate-trust-item:last-child{border-right:none;padding-right:0}
+  .gate-trust-icon{
+    width:30px;height:30px;border-radius:50%;flex-shrink:0;
+    background:rgba(200,162,77,.1);border:1px solid rgba(200,162,77,.25);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:var(--gold-deep);
+  }
 
   /* RESULT */
   .result-layout{max-width:780px}
@@ -347,17 +619,697 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .result-share a:hover{color:var(--gold)}
   .result-share.copied a{color:var(--ink);border-bottom-color:rgba(140,198,63,.55)}
 
-  /* Gate promise list — sharper value unlock */
-  .gate-promises{
-    list-style:none;padding:0;margin:0 0 24px;display:grid;gap:10px;max-width:540px;
+  /* gate-promises kept for graceful fallback — hidden in new layout */
+  .gate-promises{display:none}
+
+  /* Netflix-style persona card — real-life comparison */
+  .rl-reallife-inner{display:flex;gap:24px;align-items:flex-start}
+  .rl-persona-card{
+    position:relative;width:158px;min-width:158px;height:236px;
+    border-radius:14px;overflow:hidden;flex-shrink:0;
+    background:linear-gradient(145deg,#0f2a22,#184C3A);
+    box-shadow:0 24px 48px -12px rgba(0,0,0,.48),0 0 0 1px rgba(200,162,77,.28),inset 0 1px 0 rgba(226,192,107,.18);
   }
-  .gate-promises li{
-    font-size:15px;line-height:1.5;color:var(--muted);
-    padding-left:22px;position:relative;
+  .rl-persona-initials{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Sora',sans-serif;font-size:52px;font-weight:700;
+    color:rgba(200,162,77,.35);letter-spacing:-2px;z-index:1;
+    background:linear-gradient(145deg,#0f2a22 0%,#1a4030 50%,#0f2a22 100%);
   }
-  .gate-promises li strong{color:var(--ink);font-weight:700}
-  .gate-promises li::before{
-    content:'';position:absolute;left:0;top:10px;width:10px;height:2px;background:var(--gold);border-radius:2px;
+  .rl-persona-img{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;object-position:center top;
+    opacity:0;transform:scale(1.12);
+    transition:opacity 1s cubic-bezier(.22,1,.36,1),transform 1.6s cubic-bezier(.22,1,.36,1);
+    z-index:2;
+  }
+  .rl-persona-img.rl-revealed{opacity:1;transform:scale(1)}
+  .rl-card-gradient{
+    position:absolute;bottom:0;left:0;right:0;height:58%;
+    background:linear-gradient(to top,rgba(6,18,14,.97) 0%,rgba(6,18,14,.55) 55%,transparent 100%);
+    z-index:3;
+  }
+  .rl-card-label{position:absolute;bottom:0;left:0;right:0;padding:14px 12px 12px;z-index:4}
+  .rl-card-badge{
+    display:inline-block;font-size:8px;letter-spacing:.2em;font-weight:700;
+    color:rgba(226,192,107,.85);text-transform:uppercase;margin-bottom:6px;
+    padding:2px 7px;border:1px solid rgba(226,192,107,.38);border-radius:3px;
+    background:rgba(8,22,16,.65);
+  }
+  .rl-card-name{font-family:'Sora',sans-serif;font-size:12.5px;font-weight:700;color:#FFFFFF;line-height:1.25;margin-bottom:2px}
+  .rl-card-role{font-size:9.5px;color:rgba(226,192,107,.75);font-weight:600;letter-spacing:.05em;line-height:1.3}
+  @keyframes rlScan{from{top:-4px;opacity:0}10%{opacity:1}to{top:108%;opacity:0}}
+  .rl-scan-line{
+    position:absolute;left:0;right:0;height:2px;top:-4px;z-index:5;pointer-events:none;
+    background:linear-gradient(90deg,transparent,rgba(226,192,107,.75) 40%,rgba(226,192,107,.75) 60%,transparent);
+    animation:rlScan .85s cubic-bezier(.4,0,.2,1) forwards;
+  }
+  .rl-text-block{flex:1;min-width:0}
+
+  /* ================================================================
+     LANDING PAGE — 6-SECTION IDENTITY FUNNEL
+     ================================================================ */
+
+  /* S1 — Hero */
+  .lp-hero{padding:64px 0 80px;text-align:center}
+  .lp-hero-inner{max-width:660px;margin:0 auto}
+  .lp-headline{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(36px,5.6vw,62px);
+    font-weight:700;line-height:1.03;letter-spacing:-.04em;
+    color:var(--ink);margin:0 0 20px;
+  }
+  .lp-subheadline{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(20px,2.8vw,30px);font-weight:500;
+    color:var(--muted);margin:0 0 18px;letter-spacing:-.015em;
+  }
+  .lp-micro{
+    font-size:16.5px;color:var(--hint);line-height:1.6;
+    max-width:480px;margin:0 auto 40px;
+  }
+  .lp-cta-wrap{display:flex;flex-direction:column;align-items:center;gap:14px}
+  .lp-cta-sub{font-size:12.5px;color:var(--faint);letter-spacing:.06em;margin:0}
+
+  /* S2 — Pattern Interrupt */
+  .lp-interrupt{
+    margin:0 -24px;padding:80px 24px;
+    background:var(--bg-soft);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    text-align:center;
+  }
+  .lp-interrupt-inner{max-width:600px;margin:0 auto}
+  .lp-quote{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(17px,2.3vw,23px);font-weight:500;font-style:italic;
+    line-height:1.45;color:var(--ink);
+    border-left:3px solid var(--gold);text-align:left;
+    padding:18px 22px;margin:28px 0 20px;
+    background:linear-gradient(90deg,#FFFBF0,#FFFFFF 80%);
+    border-radius:0 10px 10px 0;
+    box-shadow:0 4px 14px -10px rgba(200,162,77,.2);
+  }
+  .lp-body{font-size:17px;color:var(--muted);line-height:1.65;margin:0}
+
+  /* S3 — Identity Reveal */
+  .lp-reveal{padding:88px 0;text-align:center}
+  .lp-reveal-inner{max-width:540px;margin:0 auto}
+  .lp-checklist{
+    list-style:none;padding:0;margin:28px 0 32px;
+    display:flex;flex-direction:column;gap:12px;text-align:left;
+  }
+  .lp-checklist li{
+    display:flex;align-items:center;gap:16px;
+    font-size:16.5px;color:var(--ink);font-weight:500;line-height:1.45;
+    padding:16px 20px;background:#FFFFFF;
+    border:1px solid var(--line);border-radius:14px;
+    box-shadow:0 6px 18px -14px rgba(30,30,30,.12);
+  }
+  .lp-checklist li::before{
+    content:'';display:block;flex-shrink:0;
+    width:22px;height:22px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gold),var(--gold-hi));
+    box-shadow:0 4px 10px -4px rgba(200,162,77,.5);
+  }
+  .lp-close{
+    font-family:'Sora',sans-serif;font-size:18px;font-weight:600;
+    color:var(--ink);letter-spacing:-.01em;margin:0;
+  }
+
+  /* Shared section headline */
+  .lp-section-headline{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(26px,3.8vw,44px);font-weight:700;
+    line-height:1.08;letter-spacing:-.03em;color:var(--ink);margin:0 0 14px;
+  }
+  .lp-section-sub{font-size:18px;color:var(--muted);line-height:1.55;margin:0 0 36px}
+
+  /* S4 — Persona Framework */
+  .lp-personas{padding:88px 0}
+  .lp-personas .lp-section-headline,
+  .lp-personas .lp-section-sub{text-align:center}
+
+  /* Netflix persona grid */
+  .persona-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+    gap:12px;margin:0 0 28px;
+  }
+  .persona-card{
+    position:relative;border-radius:12px;overflow:hidden;
+    aspect-ratio:2/3;
+    background:linear-gradient(145deg,#0f2a22,#1a4030);
+    cursor:default;
+    transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s ease;
+    box-shadow:0 8px 24px -12px rgba(0,0,0,.45),0 0 0 1px rgba(200,162,77,.16);
+  }
+  .persona-card:hover{
+    transform:scale(1.06);z-index:2;
+    box-shadow:0 20px 44px -12px rgba(200,162,77,.4),0 0 0 1.5px rgba(200,162,77,.55);
+  }
+  .persona-card-img{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;object-position:center top;
+    opacity:0;transform:scale(1.06);
+    transition:opacity .7s ease,transform .7s ease;z-index:1;
+  }
+  .persona-card-img.pc-loaded{opacity:1;transform:scale(1)}
+  .persona-card-initials{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Sora',sans-serif;font-size:32px;font-weight:700;
+    color:rgba(200,162,77,.28);letter-spacing:-1px;z-index:0;
+  }
+  .persona-card-gradient{
+    position:absolute;bottom:0;left:0;right:0;height:68%;
+    background:linear-gradient(to top,rgba(6,14,11,.97) 0%,rgba(6,14,11,.6) 45%,transparent 100%);
+    z-index:2;
+  }
+  .persona-card-overlay{
+    position:absolute;bottom:0;left:0;right:0;padding:10px 10px 9px;z-index:3;
+  }
+  .persona-card-profile{
+    font-size:9px;letter-spacing:.2em;font-weight:700;
+    color:rgba(226,192,107,.72);text-transform:uppercase;margin-bottom:3px;
+  }
+  .persona-card-name{
+    font-family:'Sora',sans-serif;font-size:10.5px;font-weight:700;
+    color:#FFFFFF;line-height:1.2;
+  }
+  .lp-persona-teaser{
+    text-align:center;font-family:'Sora',sans-serif;
+    font-size:19px;font-weight:600;color:var(--gold-deep);letter-spacing:-.01em;margin:0;
+  }
+
+  /* S5 — Primary CTA */
+  .lp-primary-cta{
+    margin:0 -24px;padding:88px 24px;
+    background:
+      radial-gradient(700px 400px at 50% 0%,rgba(226,192,107,.11),transparent 65%),
+      var(--bg-warm);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    text-align:center;
+  }
+  .lp-primary-cta-inner{max-width:540px;margin:0 auto}
+  .lp-primary-cta .lp-section-headline{color:var(--ink)}
+  .lp-benefits{
+    display:flex;justify-content:center;gap:28px;
+    flex-wrap:wrap;margin:0 0 36px;
+  }
+  .lp-benefit{
+    display:flex;align-items:center;gap:8px;
+    font-size:14px;font-weight:600;color:var(--muted);letter-spacing:.02em;
+  }
+  .lp-benefit-icon{font-size:15px;color:var(--gold)}
+
+  /* S6 — Final Push */
+  .lp-finalpush{
+    margin:0 calc(50% - 50vw);padding:96px calc(50vw - 50% + 24px);
+    background:linear-gradient(155deg,#0A2A1E 0%,#184C3A 55%,#0E3429 100%);
+    text-align:center;position:relative;overflow:hidden;
+  }
+  .lp-finalpush::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,transparent,var(--gold) 35%,var(--gold-hi) 50%,var(--gold) 65%,transparent);
+  }
+  .lp-finalpush-inner{max-width:540px;margin:0 auto;position:relative;z-index:1}
+  .lp-finalpush-headline{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(28px,4.2vw,48px);font-weight:700;
+    line-height:1.06;letter-spacing:-.03em;color:#FFFFFF;margin:0 0 18px;
+  }
+  .lp-finalpush-sub{font-size:18px;color:rgba(255,255,255,.72);line-height:1.55;margin:0 0 28px}
+  .lp-body-light{font-size:16px;color:rgba(255,255,255,.55);margin:0 0 24px}
+  .lp-consequence-list{
+    list-style:none;padding:0;margin:0 auto 32px;
+    display:flex;flex-direction:column;gap:12px;
+    max-width:280px;text-align:left;
+  }
+  .lp-consequence-list li{
+    display:flex;align-items:center;gap:12px;
+    font-size:16px;color:rgba(255,255,255,.72);font-weight:500;
+  }
+  .lp-consequence-list li::before{
+    content:'';width:20px;height:2px;
+    background:rgba(200,162,77,.65);border-radius:2px;flex-shrink:0;
+  }
+  .lp-finalpush-close{
+    font-family:'Sora',sans-serif;font-size:21px;font-weight:700;
+    color:var(--gold-hi);margin:0 0 32px;letter-spacing:-.01em;
+  }
+  .lp-finalpush .btn{
+    background:linear-gradient(135deg,var(--gold),var(--gold-hi));
+    color:var(--ink-deeper);font-weight:800;
+    box-shadow:0 14px 32px -10px rgba(200,162,77,.6);
+  }
+  .lp-finalpush .btn:hover:not(:disabled){
+    filter:brightness(1.06);
+    box-shadow:0 18px 36px -10px rgba(226,192,107,.8);transform:translateY(-1px);
+  }
+
+  /* ================================================================
+     PREMIUM VISUAL DEPTH, TEXTURE & EDGE-PATTERN SYSTEM
+     Opacity max 8% — never competes with copy, only adds richness.
+     ================================================================ */
+
+  html{overflow-x:hidden}
+
+  /* ── Kicker badge: pill upgrade ── */
+  .kicker{
+    display:inline-block;
+    padding:5px 16px;
+    background:rgba(200,162,77,.08);
+    border:1px solid rgba(200,162,77,.25);
+    border-radius:999px;
+    margin-bottom:26px;
+  }
+
+  /* ── Global decorative edge rings (app level) ── */
+  .app::before{
+    content:'';position:absolute;pointer-events:none;
+    width:680px;height:680px;border-radius:50%;
+    border:1px solid rgba(200,162,77,.05);
+    left:-320px;top:6%;z-index:0;
+  }
+  .app::after{
+    content:'';position:absolute;pointer-events:none;
+    width:480px;height:480px;border-radius:50%;
+    border:1px solid rgba(200,162,77,.04);
+    right:-220px;top:50%;z-index:0;
+  }
+
+  /* ── S1 Hero: edge dot grid + corner ring ── */
+  .lp-hero{position:relative}
+  .lp-hero::before{
+    content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,rgba(200,162,77,.058) 1.2px,transparent 1.2px);
+    background-size:26px 26px;
+    -webkit-mask-image:linear-gradient(to right,
+      rgba(0,0,0,.9) 0%,transparent 22%,transparent 78%,rgba(0,0,0,.9) 100%);
+    mask-image:linear-gradient(to right,
+      rgba(0,0,0,.9) 0%,transparent 22%,transparent 78%,rgba(0,0,0,.9) 100%);
+  }
+  .lp-hero::after{
+    content:'';position:absolute;pointer-events:none;z-index:0;
+    width:540px;height:540px;border-radius:50%;
+    border:1.5px solid rgba(200,162,77,.085);
+    top:-240px;right:-190px;
+  }
+  .lp-hero-inner{position:relative;z-index:1}
+  .lp-cta-wrap .btn-primary{padding:20px 40px;font-size:16.5px}
+
+  /* ── S2 Pattern Interrupt: diagonal stripe + gold borders ── */
+  .lp-interrupt{
+    position:relative;overflow:hidden;
+    border-top-color:rgba(200,162,77,.25);
+    border-bottom-color:rgba(200,162,77,.25);
+  }
+  .lp-interrupt::before{
+    content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+    background-image:repeating-linear-gradient(
+      -52deg,
+      transparent 0,transparent 22px,
+      rgba(200,162,77,.022) 22px,rgba(200,162,77,.022) 23px
+    );
+  }
+  .lp-interrupt-inner{position:relative;z-index:1}
+  .lp-quote{
+    box-shadow:
+      0 8px 24px -10px rgba(200,162,77,.2),
+      0 2px 6px -2px rgba(30,30,30,.04);
+  }
+
+  /* ── S3 Identity Reveal: edge dot grid + bottom gold hairline ── */
+  .lp-reveal{position:relative;overflow:hidden}
+  .lp-reveal::before{
+    content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,rgba(200,162,77,.05) 1.2px,transparent 1.2px);
+    background-size:26px 26px;
+    -webkit-mask-image:linear-gradient(to right,
+      rgba(0,0,0,.85) 0%,transparent 20%,transparent 80%,rgba(0,0,0,.85) 100%);
+    mask-image:linear-gradient(to right,
+      rgba(0,0,0,.85) 0%,transparent 20%,transparent 80%,rgba(0,0,0,.85) 100%);
+  }
+  .lp-reveal::after{
+    content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+    width:100px;height:1px;pointer-events:none;z-index:1;
+    background:linear-gradient(90deg,transparent,rgba(200,162,77,.4),transparent);
+  }
+  .lp-reveal-inner{position:relative;z-index:1}
+  .lp-checklist li{
+    background:linear-gradient(135deg,#FFFFFF 60%,#FFFDF8);
+    border-color:rgba(200,162,77,.18);
+    box-shadow:
+      0 8px 24px -14px rgba(200,162,77,.22),
+      0 2px 8px -3px rgba(30,30,30,.06);
+    transition:transform .22s ease,box-shadow .22s ease;
+  }
+  .lp-checklist li:hover{
+    transform:translateX(3px);
+    box-shadow:
+      0 12px 28px -12px rgba(200,162,77,.3),
+      0 3px 10px -3px rgba(30,30,30,.08);
+  }
+
+  /* ── S4 Personas: edge dot grid ── */
+  .lp-personas{position:relative;overflow:hidden}
+  .lp-personas::before{
+    content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,rgba(200,162,77,.045) 1.2px,transparent 1.2px);
+    background-size:28px 28px;
+    -webkit-mask-image:linear-gradient(to right,
+      rgba(0,0,0,.75) 0%,transparent 16%,transparent 84%,rgba(0,0,0,.75) 100%);
+    mask-image:linear-gradient(to right,
+      rgba(0,0,0,.75) 0%,transparent 16%,transparent 84%,rgba(0,0,0,.75) 100%);
+  }
+  .lp-personas .lp-section-headline,
+  .lp-personas .lp-section-sub,
+  .lp-personas .persona-grid,
+  .lp-personas .lp-persona-teaser{position:relative;z-index:1}
+
+  /* Persona teaser gold rule */
+  .lp-persona-teaser{position:relative;padding-top:28px}
+  .lp-persona-teaser::before{
+    content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:60px;height:1px;pointer-events:none;
+    background:linear-gradient(90deg,transparent,rgba(200,162,77,.5),transparent);
+    border-radius:1px;
+  }
+
+  /* ── S5 Primary CTA: gold borders + radial glow ── */
+  .lp-primary-cta{
+    overflow:hidden;
+    border-top-color:rgba(200,162,77,.26);
+    border-bottom-color:rgba(200,162,77,.26);
+  }
+  .lp-primary-cta::after{
+    content:'';position:absolute;pointer-events:none;z-index:0;
+    width:480px;height:480px;border-radius:50%;
+    background:radial-gradient(circle,rgba(226,192,107,.1) 0%,transparent 62%);
+    bottom:-160px;left:50%;transform:translateX(-50%);
+  }
+  .lp-primary-cta-inner{position:relative;z-index:1}
+
+  /* ── S6 Final Push: edge constellation dots ── */
+  /* ::before = gold top bar (existing). ::after = dot pattern. */
+  .lp-finalpush::after{
+    content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,rgba(200,162,77,.07) 1.2px,transparent 1.2px);
+    background-size:34px 34px;
+    -webkit-mask-image:linear-gradient(to right,
+      rgba(0,0,0,.85) 0%,transparent 28%,transparent 72%,rgba(0,0,0,.85) 100%);
+    mask-image:linear-gradient(to right,
+      rgba(0,0,0,.85) 0%,transparent 28%,transparent 72%,rgba(0,0,0,.85) 100%);
+  }
+  .lp-finalpush-inner{position:relative;z-index:2}
+
+  /* ── Second decorative inner ring in hero (soft, left) ── */
+  /* Extra large circle peeking from bottom-left via body pseudo */
+  body::before{
+    content:'';position:fixed;pointer-events:none;z-index:0;
+    width:560px;height:560px;border-radius:50%;
+    border:1px solid rgba(24,76,58,.04);
+    left:-240px;bottom:10%;
+  }
+
+  /* ── Persona card: second subtle inner ring highlight ── */
+  .persona-card::after{
+    content:'';position:absolute;inset:0;border-radius:12px;
+    border:1px solid rgba(226,192,107,.08);
+    pointer-events:none;z-index:4;
+  }
+
+  /* ── Improve section-level spacing ── */
+  .lp-hero{padding-top:72px;padding-bottom:88px}
+  .lp-reveal{padding-top:96px;padding-bottom:96px}
+  .lp-personas{padding-top:96px;padding-bottom:96px}
+
+  /* ================================================================
+     LUXURY FINANCE UPGRADE — micro-texture, depth & typography lift
+     All decorative pseudo-elements: pointer-events:none, z-index below content.
+     ================================================================ */
+
+  /* Fine paper-like micro-dot grid layered across the full page */
+  html::before{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle, rgba(200,162,77,.016) 0.8px, transparent 0.8px);
+    background-size:18px 18px;
+  }
+
+  /* Brand row: subtle gold separator below nav */
+  .brand{
+    position:relative;
+    padding-bottom:22px;
+    border-bottom:1px solid rgba(200,162,77,.14);
+    margin-bottom:50px;
+  }
+
+  /* Hero headline: editorial gradient text — dark ink fading to warm gold */
+  .lp-headline{
+    background:linear-gradient(140deg, var(--ink) 30%, var(--gold-deep) 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  }
+
+  /* Hero CTA area: ambient glow behind the button group */
+  .lp-cta-wrap{position:relative}
+  .lp-cta-wrap::before{
+    content:'';position:absolute;pointer-events:none;z-index:0;
+    width:300px;height:130px;left:50%;top:50%;transform:translate(-50%,-50%);
+    background:radial-gradient(ellipse, rgba(200,162,77,.12) 0%, transparent 68%);
+    border-radius:50%;
+  }
+  .lp-cta-wrap > *{position:relative;z-index:1}
+
+  /* Hero CTA button: gentle breathe-glow at rest, paused on hover */
+  @keyframes heroCtaGlow{
+    0%,100%{box-shadow:0 12px 28px -10px rgba(24,76,58,.45), 0 2px 6px -2px rgba(24,76,58,.25)}
+    50%{box-shadow:0 18px 38px -8px rgba(24,76,58,.6), 0 2px 6px -2px rgba(24,76,58,.3), 0 0 0 8px rgba(24,76,58,.05)}
+  }
+  .lp-cta-wrap .btn-primary{animation:heroCtaGlow 3.2s ease-in-out infinite}
+  .lp-cta-wrap .btn-primary:hover{animation-play-state:paused}
+
+  /* S2 Pattern Interrupt: bottom gold hairline (::before is the diagonal stripe) */
+  .lp-interrupt::after{
+    content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+    width:100px;height:1px;pointer-events:none;z-index:1;
+    background:linear-gradient(90deg, transparent, rgba(200,162,77,.42), transparent);
+  }
+
+  /* S3 Identity Reveal: warm off-white background + gold top border */
+  .lp-reveal{
+    background:linear-gradient(180deg, #FEFCF4 0%, #FFFFFF 65%);
+    border-top:1px solid rgba(200,162,77,.18);
+  }
+
+  /* S3 + S4: centered 36px gold eyebrow micro-rule above section headings */
+  .lp-reveal .lp-section-headline::before,
+  .lp-personas .lp-section-headline::before{
+    content:'';display:block;
+    width:36px;height:2px;border-radius:2px;
+    background:linear-gradient(90deg, rgba(200,162,77,.7), rgba(200,162,77,.3));
+    margin:0 auto 18px;
+  }
+
+  /* S4 Personas: top gold hairline (::before = dot grid; ::after was free) */
+  .lp-personas::after{
+    content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:80px;height:1px;pointer-events:none;z-index:1;
+    background:linear-gradient(90deg, transparent, rgba(200,162,77,.42), transparent);
+  }
+
+  /* S5 Primary CTA: position fix + top hairline + richer background gradient */
+  .lp-primary-cta{
+    position:relative;
+    background:
+      radial-gradient(700px 400px at 50% 0%, rgba(226,192,107,.13), transparent 65%),
+      linear-gradient(180deg, #FAF4E6 0%, #F3ECDD 100%);
+  }
+  .lp-primary-cta::before{
+    content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+    width:120px;height:1px;pointer-events:none;z-index:1;
+    background:linear-gradient(90deg, transparent, rgba(200,162,77,.5), transparent);
+  }
+
+  /* Quiz option cards: inset left gold accent on hover + selected state */
+  .q-option:hover{
+    box-shadow:inset 3px 0 0 rgba(200,162,77,.65), 0 10px 24px -12px rgba(200,162,77,.3);
+  }
+  .q-option.selected{
+    box-shadow:0 0 0 2px rgba(200,162,77,.32), 0 14px 30px -16px rgba(200,162,77,.45), inset 3px 0 0 var(--gold);
+  }
+
+  /* Result numbered moves: warm background tint + inset left gold accent */
+  .result-moves li{
+    background:linear-gradient(135deg, #FFFFFF 65%, #FFFEF8);
+    box-shadow:0 10px 24px -18px rgba(30,30,30,.15), inset 3px 0 0 rgba(200,162,77,.38);
+  }
+
+  /* Kicker pill: soft ambient gold glow */
+  .kicker{box-shadow:0 2px 14px -4px rgba(200,162,77,.3), 0 0 0 1px rgba(200,162,77,.1)}
+
+  /* Checklist bullets: warm shadow on the gold circle */
+  .lp-checklist li::before{box-shadow:0 4px 10px -3px rgba(200,162,77,.55)}
+
+  /* Result section labels: editorial gold dash decoration before the text */
+  .result-section-title{display:flex;align-items:center;gap:10px}
+  .result-section-title::before{
+    content:'';display:block;flex-shrink:0;
+    width:18px;height:2px;border-radius:2px;
+    background:linear-gradient(90deg, var(--gold), rgba(200,162,77,.35));
+  }
+
+  /* ================================================================
+     3-SECTION LANDING PAGE — trust line, testimonials, identity,
+     showcase cards, problem block, scale line
+     ================================================================ */
+
+  /* Hero copy refinements */
+  .lp-micro-hook{
+    font-size:17.5px;font-weight:600;color:var(--ink);
+    margin-bottom:10px !important;
+  }
+  .lp-micro-hook + .lp-micro{
+    margin-top:0;margin-bottom:28px;
+    color:var(--muted);font-weight:400;
+  }
+
+  /* Trust line below micro copy */
+  .lp-trust{
+    font-size:13px;color:var(--hint);letter-spacing:.02em;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    margin:0 0 28px;
+  }
+  .lp-trust-icon{color:var(--gold);font-size:10px}
+
+  /* Testimonial cards */
+  .lp-testimonials{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+    margin-top:36px;text-align:left;
+  }
+  .lp-testimonial{
+    background:#FFFFFF;
+    border:1px solid rgba(200,162,77,.18);border-radius:16px;
+    padding:20px 20px 18px;
+    box-shadow:0 8px 24px -14px rgba(200,162,77,.2),0 2px 8px -3px rgba(30,30,30,.06);
+  }
+  .lp-testimonial-stars{color:var(--gold);font-size:11px;letter-spacing:1px;margin-bottom:10px}
+  .lp-testimonial-quote{
+    font-size:13.5px;line-height:1.6;color:var(--ink);
+    margin:0 0 12px;font-style:italic;
+  }
+  .lp-testimonial-author{font-size:11.5px;color:var(--faint);font-weight:600;letter-spacing:.02em}
+
+  /* Section 2: Identity wrapper */
+  .lp-identity{
+    margin:0 calc(50% - 50vw);padding:88px calc(50vw - 50% + 24px);text-align:center;
+    position:relative;overflow:hidden;
+    background:linear-gradient(180deg,#FEFCF4 0%,#FAFAF5 100%);
+    border-top:1px solid rgba(200,162,77,.16);
+    border-bottom:1px solid rgba(200,162,77,.12);
+  }
+  .lp-identity::before{
+    content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+    background-image:radial-gradient(circle,rgba(200,162,77,.045) 1.2px,transparent 1.2px);
+    background-size:26px 26px;
+    -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,.8) 0%,transparent 18%,transparent 82%,rgba(0,0,0,.8) 100%);
+    mask-image:linear-gradient(to right,rgba(0,0,0,.8) 0%,transparent 18%,transparent 82%,rgba(0,0,0,.8) 100%);
+  }
+  .lp-identity-inner{max-width:820px;margin:0 auto;position:relative;z-index:1}
+
+  /* Intro card for persona section */
+  .lp-personas-intro{
+    margin:44px 0 32px;padding:36px 40px;
+    background:linear-gradient(180deg,#FFFDF8,#FFFFFF);
+    border:1px solid rgba(200,162,77,.2);border-radius:20px;
+    box-shadow:0 14px 36px -22px rgba(200,162,77,.25),0 2px 8px -3px rgba(30,30,30,.05);
+  }
+  .lp-personas-headline{
+    font-family:'Sora',sans-serif;font-size:clamp(20px,2.8vw,28px);
+    font-weight:700;color:var(--ink);letter-spacing:-.02em;margin:0 0 12px;
+  }
+  .lp-personas-sub{font-size:16px;color:var(--muted);line-height:1.65;margin:0 0 18px}
+  .lp-personas-hook{
+    font-family:'Sora',sans-serif;font-size:17px;font-weight:600;
+    color:var(--ink);letter-spacing:-.01em;margin:0;
+    padding-top:16px;border-top:1px solid rgba(200,162,77,.18);
+  }
+  .lp-personas-hook em{color:var(--gold-deep);font-style:normal}
+
+  /* 5 Showcase cards — Netflix portrait style */
+  .persona-showcase{
+    display:grid;grid-template-columns:repeat(5,1fr);
+    gap:12px;margin:0 0 22px;
+  }
+  .showcase-card{
+    position:relative;border-radius:14px;overflow:hidden;aspect-ratio:2/3;
+    background:linear-gradient(145deg,#0f2a22,#1a4030);
+    cursor:default;
+    transition:transform .3s cubic-bezier(.22,1,.36,1),box-shadow .3s ease;
+    box-shadow:0 8px 24px -12px rgba(0,0,0,.45),0 0 0 1px rgba(200,162,77,.16);
+  }
+  .showcase-card:hover{
+    transform:scale(1.06);z-index:2;
+    box-shadow:0 20px 44px -12px rgba(200,162,77,.4),0 0 0 1.5px rgba(200,162,77,.55);
+  }
+  .showcase-card-img{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;object-position:center top;
+    opacity:0;transform:scale(1.06);
+    transition:opacity .7s ease,transform .7s ease;z-index:1;
+  }
+  .showcase-card-img.sc-loaded{opacity:1;transform:scale(1)}
+  .showcase-card-initials{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Sora',sans-serif;font-size:30px;font-weight:700;
+    color:rgba(200,162,77,.28);letter-spacing:-1px;z-index:0;
+  }
+  .showcase-card-gradient{
+    position:absolute;bottom:0;left:0;right:0;height:74%;
+    background:linear-gradient(to top,rgba(6,14,11,.98) 0%,rgba(6,14,11,.65) 45%,transparent 100%);
+    z-index:2;
+  }
+  .showcase-card-overlay{position:absolute;bottom:0;left:0;right:0;padding:12px 11px 11px;z-index:3}
+  .showcase-card-title{
+    display:block;font-size:8px;letter-spacing:.2em;font-weight:700;
+    color:rgba(226,192,107,.8);text-transform:uppercase;margin-bottom:4px;
+  }
+  .showcase-card-name{
+    font-family:'Sora',sans-serif;font-size:11px;font-weight:700;
+    color:#FFFFFF;line-height:1.2;margin-bottom:5px;
+  }
+  .showcase-card-desc{font-size:9px;color:rgba(255,255,255,.5);line-height:1.35}
+  .showcase-card::after{
+    content:'';position:absolute;inset:0;border-radius:14px;
+    border:1px solid rgba(226,192,107,.08);pointer-events:none;z-index:4;
+  }
+
+  /* "And 15 more" teaser */
+  .showcase-more{font-size:15px;color:var(--muted);margin:0 0 40px;letter-spacing:-.01em}
+  .showcase-more strong{color:var(--gold-deep);font-weight:700}
+
+  /* Problem / message block */
+  .lp-problem{
+    position:relative;margin:0 auto 32px;max-width:560px;
+    padding:32px 36px;
+    background:linear-gradient(135deg,#FFFDF5,#FFFFFF);
+    border:1px solid rgba(200,162,77,.22);border-radius:20px;
+    box-shadow:0 18px 44px -26px rgba(200,162,77,.3),0 2px 8px -2px rgba(30,30,30,.05);
+  }
+  .lp-problem::before{
+    content:'';position:absolute;top:0;left:28px;right:28px;height:1px;
+    background:linear-gradient(90deg,transparent,rgba(200,162,77,.45),transparent);
+  }
+  .lp-problem-main{
+    font-family:'Sora',sans-serif;font-size:clamp(18px,2.2vw,23px);
+    font-weight:700;color:var(--ink);line-height:1.4;
+    letter-spacing:-.015em;margin:0 0 14px;
+  }
+  .lp-problem-close{font-size:15.5px;color:var(--muted);line-height:1.65;margin:0}
+  .lp-problem-close em{color:var(--ink);font-style:normal;font-weight:700}
+
+  /* Social proof scale line */
+  .lp-scale{
+    font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--faint);font-weight:700;margin:0;
   }
 
   /* MOBILE */
@@ -377,8 +1329,76 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .result-diagnosis{font-size:17px;padding:20px 22px}
     .result-reallife{padding:22px 20px 18px}
     .rl-figure{font-size:19px}
+    .rl-reallife-inner{flex-direction:column;align-items:center}
+    .rl-persona-card{width:140px;min-width:140px;height:210px}
     .result-bridge-actions{flex-direction:column;align-items:stretch}
     .result-bridge-actions .btn{width:100%}
+    /* Landing funnel mobile */
+    .lp-hero{padding:48px 0 64px}
+    .lp-interrupt,.lp-primary-cta{margin:0 -18px;padding:64px 18px}
+    .lp-finalpush{padding-top:64px;padding-bottom:64px;padding-left:max(18px,calc(50vw - 50% + 18px));padding-right:max(18px,calc(50vw - 50% + 18px))}
+    .lp-reveal{padding:64px 0}
+    .lp-personas{padding:64px 0}
+    .lp-section-headline{font-size:26px}
+    .lp-section-sub{font-size:16px;margin-bottom:28px}
+    .lp-benefits{gap:16px}
+    .lp-finalpush-headline{font-size:28px}
+    .lp-finalpush-sub{font-size:16px}
+    .lp-finalpush-close{font-size:18px}
+    .persona-grid{grid-template-columns:repeat(3,1fr);gap:8px}
+    .persona-card-name{font-size:9.5px}
+    .lp-cta-sub{font-size:11.5px}
+    .lp-quote{font-size:16px;padding:16px 18px}
+    .lp-checklist li{font-size:15.5px;padding:14px 16px}
+    /* Hide heavy decorative rings on mobile to keep it clean */
+    .app::before,.app::after,body::before,
+    .lp-hero::after{display:none}
+    /* Narrow the dot mask on mobile — dots still visible at edges */
+    .lp-hero::before,
+    .lp-reveal::before,
+    .lp-personas::before,
+    .lp-finalpush::after{
+      -webkit-mask-image:linear-gradient(to right,
+        rgba(0,0,0,.7) 0%,transparent 14%,transparent 86%,rgba(0,0,0,.7) 100%);
+      mask-image:linear-gradient(to right,
+        rgba(0,0,0,.7) 0%,transparent 14%,transparent 86%,rgba(0,0,0,.7) 100%);
+    }
+    /* Buttons full-width and thumb-friendly */
+    .lp-cta-wrap .btn-primary{width:100%;padding:18px 24px;font-size:16px}
+    .lp-primary-cta .btn-accent{width:100%;padding:18px 24px}
+    .lp-finalpush .btn{width:100%;padding:18px 24px}
+    /* Disable checklist hover on touch */
+    .lp-checklist li:hover{transform:none}
+    /* 3-section landing — mobile */
+    .lp-testimonials{grid-template-columns:1fr;gap:10px}
+    .lp-identity{padding-top:64px;padding-bottom:64px;padding-left:max(18px,calc(50vw - 50% + 18px));padding-right:max(18px,calc(50vw - 50% + 18px))}
+    .lp-personas-intro{padding:24px 20px;margin:32px 0 24px}
+    .persona-showcase{grid-template-columns:repeat(3,1fr);gap:8px}
+    .persona-showcase .showcase-card:nth-child(n+4){display:none}
+    /* hide last 2 cards on mobile — show 3 */
+    .showcase-more{font-size:14px;margin:0 0 28px}
+    .lp-problem{padding:24px 20px}
+    .lp-problem-main{font-size:19px}
+    .lp-trust{font-size:12px}
+    /* Gate screen — single column on mobile */
+    .gate-wrap{grid-template-columns:1fr;gap:24px;padding:36px 18px 24px}
+    .gate-bottom-strip{padding:0 18px 48px}
+    /* Headline — preserve 3-tier structure, scale down */
+    .gate-hl-sm{font-size:15px}
+    .gate-hl-lg{font-size:34px}
+    .gate-hl-gold{font-size:28px}
+    .gate-card{padding:28px 22px 28px}
+    .gate-card-headline{font-size:20px}
+    .gate-social-card{padding:22px 20px}
+    .gate-social-count{font-size:30px}
+    .gate-features{gap:6px;margin-bottom:18px}
+    .gate-feature{padding:10px 11px}
+    .gate-form-hook{font-size:12.5px}
+    /* Trust strip: stack vertically on mobile */
+    .gate-trust-strip{flex-direction:column;gap:10px;align-items:flex-start;padding-top:18px}
+    .gate-trust-item{border-right:none;padding:0;flex:none;width:100%;justify-content:flex-start;font-size:13px}
+    /* Full-width CTA on mobile */
+    #revealBtn.btn{font-size:15px;min-height:54px}
   }
 
   /* ================================================================
@@ -610,29 +1630,57 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   }
   .pdf-futurecast-body{font-size:12.5px;line-height:1.5;color:#29453A;margin:0}
 
-  /* Real-life comparison card — text-only with palm watermark */
+  /* Real-life comparison card — Netflix-style with photo column */
   .pdf-reallife-card{
+    display:flex;flex-direction:row;
     position:relative;margin-top:22px;background:#FFFDF7;
     border:1px solid rgba(217,177,77,.35);border-radius:14px;
-    padding:22px 26px 22px;overflow:hidden;
+    overflow:hidden;
   }
+  /* Photo column */
+  .pdf-reallife-photo-col{
+    width:154px;min-width:154px;position:relative;overflow:hidden;
+    background:linear-gradient(145deg,#0D2B21,#184C3A);flex-shrink:0;
+  }
+  .pdf-reallife-photo-initials{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-family:'Sora','Inter',sans-serif;font-size:44px;font-weight:700;
+    color:rgba(200,162,77,.32);letter-spacing:-2px;z-index:1;
+  }
+  .pdf-reallife-photo-img{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;object-position:center top;display:block;z-index:2;
+  }
+  .pdf-reallife-photo-gradient{
+    position:absolute;bottom:0;left:0;right:0;height:55%;z-index:3;
+    background:linear-gradient(to top,rgba(6,18,14,.92) 0%,rgba(6,18,14,.45) 55%,transparent 100%);
+  }
+  .pdf-reallife-photo-badge{
+    position:absolute;top:10px;left:10px;z-index:4;
+    font-family:'Sora','Inter',sans-serif;font-weight:700;
+    font-size:7.5px;letter-spacing:.2em;color:rgba(226,192,107,.85);
+    text-transform:uppercase;padding:2px 7px;
+    border:1px solid rgba(226,192,107,.38);border-radius:3px;
+    background:rgba(8,22,16,.68);
+  }
+  /* Text column */
+  .pdf-reallife-text-col{flex:1;padding:22px 22px 20px;min-width:0}
   .pdf-reallife-label{
     font-family:'Sora','Inter',sans-serif;font-weight:800;letter-spacing:2.5px;
     color:#D9B14D;font-size:10px;margin-bottom:8px;text-transform:uppercase;
   }
   .pdf-reallife-name{
-    font-family:'Sora','Inter',sans-serif;font-weight:800;color:#0E3C2E;font-size:24px;
+    font-family:'Sora','Inter',sans-serif;font-weight:800;color:#0E3C2E;font-size:20px;
     margin:0 0 4px;line-height:1.1;letter-spacing:-.3px;
   }
   .pdf-reallife-desc{
-    font-family:'Fraunces','Georgia',serif;font-style:italic;
-    font-size:13px;color:#4F6A5E;margin:0 0 12px;line-height:1.4;
+    font-family:'Georgia',serif;font-style:italic;
+    font-size:12px;color:#4F6A5E;margin:0 0 10px;line-height:1.4;
   }
   .pdf-reallife-text{
-    font-size:12.5px;line-height:1.55;color:#29453A;margin:0;
-    display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;
+    font-size:12px;line-height:1.55;color:#29453A;margin:0;
+    display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden;
   }
-  .pdf-reallife-card .pdf-palm{right:-8px;bottom:-8px;width:100px;height:90px;opacity:.4}
 
   /* =========== PAGE 4 — NEXT STEP =========== */
   .pdf-step-quote{
@@ -773,6 +1821,129 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     font-family:'Sora','Inter',sans-serif;font-style:italic;font-weight:500;
     font-size:12.5px;color:#0E3C2E;line-height:1.4;padding:2px 18px 2px 22px;margin:0;
   }
+
+  /* ================================================================
+     SOCIAL PROOF TOAST — bottom-right live activity notification
+     ================================================================ */
+  .sp-toast{
+    position:fixed;bottom:24px;right:24px;
+    width:310px;
+    background:#FFFFFF;
+    border-radius:16px;
+    border:1px solid rgba(200,162,77,.28);
+    border-left:3px solid var(--gold);
+    box-shadow:0 20px 48px -12px rgba(0,0,0,.18),0 4px 14px -4px rgba(0,0,0,.08);
+    padding:14px 16px 14px 14px;
+    display:flex;align-items:center;gap:14px;
+    z-index:9999;
+    opacity:0;
+    transform:translateX(16px) translateY(6px);
+    transition:opacity .45s cubic-bezier(.22,1,.36,1),transform .45s cubic-bezier(.22,1,.36,1);
+    pointer-events:none;
+  }
+  .sp-toast.sp-visible{opacity:1;transform:translateX(0) translateY(0)}
+  .sp-toast.sp-hiding{
+    opacity:0;transform:translateX(20px);
+    transition:opacity .35s ease,transform .35s ease;
+  }
+  .sp-avatar{
+    width:44px;height:44px;min-width:44px;border-radius:50%;
+    background:linear-gradient(135deg,var(--ink),var(--ink-deeper));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Sora',sans-serif;font-size:13px;font-weight:700;
+    color:var(--gold);letter-spacing:.04em;
+  }
+  .sp-header{
+    font-family:'Sora',sans-serif;font-size:13.5px;font-weight:700;
+    color:var(--ink);margin-bottom:3px;line-height:1.3;
+  }
+  .sp-header .sp-city{color:var(--muted);font-weight:500}
+  .sp-action{font-size:13px;color:var(--muted);line-height:1.4;margin-bottom:5px}
+  .sp-time{font-size:11px;color:var(--gold);font-style:italic}
+  @media(max-width:720px){
+    .sp-toast{width:calc(100vw - 32px);right:16px;bottom:16px}
+  }
+
+  /* ── DEV TEST PANEL ─────────────────────────────────────────── */
+  #devPanel{
+    display:none;position:fixed;inset:0;z-index:999999;
+    background:rgba(0,0,0,.55);backdrop-filter:blur(4px);
+    align-items:center;justify-content:center;padding:20px;
+  }
+  #devPanel.dp-open{display:flex}
+  #devPanelBox{
+    background:#0D1F17;color:#E8DFC8;
+    border-radius:18px;border:1px solid rgba(200,162,77,.35);
+    box-shadow:0 32px 80px rgba(0,0,0,.6);
+    width:100%;max-width:860px;max-height:88vh;overflow-y:auto;
+    padding:28px 32px;font-family:'Inter',sans-serif;
+  }
+  #devPanelBox h2{
+    font-family:'Sora',sans-serif;font-size:18px;font-weight:700;
+    color:#C8A24D;margin:0 0 4px;letter-spacing:-.02em;
+  }
+  #devPanelBox .dp-sub{font-size:12px;color:rgba(232,223,200,.45);margin-bottom:22px}
+  .dp-section{margin-bottom:26px}
+  .dp-section h3{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(200,162,77,.7);margin:0 0 12px;font-weight:700}
+  .dp-row{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}
+  .dp-input{
+    flex:1;min-width:160px;padding:10px 14px;border-radius:10px;
+    background:rgba(255,255,255,.07);border:1px solid rgba(200,162,77,.25);
+    color:#E8DFC8;font-family:inherit;font-size:13px;
+  }
+  .dp-input::placeholder{color:rgba(232,223,200,.3)}
+  .dp-btn{
+    padding:10px 18px;border-radius:10px;border:none;cursor:pointer;
+    font-family:'Sora',sans-serif;font-size:13px;font-weight:700;
+    transition:all .2s ease;white-space:nowrap;
+  }
+  .dp-btn-gold{background:linear-gradient(135deg,#8A6F2E,#C8A24D);color:#0D1F17}
+  .dp-btn-gold:hover{filter:brightness(1.12)}
+  .dp-btn-red{background:rgba(220,60,60,.18);color:#ff8080;border:1px solid rgba(220,60,60,.35)}
+  .dp-btn-red:hover{background:rgba(220,60,60,.28)}
+  .dp-btn-ghost{background:rgba(255,255,255,.07);color:#E8DFC8;border:1px solid rgba(255,255,255,.12)}
+  .dp-btn-ghost:hover{background:rgba(255,255,255,.12)}
+  #dpWebhookStatus{
+    margin-top:10px;padding:10px 14px;border-radius:10px;
+    font-size:13px;font-family:monospace;display:none;
+    word-break:break-all;line-height:1.5;
+  }
+  #dpWebhookStatus.dp-ok{background:rgba(140,198,63,.12);border:1px solid rgba(140,198,63,.3);color:#A6D84F;display:block}
+  #dpWebhookStatus.dp-fail{background:rgba(220,60,60,.12);border:1px solid rgba(220,60,60,.3);color:#ff8080;display:block}
+  #dpWebhookStatus.dp-loading{background:rgba(200,162,77,.1);border:1px solid rgba(200,162,77,.3);color:#C8A24D;display:block}
+  .dp-endpoint{
+    font-size:11px;font-family:monospace;padding:8px 12px;border-radius:8px;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
+    color:rgba(232,223,200,.55);word-break:break-all;margin-bottom:12px;
+  }
+  .dp-profiles{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:6px;
+  }
+  .dp-profile-btn{
+    padding:9px 10px;border-radius:9px;border:1px solid rgba(200,162,77,.18);
+    background:rgba(255,255,255,.04);color:#E8DFC8;cursor:pointer;
+    font-family:inherit;font-size:11px;text-align:left;
+    transition:all .2s ease;
+  }
+  .dp-profile-btn:hover{background:rgba(200,162,77,.14);border-color:rgba(200,162,77,.4)}
+  .dp-profile-key{font-size:9.5px;color:rgba(200,162,77,.6);font-family:monospace;display:block;margin-bottom:2px}
+  .dp-profile-name{font-weight:600;font-size:11.5px}
+  .dp-close{
+    position:absolute;top:16px;right:20px;
+    background:none;border:none;color:rgba(232,223,200,.4);
+    font-size:20px;cursor:pointer;padding:4px 8px;border-radius:6px;
+    transition:color .2s;
+  }
+  .dp-close:hover{color:#E8DFC8}
+  #devToggleBtn{
+    position:fixed;bottom:80px;left:16px;z-index:99998;
+    padding:8px 14px;border-radius:999px;border:1px solid rgba(200,162,77,.4);
+    background:#0D1F17;color:#C8A24D;font-size:11px;font-weight:700;
+    cursor:pointer;font-family:'Inter',sans-serif;letter-spacing:.06em;
+    box-shadow:0 4px 16px rgba(0,0,0,.4);
+    transition:all .2s ease;display:none;
+  }
+  #devToggleBtn:hover{background:#184C3A;border-color:#C8A24D}
 </style>
 </head>
 <body>
@@ -789,34 +1960,80 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- HERO + SETUP (combined into one landing screen for maximum momentum) -->
   <section class="screen active" id="screen-hero">
-    <div class="screen-inner hero-layout">
-      <div class="kicker">The $100,000 Decision Simulation</div>
-      <h1 class="hero-title">$100,000 just landed in your account. <span class="accent">What do you actually do?</span></h1>
-      <p class="hero-sub">A 9-decision simulation that reveals the one wealth-building path you're actually built for — and the blind spot quietly costing you years of progress.</p>
 
-      <div class="setup-grid">
-        <div class="setup-card">
-          <div class="setup-num">01</div>
-          <div class="setup-head">$100,000 landed in your account</div>
-          <div class="setup-body">Imagine it's real. Over 9 decisions, we simulate the move you'd actually make — not the move that sounds smart on a podcast.</div>
+    <!-- ── SECTION 1: HERO ── -->
+    <div class="lp-hero">
+      <div class="lp-hero-inner">
+        <div class="kicker">Free 9-Question Wealth Assessment</div>
+        <h1 class="lp-headline">$100,000 just landed<br>in your account…</h1>
+        <p class="lp-subheadline">What would you actually do?</p>
+        <p class="lp-micro lp-micro-hook">👉 Your answer says more about you than you think.</p>
+        <p class="lp-micro">Most people don't have a money problem.<br>They have a pattern.<br>And that pattern decides everything.</p>
+        <p class="lp-trust"><span class="lp-trust-icon">✦</span> Join 120,000+ people who've discovered their wealth profile</p>
+        <div class="lp-cta-wrap">
+          <button class="btn btn-primary btn-large" onclick="startQuestions()">Take the 5-Minute Money Quest →</button>
+          <p class="lp-cta-sub">5 minutes &nbsp;·&nbsp; 100% Free &nbsp;·&nbsp; No sign-up</p>
         </div>
-        <div class="setup-card">
-          <div class="setup-num">02</div>
-          <div class="setup-head">9 decisions. Real trade-offs.</div>
-          <div class="setup-body">Time vs. money. Control vs. compounding. Growth vs. security. Each choice reveals something specific about how you're wired with money.</div>
-        </div>
-        <div class="setup-card">
-          <div class="setup-num">03</div>
-          <div class="setup-head">No right answers. Only patterns.</div>
-          <div class="setup-body">We match how you build wealth with why wealth matters to you. That combination is your Wealth Profile — 1 of 20.</div>
+        <div class="lp-testimonials">
+          <div class="lp-testimonial">
+            <div class="lp-testimonial-stars">★★★★★</div>
+            <p class="lp-testimonial-quote">"I always thought I was a saver. Turns out I'm a Compound Builder sitting on the wrong strategy entirely."</p>
+            <div class="lp-testimonial-author">— Sarah M., Marketing Director</div>
+          </div>
+          <div class="lp-testimonial">
+            <div class="lp-testimonial-stars">★★★★★</div>
+            <p class="lp-testimonial-quote">"Took 5 minutes. Finally understood why every investing strategy I tried felt completely wrong for me."</p>
+            <div class="lp-testimonial-author">— James K., Entrepreneur</div>
+          </div>
+          <div class="lp-testimonial">
+            <div class="lp-testimonial-stars">★★★★★</div>
+            <p class="lp-testimonial-quote">"The real-life comparison was uncanny. I knew exactly what I needed to change the moment I read it."</p>
+            <div class="lp-testimonial-author">— Priya R., Software Engineer</div>
+          </div>
         </div>
       </div>
-
-      <div class="actions">
-        <button class="btn btn-primary btn-large" onclick="startQuestions()">Begin the simulation →</button>
-      </div>
-      <div class="hero-meta">5 minutes · Built for professionals aged 35–45 earning $40K–$200K+ · No generic advice</div>
     </div>
+
+    <!-- ── SECTION 2: IDENTITY + PERSONAS ── -->
+    <div class="lp-identity">
+      <div class="lp-identity-inner">
+        <h2 class="lp-section-headline">Your decision reveals everything.</h2>
+        <p class="lp-section-sub">How you build wealth, what drives your choices, and what's holding you back.</p>
+
+        <div class="lp-personas-intro">
+          <h3 class="lp-personas-headline">There's no one way to build wealth.</h3>
+          <p class="lp-personas-sub">Different people build wealth in different ways.<br>Trying to follow the wrong strategy can quietly keep you stuck.</p>
+          <p class="lp-personas-hook">"You don't need more advice.<br>You need the right strategy for <em>you</em>."</p>
+        </div>
+
+        <div class="persona-showcase" id="showcaseGrid"></div>
+
+        <p class="showcase-more">And there are <strong>15 more</strong> — each with a different way of thinking about money.</p>
+
+        <div class="lp-problem">
+          <p class="lp-problem-main">The problem isn't you.<br>It's the strategy you've been following.</p>
+          <p class="lp-problem-close">You don't need to become someone else.<br>You need to understand how <em>you</em> build wealth.</p>
+        </div>
+
+        <p class="lp-scale">Over 120,000 people have taken the Money Quest</p>
+      </div>
+    </div>
+
+    <!-- ── SECTION 3: FINAL PUSH ── -->
+    <div class="lp-finalpush">
+      <div class="lp-finalpush-inner">
+        <h2 class="lp-finalpush-headline">If you skip this…<br>nothing changes.</h2>
+        <p class="lp-finalpush-sub">You'll keep making the same decisions — without ever knowing why.</p>
+        <ul class="lp-consequence-list">
+          <li>Keep guessing</li>
+          <li>Repeat the same mistakes</li>
+          <li>Stay stuck</li>
+        </ul>
+        <button class="btn btn-large" onclick="startQuestions()">Start Your Money Quest Now →</button>
+        <p class="lp-cta-sub" style="color:rgba(255,255,255,.45);margin-top:14px">100% Free &nbsp;·&nbsp; No sign-up &nbsp;·&nbsp; Instant results</p>
+      </div>
+    </div>
+
   </section>
 
   <!-- QUESTION -->
@@ -851,28 +2068,131 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- GATE -->
   <section class="screen" id="screen-gate">
-    <div class="screen-inner">
-      <div class="kicker">Analysis complete · Your Wealth Profile is ready</div>
-      <h2 class="screen-title">9 decisions locked. Your Wealth Profile is matched.</h2>
-      <div class="analysis-dots">
-        <div class="analysis-step"><div class="analysis-step-dot"></div>Decision pattern mapped</div>
-        <div class="analysis-step"><div class="analysis-step-dot"></div>Capital instincts analyzed</div>
-        <div class="analysis-step"><div class="analysis-step-dot"></div>Path &amp; vision matched</div>
+    <div class="gate-wrap">
+
+      <!-- ── LEFT: Analysis + Social Proof ── -->
+      <div class="gate-left">
+
+        <div class="gate-pill">Analysis Complete</div>
+
+        <!-- 3-tier editorial headline -->
+        <h2 class="gate-headline">
+          <span class="gate-hl-sm">9 Decisions Locked.</span>
+          <span class="gate-hl-lg">Your Wealth Profile</span>
+          <span class="gate-hl-gold">is <em class="gate-gold">Matched.</em></span>
+        </h2>
+
+        <p class="gate-support">Your answers reveal how you think, decide, and build wealth. Now unlock your personalized report to see what it means for YOU.</p>
+
+        <div class="gate-form">
+          <input type="text" class="gate-input" id="firstName" placeholder="First name" autocomplete="given-name">
+          <input type="email" class="gate-input" id="emailAddr" placeholder="Email address" autocomplete="email">
+          <button class="btn" id="revealBtn" onclick="revealResult()" disabled>Unlock My Wealth Blueprint →</button>
+        </div>
+        <p class="gate-privacy">Your report will be sent instantly to your email. No spam. No fluff. Just your results.</p>
+
+        <!-- Dark green social proof card -->
+        <div class="gate-social-card">
+          <div class="gate-social-stars">
+            <span class="gate-social-star">★</span>
+            <span class="gate-social-star">★</span>
+            <span class="gate-social-star">★</span>
+            <span class="gate-social-star">★</span>
+            <span class="gate-social-star">★</span>
+          </div>
+          <div class="gate-social-trusted">Trusted by thousands</div>
+          <div class="gate-social-count">127,000+</div>
+          <div class="gate-social-count-sub">people have already taken the Money Quest</div>
+          <div class="gate-social-quotes">
+            <div class="gate-social-quote">This explained everything about why I make the money decisions I do. Eye-opening. — <strong>Jessica R.</strong></div>
+            <div class="gate-social-quote">Finally, something that's actually about me, not generic advice I've heard a hundred times. — <strong>Michael T.</strong></div>
+            <div class="gate-social-quote">The 90-day plan is exactly what I needed to finally make real progress. — <strong>Priya S.</strong></div>
+          </div>
+        </div>
+
+      </div><!-- /gate-left -->
+
+      <!-- ── RIGHT: Premium unlock card ── -->
+      <div class="gate-right">
+        <div class="gate-card">
+
+          <!-- Lock badge -->
+          <div class="gate-lock">🔒</div>
+
+          <h3 class="gate-card-headline">Unlock Your Personalized<br>Wealth Blueprint</h3>
+          <p class="gate-card-sub">This isn't a generic report. It's a personalized breakdown of how you build wealth — and what's been holding you back.</p>
+
+          <!-- Feature mini-cards -->
+          <div class="gate-features">
+            <div class="gate-feature">
+              <div class="gate-feature-icon">◆</div>
+              <div>
+                <div class="gate-feature-title">Your Wealth Profile</div>
+                <div class="gate-feature-desc">1 of 20 types — understand how you naturally think, act, and make money decisions.</div>
+              </div>
+            </div>
+            <div class="gate-feature">
+              <div class="gate-feature-icon">◆</div>
+              <div>
+                <div class="gate-feature-title">Your Hidden Wealth Gap</div>
+                <div class="gate-feature-desc">The exact reason you're not further ahead — based on your answers.</div>
+              </div>
+            </div>
+            <div class="gate-feature">
+              <div class="gate-feature-icon">◆</div>
+              <div>
+                <div class="gate-feature-title">Your Blind Spot</div>
+                <div class="gate-feature-desc">The pattern quietly costing you time, money, and missed opportunities.</div>
+              </div>
+            </div>
+            <div class="gate-feature">
+              <div class="gate-feature-icon">◆</div>
+              <div>
+                <div class="gate-feature-title">Your 90-Day Wealth Moves</div>
+                <div class="gate-feature-desc">3 clear, practical steps tailored to your profile — not generic advice.</div>
+              </div>
+            </div>
+            <div class="gate-feature">
+              <div class="gate-feature-icon">◆</div>
+              <div>
+                <div class="gate-feature-title">Your Personal Strategy Path</div>
+                <div class="gate-feature-desc">The fastest way for YOU to build wealth based on how you're wired.</div>
+              </div>
+            </div>
+            <div class="gate-feature">
+              <div class="gate-feature-icon">⬇</div>
+              <div>
+                <div class="gate-feature-title">Downloadable Report</div>
+                <div class="gate-feature-desc">Download your full report and keep it as your personal wealth playbook.</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="gate-form-hook">Most people are surprised by what they discover in their report.</p>
+
+        </div><!-- /gate-card -->
+      </div><!-- /gate-right -->
+
+    </div><!-- /gate-wrap -->
+
+    <!-- Full-width bottom trust strip -->
+    <div class="gate-bottom-strip">
+      <div class="gate-trust-strip">
+        <div class="gate-trust-item">
+          <div class="gate-trust-icon">🔒</div>
+          <span>100% Secure — Your data is protected</span>
+        </div>
+        <div class="gate-trust-item">
+          <div class="gate-trust-icon">✦</div>
+          <span>No Sign-up Required — We respect your privacy</span>
+        </div>
+        <div class="gate-trust-item">
+          <div class="gate-trust-icon">⚡</div>
+          <span>Takes Only 5 Minutes — Get your results instantly</span>
+        </div>
       </div>
-      <p class="screen-copy">Enter your details to unlock the full report — including:</p>
-      <ul class="gate-promises">
-        <li><strong>Your Wealth Profile</strong> — 1 of 20 distinct wealth personalities, diagnosed from your decisions.</li>
-        <li><strong>Your hidden growth gap</strong> — the specific structural reason you're not further ahead.</li>
-        <li><strong>Your blind spot</strong> — the belief quietly costing you years of progress.</li>
-        <li><strong>Your next 90-day moves</strong> — three concrete actions built for your profile, not generic advice.</li>
-      </ul>
-      <div class="gate-form">
-        <input type="text" class="gate-input" id="firstName" placeholder="First name" autocomplete="given-name">
-        <input type="email" class="gate-input" id="emailAddr" placeholder="Email address" autocomplete="email">
-        <button class="btn btn-primary" id="revealBtn" onclick="revealResult()" disabled>Unlock my Wealth Profile →</button>
-      </div>
-      <div class="gate-privacy">We'll send the full report to your email. No spam. Unsubscribe anytime.</div>
     </div>
+
   </section>
 
   <!-- RESULT -->
@@ -888,10 +2208,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <!-- Real-Life Example — premium directional comparison card -->
       <div class="result-reallife" id="resRealLife">
         <div class="rl-label">A useful real-world comparison</div>
-        <div class="rl-figure" id="rlFigure"></div>
-        <div class="rl-descriptor" id="rlDescriptor"></div>
-        <div class="rl-why" id="rlWhy"></div>
-        <div class="rl-disclaimer">A directional comparison — not a literal classification.</div>
+        <div class="rl-reallife-inner">
+          <!-- Netflix persona card -->
+          <div class="rl-persona-card" id="rlPersonaCard">
+            <div class="rl-persona-initials" id="rlPersonaInitials"></div>
+            <div class="rl-card-gradient"></div>
+            <div class="rl-card-label">
+              <div class="rl-card-badge">MIRROR</div>
+              <div class="rl-card-name" id="rlCardName"></div>
+              <div class="rl-card-role" id="rlCardRole"></div>
+            </div>
+          </div>
+          <!-- Text content -->
+          <div class="rl-text-block">
+            <div class="rl-figure" id="rlFigure"></div>
+            <div class="rl-descriptor" id="rlDescriptor"></div>
+            <div class="rl-why" id="rlWhy"></div>
+            <div class="rl-disclaimer">A directional comparison — not a literal classification.</div>
+          </div>
+        </div>
       </div>
 
       <div class="result-section">
@@ -1087,7 +2422,7 @@ const PERSONAS = {
     blind:"You think you're buying freedom. You're actually buying the option to buy freedom — and options expire.",
     diagnosis:"You are not stuck. You are running a strategy that will get you to freedom — <strong>but on a timeline that will outlive your best years.</strong>",
     fiveYear:"Still saving. Still investing. Still waiting for the math to arrive. In five years you'll be wealthier on paper, but time-poor in life. The portfolio grows. The runway to enjoy it keeps shrinking. Freedom stays theoretical — always three more years away.",
-    realLife:{figure:"Pete Adeney (\"Mr. Money Mustache\")",descriptor:"Software engineer turned early-retirement pioneer",why:"Engineered a specific freedom number, compounded patiently toward it, and walked from a salary in his early 30s — a compound-builder who refused to let the math outlive the life he wanted to live."},
+    realLife:{figure:"Joshua Becker",descriptor:"Author and founder of Becoming Minimalist",why:"Proved that freedom arrives faster when you stop adding and start subtracting — redefined what the freedom number actually looks like by designing a life that costs less and delivers more."},
     mmiBridge:"Compound builders who want freedom don't fail from bad investing — they fail from never defining the exit. MMI is where Escapists learn to compress the timeline: how to set the freedom number, stack the bridge capital, and design the actual exit so the math you're building starts delivering the life you're waiting for."
   },
   compound_impact:{
@@ -1193,7 +2528,7 @@ const PERSONAS = {
     blind:"You think you're building a business. You're actually renting yourself to customers at a higher rate. Freedom requires a different structure.",
     diagnosis:"You are not building a business. You are <strong>renting yourself to customers</strong> — at a higher rate, but still by the hour.",
     fiveYear:"Revenue up. Calendar full. In five years the business will look more successful — and feel more like a cage. More clients, more systems YOU run, more income YOU personally generate. You'll have built a second job with a better logo. The freedom you started this for will still be two years away.",
-    realLife:{figure:"Pat Flynn",descriptor:"Online entrepreneur who architected a business around time freedom",why:"Built a real income stream by documenting the work, then deliberately re-engineered the business so it stopped requiring him — a hustler who turned personal effort into autonomy, not just revenue."},
+    realLife:{figure:"Sahil Lavingia",descriptor:"Founder of Gumroad, creator economy pioneer",why:"Built a platform for solopreneurs, then ran it like one — lean team, public decisions, recurring revenue. A textbook case of engineering income around autonomy rather than replacing one job with another."},
     mmiBridge:"Solopreneurs who conflate income with freedom end up with a great-looking trap. MMI is where hustler-builders learn to architect the business so it actually produces freedom — assets, systems, and ownership structures that make the income work while you live the life."
   },
   hustler_impact:{
@@ -1468,7 +2803,7 @@ const PERSONAS = {
     blind:"You think ambition is the missing ingredient. Sequence is.",
     diagnosis:"You are not missing ambition. You are <strong>missing the sequence</strong> — and empires don't get built by skipping the stages the boring builders respect.",
     fiveYear:"Ideas cycled. Pivots attempted. Nothing stacked. In five years you'll have tried three things, finished one, and still be describing yourself as 'about to launch.' Appetite without capability is expensive ambition. The building happens after the stabilizing — not instead of it.",
-    realLife:{figure:"Codie Sanchez",descriptor:"Investor and founder of Contrarian Thinking",why:"Teaches the exact sequence — stabilize, skill-stack, acquire — that Aspiring Builders skip. A useful map of what happens when raw appetite gets structured into a repeatable strategy."},
+    realLife:{figure:"Alex Hormozi",descriptor:"Entrepreneur and author of $100M Offers",why:"Built multiple 8-figure businesses by mastering the sequence aspiring builders skip: the irresistible offer first, the systems second, the empire third. A precise map of what structured ambition actually looks like in practice."},
     mmiBridge:"Empire isn't an identity — it's a sequence, and you're trying to skip steps. MMI is where aspiring builders learn the actual order of operations — the capital stack, the skill stack, the stage gates — that turn appetite into asset. Ambition becomes architecture. Architecture becomes dynasty."
   },
   ready_security:{
@@ -1489,7 +2824,7 @@ const PERSONAS = {
     blind:"You think waiting is safe. Waiting is the most expensive thing a seeker can do.",
     diagnosis:"You are not being safe. You are <strong>waiting</strong> — and waiting is the most expensive thing a seeker can do.",
     fiveYear:"Cash stable. Knowledge accumulating. Capital not moving. In five years your savings will have quietly lost ground to inflation — while the goals you were protecting keep getting pushed further out. Security without action is a slow leak. You'll still feel careful. You'll just be smaller.",
-    realLife:{figure:"Tiffany Aliche (\"The Budgetnista\")",descriptor:"Financial educator and author",why:"Built a global following by turning money knowledge into structural peace of mind — a clear example of how understanding replaces anxiety when security is the primary vision."},
+    realLife:{figure:"Marie Forleo",descriptor:"Entrepreneur and author of Everything is Figureoutable",why:"Built an empire by helping people turn paralyzing uncertainty into structured, confident action — the Seeker's exact mirror. Her work is a masterclass in how clarity replaces anxiety when you finally have a framework you trust."},
     mmiBridge:"Security without action is a slow leak, and waiting is already costing you more than acting would. MMI is where Seekers get the structural clarity that makes wealth-building feel SAFE — not because it's risk-free, but because it's finally understood. Confidence is built from competence. Competence is what MMI transfers in three days."
   },
 };
@@ -1519,6 +2854,31 @@ window.dataLayer = window.dataLayer || [];
 function dl(event, extra){
   try { window.dataLayer.push(Object.assign({event:event}, extra||{})); }
   catch(err){ /* never let tracking break UX */ }
+}
+
+/* ======================================================================
+   UTM CAPTURE — reads all utm_* params once on load and persists them
+   in sessionStorage so they survive soft navigations within the quiz.
+   ====================================================================== */
+const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+(function captureUtms(){
+  try {
+    const params = new URLSearchParams(window.location.search);
+    UTM_KEYS.forEach(k => {
+      const v = params.get(k);
+      if(v) sessionStorage.setItem(k, v);
+    });
+  } catch(e){}
+})();
+function getUtms(){
+  const out = {};
+  try {
+    UTM_KEYS.forEach(k => {
+      const v = sessionStorage.getItem(k);
+      if(v) out[k] = v;
+    });
+  } catch(e){}
+  return out;
 }
 
 function go(name){
@@ -1652,6 +3012,95 @@ function resolvePersona(){
    ====================================================================== */
 
 function _stripTags(str){ return (str||'').replace(/<[^>]*>/g,''); }
+
+/* ======================================================================
+   NETFLIX PERSONA CARD — Wikipedia image fetch + animated reveal
+   ====================================================================== */
+const FIGURE_WIKI = {
+  compound_freedom:    'Joshua_Becker',
+  compound_impact:     'Warren_Buffett',
+  compound_experience: 'Tim_Ferriss',
+  compound_empire:     'Charlie_Munger',
+  compound_security:   'John_C._Bogle',
+  hustler_freedom:     null,                   // Sahil Lavingia — Commons direct URL below
+  hustler_impact:      null,                   // Scott Harrison — use direct URL below
+  hustler_experience:  'Jesse_Itzler',
+  hustler_empire:      'Daymond_John',
+  hustler_security:    'Dave_Ramsey',
+  accelerated_freedom:    'Naval_Ravikant',
+  accelerated_impact:     'Melinda_French_Gates',
+  accelerated_experience: 'Richard_Branson',
+  accelerated_empire:     'Jeff_Bezos',
+  accelerated_security:   'Mark_Cuban',
+  ready_freedom:    'Ramit_Sethi',
+  ready_impact:     'Simon_Sinek',
+  ready_experience: 'Elizabeth_Gilbert',
+  ready_empire:     null,                      // Alex Hormozi — no Wikipedia article
+  ready_security:   'Marie_Forleo',
+};
+
+// Direct image URLs for figures without Wikipedia thumbnails
+const FIGURE_DIRECT_URL = {
+  hustler_impact:   'https://upload.wikimedia.org/wikipedia/commons/0/09/Scott_Harrison_2010.jpg',
+  hustler_freedom:  'https://techcrunch.com/wp-content/uploads/2022/02/Sahil.jpg',
+  ready_empire:     'https://www.acquisition.com/hubfs/images/hero-right.webp',
+};
+
+async function loadPersonaCard(personaKey, figureName, descriptor){
+  const card   = document.getElementById('rlPersonaCard');
+  const initEl = document.getElementById('rlPersonaInitials');
+  const nameEl = document.getElementById('rlCardName');
+  const roleEl = document.getElementById('rlCardRole');
+  if(!card) return;
+
+  // Remove any image from a prior reveal
+  card.querySelectorAll('img.rl-persona-img').forEach(img=>img.remove());
+  card.querySelectorAll('.rl-scan-line').forEach(el=>el.remove());
+
+  // Initials placeholder
+  const words = (figureName||'').replace(/\(.*?\)/g,'').trim().split(/\s+/);
+  const initials = (words[0]||'').charAt(0) + (words[1]||'').charAt(0);
+  if(initEl) initEl.textContent = initials.toUpperCase();
+  if(nameEl) nameEl.textContent = figureName||'';
+  if(roleEl) roleEl.textContent = descriptor||'';
+
+  // Scan-line animation on entry
+  const scan = document.createElement('div');
+  scan.className = 'rl-scan-line';
+  card.appendChild(scan);
+  setTimeout(()=>{ if(scan.parentNode) scan.remove(); }, 900);
+
+  // Check direct URL override first, then Wikipedia
+  const directSrc = FIGURE_DIRECT_URL[personaKey];
+  const wikiTitle = FIGURE_WIKI[personaKey];
+
+  async function attachImage(src){
+    S.figureImgSrc = src;
+    const img = document.createElement('img');
+    img.className = 'rl-persona-img';
+    img.alt = figureName||'';
+    img.onload  = ()=>{ requestAnimationFrame(()=>{ setTimeout(()=>img.classList.add('rl-revealed'),80); }); };
+    img.onerror = ()=>img.remove();
+    img.src = src;
+    card.appendChild(img);
+  }
+
+  if(directSrc){
+    await attachImage(directSrc);
+  } else if(wikiTitle){
+    try{
+      const resp = await fetch(
+        'https://en.wikipedia.org/api/rest_v1/page/summary/' + encodeURIComponent(wikiTitle),
+        {headers:{'Accept':'application/json'}}
+      );
+      if(!resp.ok) return;
+      const data = await resp.json();
+      const src  = data.thumbnail && data.thumbnail.source;
+      if(!src) return;
+      await attachImage(src);
+    }catch(e){ /* silently fall back to initials */ }
+  }
+}
 
 /* Map wealth-building paths + vision profiles to short, editorial labels
    used on the cover page "Your Path / Your Vision / Your Edge" strip. */
@@ -1935,6 +3384,21 @@ function populatePdfTemplate(){
     set('pdfRealLifeDesc',   _stripTags(p.realLife.descriptor||''));
     const _rlw = _stripTags(p.realLife.why||'');
     set('pdfRealLifeText', _rlw.length > 240 ? _rlw.slice(0,238).replace(/\s+\S*$/,'') + '…' : _rlw);
+
+    // Inject Netflix photo into PDF card (use URL already fetched on result reveal)
+    const pdfPhoto    = document.getElementById('pdfRealLifePhoto');
+    const pdfInitials = document.getElementById('pdfRealLifePhotoInitials');
+    if(pdfPhoto && pdfInitials){
+      const words    = _stripTags(p.realLife.figure||'').replace(/\(.*?\)/g,'').trim().split(/\s+/);
+      const initials = (words[0]||'').charAt(0) + (words[1]||'').charAt(0);
+      pdfInitials.textContent = initials.toUpperCase();
+      if(S.figureImgSrc){
+        pdfPhoto.src          = S.figureImgSrc;
+        pdfPhoto.style.display = 'block';
+      } else {
+        pdfPhoto.style.display = 'none';
+      }
+    }
   }
 
   // --- Page 4 — Next step ---
@@ -1973,6 +3437,12 @@ async function generatePdfDoc(){
       console.log('Image Loaded:', !!(heroImg && heroImg.complete && heroImg.naturalWidth > 0));
     }catch(e){}
   }catch(err){ /* non-fatal — continue to render */ }
+
+  // Wait for the real-life comparison photo (page 3) to load before capture
+  try{
+    const pdfPhoto = document.getElementById('pdfRealLifePhoto');
+    if(pdfPhoto && pdfPhoto.src && pdfPhoto.style.display !== 'none') await waitForImageLoad(pdfPhoto);
+  }catch(err){ /* non-fatal */ }
 
   // Let the browser paint the layout before we capture it
   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
@@ -2117,96 +3587,119 @@ async function sendPdfToActiveCampaign(payload){
    The payload includes everything needed to trigger persona-specific
    follow-up sequences.
    ====================================================================== */
-const LEAD_ENDPOINT = ''; // <-- PUT YOUR BACKEND URL HERE (e.g. '/api/leads' or 'https://hooks.zapier.com/...')
+const LEAD_ENDPOINT = 'https://hooks.zapier.com/hooks/catch/3673966/uvda27z/';
 
 function submitLead(payload){
-  // payload = { firstName, email, profileKey, profileName, pathScore, visionScore, capturedAt }
-  if(!LEAD_ENDPOINT){
-    console.log('[LEAD CAPTURE — not yet wired up]', payload);
-    return Promise.resolve({ok:true, stubbed:true});
+  // Build a flat payload — Zapier maps each key as its own field
+  const zapierPayload = {
+    first_name:   payload.firstName,
+    email:        payload.email,
+    profile_key:  payload.profileKey,
+    profile_name: payload.profileName,
+    report_url:   payload.reportUrl,
+    captured_at:  payload.capturedAt,
+    ...getUtms()
+  };
+
+  console.log('[LEAD CAPTURE] Sending to Zapier →', zapierPayload);
+
+  // Use URLSearchParams so the body is application/x-www-form-urlencoded.
+  // This is a "simple" CORS request — no preflight OPTIONS fired, no CORS block.
+  const formBody = new URLSearchParams(zapierPayload);
+
+  // Method 1: sendBeacon — fire-and-forget, survives page transitions
+  if(typeof navigator.sendBeacon === 'function'){
+    const ok = navigator.sendBeacon(LEAD_ENDPOINT, formBody);
+    console.log('[LEAD CAPTURE] sendBeacon dispatched:', ok);
+    if(ok) return Promise.resolve({ok:true, method:'beacon'});
   }
+
+  // Method 2: fetch fallback — form-encoded, no preflight
   return fetch(LEAD_ENDPOINT, {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify(payload)
-  }).then(r=>r.json()).catch(err=>{
-    console.warn('[LEAD CAPTURE] submission failed — result still shown to user', err);
-    return {ok:false, error:err};
+    method:    'POST',
+    body:      formBody,
+    keepalive: true
+  })
+  .then(r=>{
+    console.log('[LEAD CAPTURE] fetch response status:', r.status);
+    return {ok:r.ok, method:'fetch'};
+  })
+  .catch(err=>{
+    console.warn('[LEAD CAPTURE] fetch failed (result still shown):', err);
+    return {ok:false, error:String(err)};
   });
 }
 
 /* ======================================================================
    RESULT RENDER
+   ----------------------------------------------------------------------
+   renderResultByKey(key) — pure renderer, no side-effects.
+     Called by revealResult() after quiz AND by the URL loader on page load.
+     This is what makes every report_url a working permanent link.
+
+   revealResult() — called by the CTA button. Fires lead capture +
+     tracking, updates the URL, then delegates to renderResultByKey().
    ====================================================================== */
-function revealResult(){
-  const key = resolvePersona();
+function renderResultByKey(key){
   const p = PERSONAS[key];
-  if(!p){ console.warn('No persona for',key); return; }
+  if(!p){ console.warn('[Money Quest] Unknown profile key:', key); return false; }
   S.persona = p;
 
-  // Capture lead payload BEFORE rendering so backend call fires on reveal
-  const payload = {
-    firstName: ($('firstName').value||'').trim(),
-    email: ($('emailAddr').value||'').trim(),
-    profileKey: key,
-    profileName: p.name,
-    pathScore: {...S.pathScore},
-    visionScore: {...S.visionScore},
-    capturedAt: new Date().toISOString()
-  };
-  submitLead(payload);
-
-  // =============================================================
-  // GTM — THE MONEY EVENT: lead submitted (ad optimization event)
-  // =============================================================
-  dl('quest_lead_submitted', {
-    profile_key: key,
-    profile_name: p.name,
-    lead_value: 47,
-    currency: 'USD'
-  });
-
-  // Virtual thank-you pageview — changes URL + fires a pageview event
-  // that GTM can treat as a true thank-you page hit for Meta/GA/Ads.
-  try {
-    if (window.history && window.history.pushState) {
-      window.history.pushState(
-        { page:'thank-you', persona:key },
-        'Money Quest — Your Wealth Profile',
-        '/money-quest/thank-you?profile=' + encodeURIComponent(key)
-      );
-    }
-  } catch(err){ /* safe fallback — tracking still fires below */ }
-
-  dl('virtualPageview', {
-    page_path: '/money-quest/thank-you',
-    page_title: 'Money Quest — Your Wealth Profile',
-    page_location: window.location.origin + '/money-quest/thank-you?profile=' + encodeURIComponent(key),
-    profile_key: key,
-    profile_name: p.name
-  });
-  dl('quest_complete_registration', {
-    profile_key: key,
-    profile_name: p.name
-  });
-
-  // Render result
-  $('resName').textContent = p.name;
-  $('resTagline').textContent = p.tagline;
-  $('resDiagnosis').innerHTML = p.diagnosis;
+  $('resName').textContent        = p.name;
+  $('resTagline').textContent     = p.tagline;
+  $('resDiagnosis').innerHTML     = p.diagnosis;
   if(p.realLife){
-    $('rlFigure').textContent = p.realLife.figure;
+    $('rlFigure').textContent     = p.realLife.figure;
     $('rlDescriptor').textContent = p.realLife.descriptor;
-    $('rlWhy').textContent = p.realLife.why;
+    $('rlWhy').textContent        = p.realLife.why;
+    loadPersonaCard(key, p.realLife.figure, p.realLife.descriptor);
   }
-  $('resWhy').innerHTML = p.why.map(w=>`<li>${w}</li>`).join('');
+  $('resWhy').innerHTML    = p.why.map(w=>`<li>${w}</li>`).join('');
   $('resChallenge').textContent = p.challenge;
-  $('resReal').textContent = p.realProblem;
-  $('resMoves').innerHTML = p.moves.map(m=>`<li>${m}</li>`).join('');
-  $('resBlind').textContent = p.blind;
-  $('resFiveYear').textContent = p.fiveYear;
-  // resBridge now contains static structured HTML — do not overwrite with p.mmiBridge
+  $('resReal').textContent      = p.realProblem;
+  $('resMoves').innerHTML  = p.moves.map(m=>`<li>${m}</li>`).join('');
+  $('resBlind').textContent     = p.blind;
+  $('resFiveYear').textContent  = p.fiveYear;
+  // resBridge contains static structured HTML — do not overwrite
   go('result');
+  return true;
+}
+
+function revealResult(){
+  const key = resolvePersona();
+  if(!PERSONAS[key]){ console.warn('No persona for',key); return; }
+
+  // ── Lead capture ────────────────────────────────────────────────
+  const reportUrl = window.location.origin + window.location.pathname + '?profile=' + encodeURIComponent(key);
+  submitLead({
+    firstName:   ($('firstName').value||'').trim(),
+    email:       ($('emailAddr').value||'').trim(),
+    profileKey:  key,
+    profileName: PERSONAS[key].name,
+    reportUrl:   reportUrl,
+    pathScore:   {...S.pathScore},
+    visionScore: {...S.visionScore},
+    capturedAt:  new Date().toISOString()
+  });
+
+  // ── GTM / tracking ──────────────────────────────────────────────
+  dl('quest_lead_submitted', { profile_key:key, profile_name:PERSONAS[key].name, lead_value:47, currency:'USD' });
+  try {
+    if(window.history && window.history.pushState)
+      window.history.pushState({page:'thank-you',persona:key}, 'Money Quest — Your Wealth Profile',
+        window.location.pathname + '?profile=' + encodeURIComponent(key));
+  } catch(e){}
+  dl('virtualPageview', {
+    page_path:     window.location.pathname,
+    page_title:    'Money Quest — Your Wealth Profile',
+    page_location: reportUrl,
+    profile_key:   key,
+    profile_name:  PERSONAS[key].name
+  });
+  dl('quest_complete_registration', { profile_key:key, profile_name:PERSONAS[key].name });
+
+  // ── Render ──────────────────────────────────────────────────────
+  renderResultByKey(key);
 }
 
 /* ======================================================================
@@ -2232,6 +3725,323 @@ function shareAssessment(e){
   } else {
     window.prompt('Copy this link:', url);
   }
+}
+
+/* ======================================================================
+   LANDING PAGE — PERSONA GRID
+   Builds the 20 Netflix-style cards on the hero funnel page.
+   Wikipedia images load asynchronously; initials show as fallback.
+   ====================================================================== */
+const LANDING_PERSONAS = [
+  {key:'compound_freedom',      wiki:'Joshua_Becker',   name:'Joshua Becker',        label:'The Escapist'},
+  {key:'compound_impact',       wiki:'Warren_Buffett',           name:'Warren Buffett',        label:'The Compounder'},
+  {key:'compound_experience',   wiki:'Tim_Ferriss',              name:'Tim Ferriss',           label:'The Adventurer'},
+  {key:'compound_empire',       wiki:'Charlie_Munger',           name:'Charlie Munger',        label:'The Investor'},
+  {key:'compound_security',     wiki:'John_C._Bogle',            name:'John C. Bogle',         label:'The Conservative'},
+  {key:'hustler_freedom',       wiki:null,                       name:'Sahil Lavingia',        label:'The Solopreneur'},
+  {key:'hustler_impact',        wiki:null,                       name:'Scott Harrison',        label:'The Activist'},
+  {key:'hustler_experience',    wiki:'Jesse_Itzler',             name:'Jesse Itzler',          label:'The Collector'},
+  {key:'hustler_empire',        wiki:'Daymond_John',             name:'Daymond John',          label:'The Hustler'},
+  {key:'hustler_security',      wiki:'Dave_Ramsey',              name:'Dave Ramsey',           label:'The Guardian'},
+  {key:'accelerated_freedom',   wiki:'Naval_Ravikant',           name:'Naval Ravikant',        label:'The Bold'},
+  {key:'accelerated_impact',    wiki:'Melinda_French_Gates',     name:'Melinda French Gates',  label:'The Leader'},
+  {key:'accelerated_experience',wiki:'Richard_Branson',          name:'Richard Branson',       label:'The Curator'},
+  {key:'accelerated_empire',    wiki:'Jeff_Bezos',               name:'Jeff Bezos',            label:'The Visionary'},
+  {key:'accelerated_security',  wiki:'Mark_Cuban',               name:'Mark Cuban',            label:'The Protector'},
+  {key:'ready_freedom',         wiki:'Ramit_Sethi',              name:'Ramit Sethi',           label:'The Hopeful'},
+  {key:'ready_impact',          wiki:'Simon_Sinek',              name:'Simon Sinek',           label:'The Believer'},
+  {key:'ready_experience',      wiki:'Elizabeth_Gilbert',        name:'Elizabeth Gilbert',     label:'The Dreamer'},
+  {key:'ready_empire',          wiki:null,                       name:'Alex Hormozi',          label:'The Aspiring Builder'},
+  {key:'ready_security',        wiki:'Marie_Forleo',             name:'Marie Forleo',          label:'The Seeker'},
+];
+
+function buildLandingPersonaGrid(){
+  const grid = document.getElementById('landingPersonaGrid');
+  if(!grid) return;
+
+  LANDING_PERSONAS.forEach(p=>{
+    const card = document.createElement('div');
+    card.className = 'persona-card';
+    const words    = p.name.replace(/\(.*?\)/g,'').trim().split(/\s+/);
+    const initials = (words[0]||'').charAt(0) + (words[1]||'').charAt(0);
+    card.innerHTML = `
+      <div class="persona-card-initials">${initials.toUpperCase()}</div>
+      <div class="persona-card-gradient"></div>
+      <div class="persona-card-overlay">
+        <div class="persona-card-profile">${p.label}</div>
+        <div class="persona-card-name">${p.name}</div>
+      </div>`;
+    grid.appendChild(card);
+
+    function attachLandingImg(src){
+      const img = document.createElement('img');
+      img.className = 'persona-card-img';
+      img.alt = p.name;
+      img.onload  = ()=>img.classList.add('pc-loaded');
+      img.onerror = ()=>img.remove();
+      img.src = src;
+      card.insertBefore(img, card.firstChild);
+    }
+
+    const directSrc = FIGURE_DIRECT_URL[p.key];
+    if(directSrc){
+      attachLandingImg(directSrc);
+    } else if(p.wiki){
+      fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(p.wiki),
+        {headers:{'Accept':'application/json'}})
+        .then(r=>r.ok?r.json():null)
+        .then(data=>{
+          const src = data&&data.thumbnail&&data.thumbnail.source;
+          if(!src) return;
+          attachLandingImg(src);
+        })
+        .catch(()=>{});
+    }
+  });
+}
+
+/* ======================================================================
+   SHOWCASE GRID — 5 curated personas for the landing page identity section
+   ====================================================================== */
+const SHOWCASE_PERSONAS = [
+  {key:'compound_impact',    wiki:'Warren_Buffett',  name:'Warren Buffett', title:'THE COMPOUNDER',  desc:'Patient, long-term compound growth'},
+  {key:'accelerated_empire', wiki:'Jeff_Bezos',      name:'Jeff Bezos',     title:'THE VISIONARY',   desc:'Big bets, scale, infrastructure'},
+  {key:'hustler_empire',     wiki:'Daymond_John',    name:'Daymond John',   title:'THE HUSTLER',     desc:'Hustle, brand, business ownership'},
+  {key:'hustler_security',   wiki:'Dave_Ramsey',     name:'Dave Ramsey',    title:'THE GUARDIAN',    desc:'Discipline, debt-free, security'},
+  {key:'compound_experience',wiki:'Tim_Ferriss',     name:'Tim Ferriss',    title:'THE OPTIMIZER',   desc:'Systems, leverage, smarter not harder'},
+];
+
+function buildShowcaseCards(){
+  const grid = document.getElementById('showcaseGrid');
+  if(!grid) return;
+
+  SHOWCASE_PERSONAS.forEach(p=>{
+    const card = document.createElement('div');
+    card.className = 'showcase-card';
+    const words    = p.name.replace(/\(.*?\)/g,'').trim().split(/\s+/);
+    const initials = (words[0]||'').charAt(0) + (words[1]||'').charAt(0);
+    card.innerHTML = `
+      <div class="showcase-card-initials">${initials.toUpperCase()}</div>
+      <div class="showcase-card-gradient"></div>
+      <div class="showcase-card-overlay">
+        <span class="showcase-card-title">${p.title}</span>
+        <div class="showcase-card-name">${p.name}</div>
+        <div class="showcase-card-desc">${p.desc}</div>
+      </div>`;
+    grid.appendChild(card);
+
+    function attachShowcaseImg(src){
+      const img = document.createElement('img');
+      img.className = 'showcase-card-img';
+      img.alt = p.name;
+      img.onload  = ()=>img.classList.add('sc-loaded');
+      img.onerror = ()=>img.remove();
+      img.src = src;
+      card.insertBefore(img, card.firstChild);
+    }
+
+    const directSrc = FIGURE_DIRECT_URL[p.key];
+    if(directSrc){
+      attachShowcaseImg(directSrc);
+    } else if(p.wiki){
+      fetch('https://en.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(p.wiki),
+        {headers:{'Accept':'application/json'}})
+        .then(r=>r.ok?r.json():null)
+        .then(data=>{
+          const src = data&&data.thumbnail&&data.thumbnail.source;
+          if(src) attachShowcaseImg(src);
+        })
+        .catch(()=>{});
+    }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+  buildShowcaseCards();
+
+  /* ── Direct report URL loader ──────────────────────────────────────
+     If someone opens a report_url from their email, e.g.:
+       https://www.moneyquest.millionairemind.online/money-quest/thank-you?profile=compound_impact
+     …the page loads cold with no quiz state.
+     We detect the ?profile= param and render their specific report
+     directly — skipping the quiz entirely.
+     All 20 persona keys work as permanent, email-deliverable links.
+  ─────────────────────────────────────────────────────────────────── */
+  try {
+    const params     = new URLSearchParams(window.location.search);
+    const profileKey = params.get('profile');
+    if(profileKey && PERSONAS[profileKey]){
+      console.log('[Money Quest] Direct report URL detected — loading profile:', profileKey);
+      renderResultByKey(profileKey);
+    }
+  } catch(e){ console.warn('[Money Quest] URL profile load failed:', e); }
+});
+
+/* ======================================================================
+   SOCIAL PROOF TOAST — rotating live-activity notifications
+   ====================================================================== */
+const SP_ENTRIES = [
+  {initials:'SM', name:'Sarah M.',     city:'Sydney',        action:'Discovered she\'s a Compound Builder',            time:'just now'},
+  {initials:'JK', name:'James K.',     city:'Singapore',     action:'Unlocked his Hustler Wealth Profile',             time:'2 min ago'},
+  {initials:'PR', name:'Priya R.',     city:'Kuala Lumpur',  action:'Found her #1 wealth-building blind spot',         time:'4 min ago'},
+  {initials:'MT', name:'Marcus T.',    city:'London',        action:'Discovered he\'s an Accelerated builder',         time:'just now'},
+  {initials:'NL', name:'Nicole L.',    city:'Singapore',     action:'Identified a $231K annual opportunity gap',       time:'just now'},
+  {initials:'DC', name:'David C.',     city:'Melbourne',     action:'Found out exactly what\'s been holding him back', time:'3 min ago'},
+  {initials:'AB', name:'Aisha B.',     city:'Dubai',         action:'Unlocked her personalised Wealth Profile report', time:'1 min ago'},
+  {initials:'TW', name:'Tom W.',       city:'New York',      action:'Discovered he\'s a Ready-to-Start builder',       time:'5 min ago'},
+  {initials:'CW', name:'Christine W.', city:'Taipei',        action:'Identified her hidden money pattern',             time:'3 min ago'},
+  {initials:'RO', name:'Ryan O.',      city:'Toronto',       action:'Completed the Money Quest in 4 minutes',          time:'just now'},
+  {initials:'LH', name:'Lisa H.',      city:'Auckland',      action:'Found the wealth strategy built for her',         time:'2 min ago'},
+  {initials:'BN', name:'Ben N.',       city:'Hong Kong',     action:'Discovered what\'s been costing him for years',   time:'6 min ago'},
+];
+
+let spIdx = 0;
+
+function showSpToast(){
+  const el = document.getElementById('spToast');
+  if(!el) return;
+  // pick next entry, skip if same city as last shown
+  const e = SP_ENTRIES[spIdx % SP_ENTRIES.length];
+  spIdx++;
+
+  el.querySelector('.sp-avatar').textContent   = e.initials;
+  el.querySelector('.sp-name').textContent     = e.name;
+  el.querySelector('.sp-city').textContent     = e.city;
+  el.querySelector('.sp-action').textContent   = e.action;
+  el.querySelector('.sp-time').textContent     = e.time;
+
+  el.classList.remove('sp-hiding');
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>el.classList.add('sp-visible'));
+  });
+
+  setTimeout(()=>{
+    el.classList.add('sp-hiding');
+    setTimeout(()=>el.classList.remove('sp-visible','sp-hiding'), 380);
+  }, 4800);
+}
+
+// First toast after 3s, then every 9s
+setTimeout(()=>{ showSpToast(); setInterval(showSpToast, 9000); }, 3000);
+
+/* ======================================================================
+   DEV TEST PANEL
+   Activate: ?devtest=1 in URL  OR  Ctrl+Shift+T
+   ====================================================================== */
+(function initDevPanel(){
+  // Activate if URL contains ?devtest=1
+  const isDevMode = new URLSearchParams(window.location.search).get('devtest') === '1';
+
+  // Keyboard shortcut: Ctrl+Shift+T
+  document.addEventListener('keydown', e => {
+    if(e.ctrlKey && e.shiftKey && e.key === 'T'){ e.preventDefault(); toggleDevPanel(); }
+  });
+
+  if(isDevMode){
+    // Show the persistent toggle button
+    const toggleBtn = document.getElementById('devToggleBtn');
+    if(toggleBtn) toggleBtn.style.display = 'block';
+    // Auto-open on load
+    setTimeout(()=> toggleDevPanel(true), 400);
+  }
+
+  // Populate webhook endpoint display
+  const epDisplay = document.getElementById('dpEndpointDisplay');
+  if(epDisplay) epDisplay.textContent = 'POST → ' + LEAD_ENDPOINT;
+
+  // Populate profile selector + profile grid
+  const select = document.getElementById('dpTestProfile');
+  const grid   = document.getElementById('dpProfileGrid');
+  if(select && grid){
+    Object.keys(PERSONAS).forEach(key => {
+      const p = PERSONAS[key];
+      // Dropdown option
+      const opt = document.createElement('option');
+      opt.value = key;
+      opt.textContent = key + '  —  ' + p.name;
+      select.appendChild(opt);
+      // Profile card button
+      const btn = document.createElement('button');
+      btn.className = 'dp-profile-btn';
+      btn.innerHTML = `<span class="dp-profile-key">${key}</span><span class="dp-profile-name">${p.name}</span>`;
+      btn.onclick = () => dpOpenProfile(key);
+      grid.appendChild(btn);
+    });
+  }
+})();
+
+function toggleDevPanel(forceOpen){
+  const panel = document.getElementById('devPanel');
+  const btn   = document.getElementById('devToggleBtn');
+  if(!panel) return;
+  const opening = forceOpen === true || !panel.classList.contains('dp-open');
+  panel.classList.toggle('dp-open', opening);
+  if(btn) btn.style.display = 'block';
+}
+
+async function runWebhookTest(){
+  const name    = (document.getElementById('dpTestName').value  || '').trim() || 'Test User';
+  const email   = (document.getElementById('dpTestEmail').value || '').trim() || 'test@moneyquest.test';
+  const key     = document.getElementById('dpTestProfile').value || 'compound_impact';
+  const p       = PERSONAS[key] || {};
+  const reportUrl = (window.location.origin || window.location.href.split('?')[0])
+                    + window.location.pathname + '?profile=' + encodeURIComponent(key);
+
+  const status = document.getElementById('dpWebhookStatus');
+  status.className = 'dp-loading';
+  status.textContent = '⏳ Sending to Zapier…';
+
+  const testPayload = {
+    firstName:   name,
+    email:       email,
+    profileKey:  key,
+    profileName: p.name || key,
+    reportUrl:   reportUrl,
+    capturedAt:  new Date().toISOString()
+  };
+
+  console.log('[DEV TEST] Firing webhook with payload:', testPayload);
+
+  try {
+    const result = await submitLead(testPayload);
+    status.className = 'dp-ok';
+    status.innerHTML =
+      '✅ <strong>Webhook fired!</strong><br>' +
+      'Check your Zapier dashboard → Task History for the incoming data.<br><br>' +
+      '<strong>Payload sent:</strong><br>' +
+      Object.entries(testPayload).map(([k,v]) => `${k}: ${v}`).join('<br>');
+    console.log('[DEV TEST] Result:', result);
+  } catch(err){
+    status.className = 'dp-fail';
+    status.innerHTML = '❌ <strong>Failed:</strong> ' + String(err) +
+      '<br><br>Check browser Console for details.';
+    console.error('[DEV TEST] Webhook error:', err);
+  }
+}
+
+function clearWebhookStatus(){
+  const s = document.getElementById('dpWebhookStatus');
+  s.className = '';
+  s.textContent = '';
+}
+
+function dpOpenProfile(key){
+  // Build the direct report URL for this profile
+  const base = window.location.href.split('?')[0].split('#')[0];
+  const url  = base + '?profile=' + encodeURIComponent(key);
+  // Open in current tab — simulates what an email recipient would see
+  window.location.href = url;
+}
+
+function dpQuickResult(){
+  const keys = Object.keys(PERSONAS);
+  const key  = keys[Math.floor(Math.random() * keys.length)];
+  toggleDevPanel(false);
+  renderResultByKey(key);
+}
+
+function dpResetQuiz(){
+  window.location.href = window.location.pathname;
 }
 </script>
 
@@ -2362,20 +4172,19 @@ function shareAssessment(e){
       </div>
 
       <div class="pdf-reallife-card">
-        <div class="pdf-reallife-label">REAL-LIFE COMPARISON</div>
-        <div class="pdf-reallife-name" id="pdfRealLifeFigure"></div>
-        <div class="pdf-reallife-desc" id="pdfRealLifeDesc"></div>
-        <p class="pdf-reallife-text" id="pdfRealLifeText"></p>
-        <div class="pdf-palm">
-          <svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
-            <g fill="#D9B14D" opacity="0.4">
-              <path d="M110 90 Q 60 80 20 95 Q 50 60 95 70 Z"/>
-              <path d="M110 90 Q 70 60 35 65 Q 70 45 100 55 Z"/>
-              <path d="M110 90 Q 80 45 55 40 Q 80 30 105 38 Z"/>
-              <path d="M110 90 Q 90 30 75 20 Q 95 18 110 25 Z"/>
-              <path d="M110 90 Q 100 50 110 20 Q 115 40 118 80 Z"/>
-            </g>
-          </svg>
+        <!-- Netflix photo column -->
+        <div class="pdf-reallife-photo-col">
+          <div class="pdf-reallife-photo-initials" id="pdfRealLifePhotoInitials"></div>
+          <img class="pdf-reallife-photo-img" id="pdfRealLifePhoto" alt="" style="display:none">
+          <div class="pdf-reallife-photo-gradient"></div>
+          <div class="pdf-reallife-photo-badge">MIRROR</div>
+        </div>
+        <!-- Text column -->
+        <div class="pdf-reallife-text-col">
+          <div class="pdf-reallife-label">REAL-LIFE COMPARISON</div>
+          <div class="pdf-reallife-name" id="pdfRealLifeFigure"></div>
+          <div class="pdf-reallife-desc" id="pdfRealLifeDesc"></div>
+          <p class="pdf-reallife-text" id="pdfRealLifeText"></p>
         </div>
       </div>
     </div>
@@ -2480,6 +4289,69 @@ function shareAssessment(e){
 
 </div>
 
+<!-- Social proof toast — fixed bottom-right, outside app container -->
+<div class="sp-toast" id="spToast" aria-live="polite">
+  <div class="sp-avatar"></div>
+  <div class="sp-content">
+    <div class="sp-header"><span class="sp-name"></span> &nbsp;·&nbsp; <span class="sp-city"></span></div>
+    <div class="sp-action"></div>
+    <div class="sp-time"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     DEV TEST PANEL
+     Activate:  add ?devtest=1 to the URL, OR press Ctrl+Shift+T
+     Use to:    fire a test webhook, preview all 20 report profiles
+═══════════════════════════════════════════════════════════ -->
+<button id="devToggleBtn" onclick="toggleDevPanel()">🧪 DEV TEST</button>
+
+<div id="devPanel">
+  <div id="devPanelBox" style="position:relative">
+    <button class="dp-close" onclick="toggleDevPanel()">✕</button>
+
+    <h2>🧪 Money Quest — Dev Test Panel</h2>
+    <p class="dp-sub">Ctrl+Shift+T to open/close &nbsp;·&nbsp; Not visible to users in production</p>
+
+    <!-- SECTION 1: Webhook test -->
+    <div class="dp-section">
+      <h3>1 · Webhook Test</h3>
+      <div class="dp-endpoint" id="dpEndpointDisplay"></div>
+      <div class="dp-row">
+        <input class="dp-input" id="dpTestName"  placeholder="First name (e.g. Jimmy)"  value="Jimmy">
+        <input class="dp-input" id="dpTestEmail" placeholder="Email (e.g. test@test.com)" value="test@moneyquest.test">
+        <select class="dp-input" id="dpTestProfile" style="flex:1;min-width:200px">
+          <!-- populated by JS -->
+        </select>
+      </div>
+      <div class="dp-row" style="margin-top:10px">
+        <button class="dp-btn dp-btn-gold" onclick="runWebhookTest()">▶ Fire Webhook</button>
+        <button class="dp-btn dp-btn-ghost" onclick="clearWebhookStatus()">Clear</button>
+      </div>
+      <div id="dpWebhookStatus"></div>
+    </div>
+
+    <!-- SECTION 2: Preview all 20 profiles -->
+    <div class="dp-section">
+      <h3>2 · Preview All 20 Report Profiles</h3>
+      <div class="dp-profiles" id="dpProfileGrid">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <!-- SECTION 3: Quick-jump the quiz to gate screen -->
+    <div class="dp-section">
+      <h3>3 · Quick Navigation</h3>
+      <div class="dp-row">
+        <button class="dp-btn dp-btn-ghost" onclick="go('hero')">→ Landing page</button>
+        <button class="dp-btn dp-btn-ghost" onclick="go('gate')">→ Gate screen</button>
+        <button class="dp-btn dp-btn-ghost" onclick="dpQuickResult()">→ Random result</button>
+        <button class="dp-btn dp-btn-red"   onclick="dpResetQuiz()">↺ Full reset</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 </body>
 </html>
