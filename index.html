@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -494,9 +493,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
   }
   .result-tagline{font-size:20px;color:var(--muted);line-height:1.5;margin:0 0 40px;max-width:620px;font-weight:400}
-  .result-section{margin-bottom:34px;padding-bottom:32px;border-bottom:1px solid var(--line)}
+  .result-section{
+    margin-top:52px;margin-bottom:0;
+    padding:26px 28px 28px;
+    background:#F7F5F0;
+    border-radius:14px;
+    border-bottom:none;
+    border-left:4px solid #D4AF37;
+  }
+  .result-section:first-of-type{margin-top:36px}
   .result-section:last-of-type{border-bottom:none}
-  .result-section-title{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;font-weight:700}
+
+  /* Two-tier section header */
+  .result-section-title{
+    display:flex;flex-direction:column;gap:4px;
+    margin-bottom:20px;
+  }
+  .rst-label{
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:#D4AF37;font-weight:800;font-family:'Sora',sans-serif;
+    line-height:1;
+  }
+  .rst-insight{
+    font-family:'Sora',sans-serif;
+    font-size:clamp(17px,2vw,21px);
+    font-weight:800;
+    letter-spacing:-.025em;
+    color:var(--ink);
+    line-height:1.15;
+  }
   .result-body{font-size:16.5px;line-height:1.7;color:var(--ink);margin:0 0 14px}
   .result-body:last-child{margin-bottom:0}
   .result-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}
@@ -609,7 +634,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* 5-year consequence — sobering, warm */
   .result-fiveyear .result-body{color:var(--muted)}
-  .result-fiveyear .result-section-title{color:var(--red)}
+  .result-fiveyear{border-left-color:var(--red)}
+  .result-fiveyear .rst-label{color:var(--red)}
+  .result-fiveyear .rst-insight{color:var(--red)}
 
   /* Share hook — subtle, after the CTA */
   .result-share{
@@ -1155,13 +1182,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   /* Checklist bullets: warm shadow on the gold circle */
   .lp-checklist li::before{box-shadow:0 4px 10px -3px rgba(200,162,77,.55)}
 
-  /* Result section labels: editorial gold dash decoration before the text */
-  .result-section-title{display:flex;align-items:center;gap:10px}
-  .result-section-title::before{
-    content:'';display:block;flex-shrink:0;
-    width:18px;height:2px;border-radius:2px;
-    background:linear-gradient(90deg, var(--gold), rgba(200,162,77,.35));
-  }
+  /* Result section labels: left border lives on .result-section, ::before removed */
+  .result-section-title::before{display:none}
 
   /* ================================================================
      3-SECTION LANDING PAGE — trust line, testimonials, identity,
@@ -1331,6 +1353,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     .q-actions{justify-content:stretch}
     .result-name{font-size:44px}
     .result-tagline{font-size:17px}
+    .result-section{padding:20px 18px 22px;margin-top:36px;border-left-width:3px}
+    .rst-insight{font-size:17px}
     .result-bridge{padding:26px 22px}
     .result-diagnosis{font-size:17px;padding:20px 22px}
     .result-reallife{padding:22px 20px 18px}
@@ -1980,6 +2004,175 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     transition:all .2s ease;display:none;
   }
   #devToggleBtn:hover{background:#184C3A;border-color:#C8A24D}
+
+  /* ================================================================
+     INTERMISSION SCREEN — premium micro-animations
+     ================================================================ */
+
+  /* ── Keyframes ── */
+  @keyframes fadeUpSoft{
+    from{opacity:0;transform:translateY(14px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  @keyframes progressReveal{
+    from{width:0%;box-shadow:none}
+    to{width:55%;box-shadow:2px 0 12px 0 rgba(200,162,77,.55)}
+  }
+  @keyframes softPulse{
+    0%,100%{box-shadow:0 12px 28px -10px rgba(24,76,58,.45),0 2px 6px -2px rgba(24,76,58,.25),0 0 0 0 rgba(200,162,77,0)}
+    50%{box-shadow:0 12px 28px -10px rgba(24,76,58,.45),0 2px 6px -2px rgba(24,76,58,.25),0 0 0 7px rgba(200,162,77,.13)}
+  }
+  @keyframes backgroundDrift{
+    0%{transform:translate(0,0) scale(1)}
+    33%{transform:translate(22px,-18px) scale(1.04)}
+    66%{transform:translate(-14px,26px) scale(.97)}
+    100%{transform:translate(0,0) scale(1)}
+  }
+  @keyframes backgroundDrift2{
+    0%{transform:translate(0,0) scale(1)}
+    40%{transform:translate(-20px,16px) scale(1.05)}
+    80%{transform:translate(16px,-24px) scale(.96)}
+    100%{transform:translate(0,0) scale(1)}
+  }
+  @keyframes iconGlow{
+    0%{filter:brightness(1)}
+    40%{filter:brightness(1.35) drop-shadow(0 0 6px rgba(200,162,77,.6))}
+    100%{filter:brightness(1)}
+  }
+
+  /* ── Screen wrapper ── */
+  #screen-intermission{position:relative;overflow:hidden}
+
+  /* ── Drifting background orbs ── */
+  .im-bg-orb{
+    position:absolute;pointer-events:none;border-radius:50%;z-index:0;
+    animation:backgroundDrift 16s ease-in-out infinite;
+  }
+  .im-bg-orb--1{
+    width:560px;height:560px;
+    background:radial-gradient(circle,rgba(200,162,77,.07) 0%,transparent 70%);
+    top:-180px;right:-160px;
+    animation-duration:18s;
+  }
+  .im-bg-orb--2{
+    width:420px;height:420px;
+    background:radial-gradient(circle,rgba(24,76,58,.06) 0%,transparent 70%);
+    bottom:-120px;left:-120px;
+    animation-name:backgroundDrift2;
+    animation-duration:14s;
+  }
+
+  /* ── Inner container ── */
+  .im-inner{position:relative;z-index:1}
+
+  /* ── Staggered entrance animations ── */
+  .im-badge,.im-progress-wrap,.im-headline,.im-copy,.im-patterns,
+  .im-copy2,.im-momentum,.im-cta-wrap{
+    opacity:0;
+    animation:fadeUpSoft 700ms cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .im-badge        {animation-delay:.05s}
+  .im-progress-wrap{animation-delay:.13s}
+  .im-headline     {animation-delay:.22s}
+  .im-copy         {animation-delay:.36s}
+  .im-patterns     {animation-delay:.50s}
+  .im-copy2        {animation-delay:.64s}
+  .im-momentum     {animation-delay:.82s}
+  .im-cta-wrap     {animation-delay:1.00s}
+
+  /* ── Progress bar ── */
+  .im-progress-wrap{
+    display:flex;align-items:center;gap:14px;margin-bottom:30px;
+  }
+  .im-progress-track{
+    flex:1;height:4px;background:rgba(24,76,58,.1);border-radius:99px;overflow:hidden;
+  }
+  .im-progress-fill{
+    height:100%;border-radius:99px;
+    background:linear-gradient(90deg,var(--gold-deep),var(--gold),var(--gold-hi));
+    animation:progressReveal 1100ms cubic-bezier(.22,1,.36,1) .13s forwards;
+    width:0%;
+  }
+  .im-progress-label{
+    font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--gold-deep);white-space:nowrap;flex-shrink:0;
+  }
+
+  /* ── Pattern teaser cards ── */
+  .im-patterns{
+    display:flex;flex-wrap:wrap;gap:10px;margin:24px 0 28px;
+  }
+  .im-pattern-card{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:10px 18px;
+    background:rgba(255,255,255,.7);
+    border:1px solid rgba(200,162,77,.2);
+    border-radius:999px;
+    font-size:13.5px;font-weight:600;color:var(--ink);
+    backdrop-filter:blur(6px);
+    transition:box-shadow .25s ease,transform .25s ease;
+  }
+  .im-pattern-card:hover{
+    box-shadow:0 6px 20px -6px rgba(200,162,77,.3);
+    transform:translateY(-1px);
+  }
+  .im-pc-icon{
+    font-size:15px;line-height:1;
+    display:inline-block;
+  }
+  /* Stagger the 3 cards inside .im-patterns' own entrance */
+  .im-pattern-card{
+    opacity:0;
+    animation:fadeUpSoft 600ms cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .im-pattern-card:nth-child(1){animation-delay:.50s}
+  .im-pattern-card:nth-child(2){animation-delay:.62s}
+  .im-pattern-card:nth-child(3){animation-delay:.74s}
+  /* Icon glow fires once as each card appears */
+  .im-pattern-card:nth-child(1) .im-pc-icon{animation:iconGlow .9s ease .72s forwards}
+  .im-pattern-card:nth-child(2) .im-pc-icon{animation:iconGlow .9s ease .84s forwards}
+  .im-pattern-card:nth-child(3) .im-pc-icon{animation:iconGlow .9s ease .96s forwards}
+
+  /* ── Momentum copy line ── */
+  .im-momentum{
+    font-size:14px;font-style:italic;color:var(--faint);
+    margin:0 0 18px;letter-spacing:.01em;
+  }
+
+  /* ── CTA button (intermission) ── */
+  .im-cta{
+    background:linear-gradient(135deg,#082318 0%,#0E3C2E 42%,#184C3A 100%) !important;
+    border:1px solid rgba(200,162,77,.38) !important;
+    color:#FFFFFF !important;
+    box-shadow:0 8px 24px -8px rgba(200,162,77,.28),0 14px 36px -12px rgba(8,35,24,.5) !important;
+    padding:16px 36px !important;font-size:16px !important;font-weight:700 !important;
+    transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease !important;
+  }
+  .im-cta:hover:not(:disabled){
+    transform:translateY(-2px) !important;
+    box-shadow:0 12px 32px -8px rgba(200,162,77,.42),0 18px 44px -12px rgba(8,35,24,.6) !important;
+    background:linear-gradient(135deg,#0E3429 0%,#164838 42%,#1F5D47 100%) !important;
+  }
+  .im-cta:active{transform:scale(.98) !important;transition-duration:.1s !important}
+  /* Single gentle pulse 2 s after entrance — fires once only */
+  .im-cta{animation:fadeUpSoft 700ms cubic-bezier(.22,1,.36,1) 1s forwards,
+                    softPulse 2.4s ease-in-out 3.5s 1}
+
+  /* ── Reduced motion ── */
+  @media(prefers-reduced-motion:reduce){
+    .im-badge,.im-progress-wrap,.im-headline,.im-copy,.im-patterns,
+    .im-copy2,.im-momentum,.im-cta-wrap,
+    .im-pattern-card,.im-cta,
+    .im-bg-orb{
+      animation:none !important;
+      opacity:1 !important;
+      transform:none !important;
+    }
+    .im-progress-fill{
+      animation:none !important;
+      width:55% !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -2091,14 +2284,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <!-- INTERMISSION -->
   <section class="screen" id="screen-intermission">
-    <div class="screen-inner">
-      <div class="kicker">Halfway through · 5 of 9 decisions locked</div>
-      <h2 class="screen-title">Your wealth-building path is starting to reveal itself.</h2>
-      <p class="screen-copy">Your first 5 decisions showed how you tend to build wealth — whether through <strong>consistency, hustle, strategic deployment, or finding your footing first</strong>.</p>
-      <p class="screen-copy">Now we're going to identify <strong>why</strong> you want wealth in the first place — because your best strategy depends on both where you are and what you're really aiming for.</p>
-      <div class="actions">
-        <button class="btn btn-primary" onclick="continueToVision()">Continue →</button>
+
+    <!-- Drifting background orbs — decorative only -->
+    <div class="im-bg-orb im-bg-orb--1" aria-hidden="true"></div>
+    <div class="im-bg-orb im-bg-orb--2" aria-hidden="true"></div>
+
+    <div class="screen-inner im-inner">
+
+      <!-- Badge -->
+      <div class="kicker im-badge">Halfway through · 5 of 9 decisions locked</div>
+
+      <!-- Progress bar -->
+      <div class="im-progress-wrap" aria-label="55% complete" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100">
+        <div class="im-progress-track">
+          <div class="im-progress-fill"></div>
+        </div>
+        <span class="im-progress-label" aria-hidden="true">55% complete</span>
       </div>
+
+      <!-- Headline -->
+      <h2 class="screen-title im-headline">Your wealth-building path is<br>starting to reveal itself.</h2>
+
+      <!-- Body copy -->
+      <p class="screen-copy im-copy">Your first 5 decisions showed how you tend to build wealth — whether through <strong>consistency, hustle, strategic deployment, or finding your footing first</strong>.</p>
+
+      <!-- Pattern teaser cards -->
+      <div class="im-patterns" aria-hidden="true">
+        <div class="im-pattern-card">
+          <span class="im-pc-icon">⚡</span>
+          <span class="im-pc-text">Decision pattern mapped</span>
+        </div>
+        <div class="im-pattern-card">
+          <span class="im-pc-icon">🧭</span>
+          <span class="im-pc-text">Capital instincts identified</span>
+        </div>
+        <div class="im-pattern-card">
+          <span class="im-pc-icon">🔑</span>
+          <span class="im-pc-text">Wealth path emerging</span>
+        </div>
+      </div>
+
+      <!-- Second copy -->
+      <p class="screen-copy im-copy2">Now we're going to identify <strong>why</strong> you want wealth in the first place — because your best strategy depends on both where you are and what you're really aiming for.</p>
+
+      <!-- Momentum line -->
+      <p class="im-momentum">You're closer than most people ever get.</p>
+
+      <!-- CTA -->
+      <div class="actions im-cta-wrap">
+        <button class="btn im-cta" onclick="continueToVision()">See What This Reveals →</button>
+      </div>
+
     </div>
   </section>
 
@@ -2266,33 +2502,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
 
       <div class="result-section">
-        <div class="result-section-title">Why this fits you</div>
+        <div class="result-section-title">
+          <span class="rst-label">Why this fits you</span>
+          <span class="rst-insight">Read This Carefully</span>
+        </div>
         <ul class="result-list" id="resWhy"></ul>
       </div>
 
       <div class="result-section">
-        <div class="result-section-title">Your challenge</div>
+        <div class="result-section-title">
+          <span class="rst-label">Your Challenge</span>
+          <span class="rst-insight">Your Current Trajectory (This Is the Risk)</span>
+        </div>
         <p class="result-body" id="resChallenge"></p>
       </div>
 
       <div class="result-section">
-        <div class="result-section-title">The real problem underneath it</div>
+        <div class="result-section-title">
+          <span class="rst-label">The Real Problem</span>
+          <span class="rst-insight">Most People Miss This Entirely</span>
+        </div>
         <p class="result-body" id="resReal"></p>
       </div>
 
       <div class="result-section">
-        <div class="result-section-title">3 moves to make in the next 90 days</div>
+        <div class="result-section-title">
+          <span class="rst-label">Your Next 90-Day Plan</span>
+          <span class="rst-insight">3 Moves That Change Everything</span>
+        </div>
         <ol class="result-moves" id="resMoves"></ol>
       </div>
 
       <div class="result-section">
-        <div class="result-section-title">Your blind spot</div>
+        <div class="result-section-title">
+          <span class="rst-label">Your Blind Spot</span>
+          <span class="rst-insight">This Is Costing You Years</span>
+        </div>
         <p class="result-body" id="resBlind"></p>
       </div>
 
       <!-- Where this leads if nothing changes — persona-specific 5-year trajectory -->
       <div class="result-section result-fiveyear">
-        <div class="result-section-title">If nothing changes · Your likely 5-year outcome</div>
+        <div class="result-section-title">
+          <span class="rst-label">If Nothing Changes</span>
+          <span class="rst-insight">Your Likely 5-Year Outcome</span>
+        </div>
         <p class="result-body" id="resFiveYear"></p>
       </div>
 
