@@ -48,6 +48,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      Never dark, never heavy. Think branded event funnel. */
   body{
     position:relative;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
     background:
       radial-gradient(1100px 720px at 86% -10%, rgba(226,192,107,.14), transparent 62%),
       radial-gradient(900px 640px at 4% 2%, rgba(200,162,77,.06), transparent 62%),
@@ -56,9 +59,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       radial-gradient(700px 500px at 98% 100%, rgba(226,192,107,.08), transparent 62%),
       var(--bg);
     background-attachment:fixed;
-    min-height:100vh;
   }
-  .app{max-width:960px;margin:0 auto;padding:28px 24px 0;position:relative;z-index:1}
+  .app{max-width:960px;margin:0 auto;padding:28px 24px 0;position:relative;z-index:1;flex:1}
   .brand{display:flex;align-items:center;gap:10px;margin-bottom:48px;opacity:.95}
   .brand-dot{width:28px;height:28px;border-radius:50%;overflow:hidden;flex-shrink:0;box-shadow:0 0 10px rgba(200,162,77,.3)}
   .brand-dot img{width:100%;height:100%;object-fit:cover;display:block}
@@ -187,7 +189,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .q-option-text{flex:1;padding-top:2px}
   .q-feedback{font-size:14px;color:var(--gold-deep);font-style:italic;line-height:1.55;min-height:22px;margin-bottom:18px;opacity:0;transition:opacity .35s ease;padding-left:2px;font-weight:500}
   .q-feedback.visible{opacity:1}
-  .q-actions{display:flex;justify-content:flex-end;align-items:center;gap:12px}
+  .q-actions{display:flex;justify-content:flex-end;align-items:center;gap:12px;padding-bottom:48px}
 
   /* ══════════════════════════════════════════════════════════════
      GATE / OPT-IN — Premium 2-column v2
